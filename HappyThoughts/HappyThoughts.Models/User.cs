@@ -1,10 +1,10 @@
-﻿using HappyThoughts.Data.Models.Enums;
+﻿using HappyThoughts.Models.Enums;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 
-namespace HappyThoughts.Data.Models
+namespace HappyThoughts.Models
 {
     public class User
     {

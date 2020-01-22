@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 
-namespace HappyThoughts.Data.Models
+namespace HappyThoughts.Models
 {
     public class Category
     {
@@ -12,6 +12,5 @@ namespace HappyThoughts.Data.Models
 
         [MinLength(3), MaxLength(40), Required]
         public string Name { get; set; }
-
     }
 }

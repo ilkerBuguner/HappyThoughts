@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace HappyThoughts.Data.Models.Enums
+namespace HappyThoughts.Models.Enums
 {
     public enum UserType
     {

@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
-namespace HappyThoughts.Data.Models
+namespace HappyThoughts.Models
 {
     public class Post
     {
