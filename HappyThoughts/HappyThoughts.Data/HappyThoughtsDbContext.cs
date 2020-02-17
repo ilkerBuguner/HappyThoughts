@@ -22,9 +22,14 @@ namespace HappyThoughts.Data
 
         public DbSet<Message> Messages { get; set; }
 
-        public DbSet<Post> Posts { get; set; }
+        public DbSet<Topic> Topics { get; set; }
 
         public DbSet<User> Users { get; set; }
+
+        public DbSet<TopicCategory> TopicsCategories { get; set; }
+
+        public DbSet<SubComment> SubComments { get; set; }
+
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -56,6 +61,24 @@ namespace HappyThoughts.Data
                 .WithMany(c => c.Comments)
                 .HasForeignKey(p => p.PostId)
                 .OnDelete(DeleteBehavior.Restrict);
+            });
+
+            modelBuilder.Entity<SubComment>(entity =>
+            {
+                entity.HasOne(p => p.Post)
+                .WithMany(c => c.SubComments)
+                .HasForeignKey(p => p.PostId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+                entity.HasOne(c => c.RootComment)
+                .WithMany(c => c.SubComments)
+                .HasForeignKey(c => c.RootCommentId)
+                .OnDelete(DeleteBehavior.Restrict);
+            });
+
+            modelBuilder.Entity<TopicCategory>(entity =>
+            {
+                entity.HasKey(k => new { k.PostId, k.CategoryId });
             });
         }
     }

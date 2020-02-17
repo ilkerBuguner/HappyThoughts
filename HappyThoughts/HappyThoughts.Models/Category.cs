@@ -8,9 +8,11 @@ namespace HappyThoughts.Models
     public class Category
     {
         [Key]
-        public int Id { get; set; }
+        public string Id { get; set; } = Guid.NewGuid().ToString();
 
         [MinLength(3), MaxLength(40), Required]
         public string Name { get; set; }
+
+        public ICollection<TopicCategory> Posts { get; set; } = new HashSet<TopicCategory>();
     }
 }

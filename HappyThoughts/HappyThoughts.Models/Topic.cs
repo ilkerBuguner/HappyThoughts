@@ -6,16 +6,23 @@ using System.Text;
 
 namespace HappyThoughts.Models
 {
-    public class Comment
+    public class Topic
     {
         [Key]
         public string Id { get; set; } = Guid.NewGuid().ToString();
 
-        [Required]
+        [MaxLength(50), Required]
+        public string Title { get; set; }
+
+        [MinLength(10), Required]
         public string Content { get; set; }
 
         [Required]
         public DateTime CreatedOn { get; set; }
+
+        public byte[] Picture { get; set; }
+
+        public int Views { get; set; }
 
         public int Likes { get; set; }
 
@@ -26,10 +33,9 @@ namespace HappyThoughts.Models
 
         public User Author { get; set; }
 
-        [ForeignKey("Post"), Required]
-        public string PostId { get; set; }
+        public ICollection<TopicCategory> Categories { get; set; } = new HashSet<TopicCategory>();
 
-        public Topic Post { get; set; }
+        public ICollection<Comment> Comments { get; set; } = new HashSet<Comment>();
 
         public ICollection<SubComment> SubComments { get; set; } = new HashSet<SubComment>();
     }

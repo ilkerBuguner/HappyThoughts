@@ -9,7 +9,7 @@ namespace HappyThoughts.Models
     public class Message
     {
         [Key]
-        public int Id { get; set; }
+        public string Id { get; set; } = Guid.NewGuid().ToString();
 
         [Required]
         public string Content { get; set; }
@@ -17,13 +17,15 @@ namespace HappyThoughts.Models
         [Required]
         public DateTime CreatedOn { get; set; }
 
+        public bool Seen { get; set; }
+
         [ForeignKey("User"), Required]
-        public int SenderId { get; set; }
+        public string SenderId { get; set; }
 
         public User Sender { get; set; }
 
         [ForeignKey("User"), Required]
-        public int ReceiverId { get; set; }
+        public string ReceiverId { get; set; }
 
         public User Receiver { get; set; }
     }
