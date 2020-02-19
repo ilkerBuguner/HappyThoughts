@@ -1,0 +1,46 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <CodeAnalysisRuleSet>..\..\Rules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <AdditionalFiles Include="..\..\stylecop.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="appsettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="CommandLineParser" Version="2.7.82" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="3.1.1" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="3.1.1" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="3.1.1" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="3.1.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="3.1.1" />
+    <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.113" PrivateAssets="all">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\HappyThoughts.Common\HappyThoughts.Common.csproj" />
+    <ProjectReference Include="..\..\Data\HappyThoughts.Data.Common\HappyThoughts.Data.Common.csproj" />
+    <ProjectReference Include="..\..\Data\HappyThoughts.Data.Models\HappyThoughts.Data.Models.csproj" />
+    <ProjectReference Include="..\..\Data\HappyThoughts.Data\HappyThoughts.Data.csproj" />
+    <ProjectReference Include="..\..\Services\HappyThoughts.Services.Data\HappyThoughts.Services.Data.csproj" />
+    <ProjectReference Include="..\..\Services\HappyThoughts.Services.Mapping\HappyThoughts.Services.Mapping.csproj" />
+    <ProjectReference Include="..\..\Services\HappyThoughts.Services.Messaging\HappyThoughts.Services.Messaging.csproj" />
+    <ProjectReference Include="..\..\Services\HappyThoughts.Services\HappyThoughts.Services.csproj" />
+  </ItemGroup>
+
+</Project>
