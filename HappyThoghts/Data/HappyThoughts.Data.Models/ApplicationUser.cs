@@ -42,10 +42,6 @@ namespace HappyThoughts.Data.Models
         public virtual ICollection<IdentityUserLogin<string>> Logins { get; set; }
 
         // Additional info
-        [MaxLength(50)]
-        [Required]
-        public string Name { get; set; }
-
         public string Location { get; set; }
 
         public Gender Gender { get; set; }
@@ -54,7 +50,7 @@ namespace HappyThoughts.Data.Models
 
         public UserType UserType { get; set; }
 
-        public byte[] ProfilePicture { get; set; }
+        public string ProfilePictureUrl { get; set; } // byte[]
 
         public ICollection<Topic> Posts { get; set; }
 

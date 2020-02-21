@@ -24,7 +24,7 @@
         [Required]
         public string Content { get; set; }
 
-        public byte[] Picture { get; set; }
+        public string PictureUrl { get; set; } // byte[]
 
         public int Views { get; set; }
 

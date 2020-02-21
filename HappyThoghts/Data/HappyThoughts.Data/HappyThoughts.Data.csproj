@@ -11,6 +11,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\20200221164544_AddsUsernamePropertyToUserEntity.cs" />
+    <Compile Remove="Migrations\20200221164544_AddsUsernamePropertyToUserEntity.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <AdditionalFiles Include="..\..\stylecop.json" />
   </ItemGroup>
 
