@@ -125,17 +125,17 @@
 
             builder.Entity<Comment>(entity =>
             {
-                entity.HasOne(p => p.Post)
+                entity.HasOne(p => p.Topic)
                 .WithMany(c => c.Comments)
-                .HasForeignKey(p => p.PostId)
+                .HasForeignKey(p => p.TopicId)
                 .OnDelete(DeleteBehavior.Restrict);
             });
 
             builder.Entity<SubComment>(entity =>
             {
-                entity.HasOne(p => p.Post)
+                entity.HasOne(p => p.Topic)
                 .WithMany(c => c.SubComments)
-                .HasForeignKey(p => p.PostId)
+                .HasForeignKey(p => p.TopicId)
                 .OnDelete(DeleteBehavior.Restrict);
 
                 entity.HasOne(c => c.RootComment)
@@ -146,7 +146,7 @@
 
             builder.Entity<TopicCategory>(entity =>
             {
-                entity.HasKey(k => new { k.PostId, k.CategoryId });
+                entity.HasKey(k => new { k.TopicId, k.CategoryId });
             });
         }
 

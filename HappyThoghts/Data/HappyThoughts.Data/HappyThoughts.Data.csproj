@@ -11,8 +11,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\20200221162629_FixesApplicationUserEntityProperties.cs" />
+    <Compile Remove="Migrations\20200221162629_FixesApplicationUserEntityProperties.Designer.cs" />
     <Compile Remove="Migrations\20200221164544_AddsUsernamePropertyToUserEntity.cs" />
     <Compile Remove="Migrations\20200221164544_AddsUsernamePropertyToUserEntity.Designer.cs" />
+    <Compile Remove="Migrations\20200221164737_FixesSomePropertiesInUserEntity.cs" />
+    <Compile Remove="Migrations\20200221164737_FixesSomePropertiesInUserEntity.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

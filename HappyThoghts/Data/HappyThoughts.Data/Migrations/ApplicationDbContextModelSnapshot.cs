@@ -214,7 +214,7 @@ namespace HappyThoughts.Data.Migrations
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("PostId")
+                    b.Property<string>("TopicId")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
@@ -224,7 +224,7 @@ namespace HappyThoughts.Data.Migrations
 
                     b.HasIndex("IsDeleted");
 
-                    b.HasIndex("PostId");
+                    b.HasIndex("TopicId");
 
                     b.ToTable("Comments");
                 });
@@ -335,11 +335,11 @@ namespace HappyThoughts.Data.Migrations
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("PostId")
+                    b.Property<string>("RootCommentId")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("RootCommentId")
+                    b.Property<string>("TopicId")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
@@ -349,9 +349,9 @@ namespace HappyThoughts.Data.Migrations
 
                     b.HasIndex("IsDeleted");
 
-                    b.HasIndex("PostId");
-
                     b.HasIndex("RootCommentId");
+
+                    b.HasIndex("TopicId");
 
                     b.ToTable("SubComments");
                 });
@@ -409,7 +409,7 @@ namespace HappyThoughts.Data.Migrations
 
             modelBuilder.Entity("HappyThoughts.Data.Models.TopicCategory", b =>
                 {
-                    b.Property<string>("PostId")
+                    b.Property<string>("TopicId")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("CategoryId")
@@ -430,7 +430,7 @@ namespace HappyThoughts.Data.Migrations
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime2");
 
-                    b.HasKey("PostId", "CategoryId");
+                    b.HasKey("TopicId", "CategoryId");
 
                     b.HasIndex("CategoryId");
 
@@ -551,9 +551,9 @@ namespace HappyThoughts.Data.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("HappyThoughts.Data.Models.Topic", "Post")
+                    b.HasOne("HappyThoughts.Data.Models.Topic", "Topic")
                         .WithMany("Comments")
-                        .HasForeignKey("PostId")
+                        .HasForeignKey("TopicId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
@@ -581,15 +581,15 @@ namespace HappyThoughts.Data.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("HappyThoughts.Data.Models.Topic", "Post")
-                        .WithMany("SubComments")
-                        .HasForeignKey("PostId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
                     b.HasOne("HappyThoughts.Data.Models.Comment", "RootComment")
                         .WithMany("SubComments")
                         .HasForeignKey("RootCommentId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("HappyThoughts.Data.Models.Topic", "Topic")
+                        .WithMany("SubComments")
+                        .HasForeignKey("TopicId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
@@ -606,14 +606,14 @@ namespace HappyThoughts.Data.Migrations
             modelBuilder.Entity("HappyThoughts.Data.Models.TopicCategory", b =>
                 {
                     b.HasOne("HappyThoughts.Data.Models.Category", "Category")
-                        .WithMany("Posts")
+                        .WithMany("Topics")
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("HappyThoughts.Data.Models.Topic", "Post")
+                    b.HasOne("HappyThoughts.Data.Models.Topic", "Topic")
                         .WithMany("Categories")
-                        .HasForeignKey("PostId")
+                        .HasForeignKey("TopicId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });

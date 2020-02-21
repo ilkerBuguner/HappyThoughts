@@ -11,7 +11,7 @@
     {
         public Category()
         {
-            this.Posts = new HashSet<TopicCategory>();
+            this.Topics = new HashSet<TopicCategory>();
         }
 
         [MinLength(3)]
@@ -19,6 +19,6 @@
         [Required]
         public string Name { get; set; }
 
-        public ICollection<TopicCategory> Posts { get; set; }
+        public ICollection<TopicCategory> Topics { get; set; }
     }
 }

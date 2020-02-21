@@ -7,11 +7,11 @@
 
     public class TopicCategory : BaseDeletableModel<string>
     {
-        [ForeignKey("Post")]
+        [ForeignKey("Topic")]
         [Required]
-        public string PostId { get; set; }
+        public string TopicId { get; set; }
 
-        public Topic Post { get; set; }
+        public Topic Topic { get; set; }
 
         [ForeignKey("Category")]
         [Required]

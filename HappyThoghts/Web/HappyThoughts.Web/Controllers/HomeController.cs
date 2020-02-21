@@ -1,7 +1,7 @@
 ﻿namespace HappyThoughts.Web.Controllers
 {
     using System.Diagnostics;
-
+    using System.Security.Claims;
     using HappyThoughts.Web.ViewModels;
 
     using Microsoft.AspNetCore.Mvc;
