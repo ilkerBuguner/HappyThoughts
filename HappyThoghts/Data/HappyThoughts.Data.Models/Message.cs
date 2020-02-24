@@ -10,6 +10,12 @@
 
     public class Message : BaseDeletableModel<string>
     {
+        public Message()
+        {
+            this.CreatedOn = DateTime.UtcNow;
+            this.IsDeleted = false;
+        }
+
         [Required]
         public string Content { get; set; }
 

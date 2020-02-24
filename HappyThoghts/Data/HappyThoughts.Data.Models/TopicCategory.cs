@@ -1,5 +1,6 @@
 ﻿namespace HappyThoughts.Data.Models
 {
+    using System;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
 
@@ -7,6 +8,12 @@
 
     public class TopicCategory : BaseDeletableModel<string>
     {
+        public TopicCategory()
+        {
+            this.CreatedOn = DateTime.UtcNow;
+            this.IsDeleted = false;
+        }
+
         [ForeignKey("Topic")]
         [Required]
         public string TopicId { get; set; }

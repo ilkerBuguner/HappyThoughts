@@ -18,6 +18,8 @@ namespace HappyThoughts.Data.Models
             : base(name)
         {
             this.Id = Guid.NewGuid().ToString();
+            this.CreatedOn = DateTime.UtcNow;
+            this.IsDeleted = false;
         }
 
         public DateTime CreatedOn { get; set; }

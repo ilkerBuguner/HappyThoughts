@@ -13,6 +13,8 @@
         public Comment()
         {
             this.SubComments = new HashSet<SubComment>();
+            this.CreatedOn = DateTime.UtcNow;
+            this.IsDeleted = false;
         }
 
         [Required]

@@ -10,6 +10,12 @@
 
     public class SubComment : BaseDeletableModel<string>
     {
+        public SubComment()
+        {
+            this.CreatedOn = DateTime.UtcNow;
+            this.IsDeleted = false;
+        }
+
         [Required]
         public string Content { get; set; }
 

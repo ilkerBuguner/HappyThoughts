@@ -12,6 +12,9 @@
     {
         public Topic()
         {
+            this.CreatedOn = DateTime.UtcNow;
+            this.IsDeleted = false;
+
             this.Comments = new HashSet<Comment>();
             this.SubComments = new HashSet<SubComment>();
         }

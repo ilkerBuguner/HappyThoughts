@@ -12,6 +12,8 @@
         public Category()
         {
             this.Topics = new HashSet<TopicCategory>();
+            this.CreatedOn = DateTime.UtcNow;
+            this.IsDeleted = false;
         }
 
         [MinLength(3)]

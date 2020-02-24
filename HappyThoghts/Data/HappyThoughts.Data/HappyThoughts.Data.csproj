@@ -17,6 +17,8 @@
     <Compile Remove="Migrations\20200221164544_AddsUsernamePropertyToUserEntity.Designer.cs" />
     <Compile Remove="Migrations\20200221164737_FixesSomePropertiesInUserEntity.cs" />
     <Compile Remove="Migrations\20200221164737_FixesSomePropertiesInUserEntity.Designer.cs" />
+    <Compile Remove="Migrations\20200224234005_AddsSetterToCreatedOnProperty.cs" />
+    <Compile Remove="Migrations\20200224234005_AddsSetterToCreatedOnProperty.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
