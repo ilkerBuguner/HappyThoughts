@@ -12,6 +12,7 @@
     {
         public Comment()
         {
+            this.Id = Guid.NewGuid().ToString();
             this.SubComments = new HashSet<SubComment>();
             this.CreatedOn = DateTime.UtcNow;
             this.IsDeleted = false;

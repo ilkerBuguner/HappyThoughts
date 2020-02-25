@@ -11,6 +11,7 @@
     {
         public Category()
         {
+            this.Id = Guid.NewGuid().ToString();
             this.Topics = new HashSet<TopicCategory>();
             this.CreatedOn = DateTime.UtcNow;
             this.IsDeleted = false;

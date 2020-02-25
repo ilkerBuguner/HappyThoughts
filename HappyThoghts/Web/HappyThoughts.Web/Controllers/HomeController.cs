@@ -2,15 +2,30 @@
 {
     using System.Diagnostics;
     using System.Security.Claims;
+    using System.Threading.Tasks;
+    using HappyThoughts.Services.Data.Topics;
     using HappyThoughts.Web.ViewModels;
-
+    using HappyThoughts.Web.ViewModels.Topics;
     using Microsoft.AspNetCore.Mvc;
 
     public class HomeController : BaseController
     {
-        public IActionResult Index()
+        private readonly ITopicsService topicsService;
+
+        public HomeController(ITopicsService topicsService)
         {
-            return this.View();
+            this.topicsService = topicsService;
+        }
+
+        public async Task<IActionResult> Index()
+        {
+            var topics = await this.topicsService.GetAllAsync<TopicInfoVIewModel>();
+            var viewModel = new TopicsListingViewModel()
+            {
+                Topics = topics,
+            };
+
+            return this.View(viewModel);
         }
 
         public IActionResult Privacy()

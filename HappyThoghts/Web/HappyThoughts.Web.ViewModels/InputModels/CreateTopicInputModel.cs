@@ -11,5 +11,7 @@ namespace HappyThoughts.Web.ViewModels.InputModels
         public string Content { get; set; }
 
         public string PictureUrl { get; set; }
+
+        public string AuthorId { get; set; }
     }
 }

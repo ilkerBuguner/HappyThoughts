@@ -12,6 +12,7 @@
     {
         public Topic()
         {
+            this.Id = Guid.NewGuid().ToString();
             this.CreatedOn = DateTime.UtcNow;
             this.IsDeleted = false;
 
