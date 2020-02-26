@@ -11,5 +11,6 @@
 
         Task<T[]> GetAllAsync<T>();
 
+        Task<TopicDetailsViewModel> GetByIdAsViewModelAsync(string id);
     }
 }

@@ -1,5 +1,9 @@
 ﻿@model HappyThoughts.Web.ViewModels.Topics.TopicsListingViewModel
 
+@using HappyThoughts.Data.Models
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<ApplicationUser> SignInManager
+
 @using HappyThoughts.Common
 @{
     this.ViewData["Title"] = "Home Page";
@@ -30,7 +34,7 @@
             <div class="list-group-horizontal-sm">
                 @foreach (var topic in Model.Topics)
                 {
-                    <a href="/Topics/Details?topicId={@topic.Id}" class="list-group-item list-group-item-action flex-column align-items-start">
+                    <a href="/Topics/Details?topicId=@topic.Id" class="list-group-item list-group-item-action flex-column align-items-start">
                         <div class="d-flex w-100 justify-content-between">
                             <h5 class="mb-1">@topic.Title</h5>
                             <small>@topic.CreatedOn</small>
@@ -45,6 +49,17 @@
         <!-- Sidebar Widgets Column -->
         <div class="col-md-4">
 
+            <!-- Side Widget -->
+            @if (!this.SignInManager.IsSignedIn(this.User))
+            {
+                <div class="card my-4">
+                    <h5 class="card-header">Why are you still waiting?</h5>
+                    <div class="card-body">
+                        Aren't you tired of working in boring plazas? Relieve your stress, share your knowledge.
+                    </div>
+                    <a href="/Identity/Account/Register" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">Register</a>
+                </div>
+            }
             <!-- Search Widget -->
             <div class="card my-4">
                 <h5 class="card-header">Search</h5>
@@ -90,14 +105,6 @@
                             </ul>
                         </div>
                     </div>
-                </div>
-            </div>
-
-            <!-- Side Widget -->
-            <div class="card my-4">
-                <h5 class="card-header">Side Widget</h5>
-                <div class="card-body">
-                    You can put anything you want inside of these side widgets. They are easy to use, and feature the new Bootstrap 4 card containers!
                 </div>
             </div>
 

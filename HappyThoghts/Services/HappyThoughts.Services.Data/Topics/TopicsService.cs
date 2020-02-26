@@ -30,6 +30,7 @@
                 Content = input.Content,
                 PictureUrl = input.PictureUrl,
                 AuthorId = input.AuthorId,
+                CategoryId = input.CategoryId,
             };
 
             await this.topicRepository.AddAsync(topic);
@@ -42,6 +43,22 @@
                 .AllAsNoTracking()
                 .To<T>()
                 .ToArrayAsync();
+        }
+
+        public async Task<TopicDetailsViewModel> GetByIdAsViewModelAsync(string id)
+        {
+            var topic = await this.topicRepository
+                .All()
+                .Include(x => x.Author)
+                .To<TopicDetailsViewModel>()
+                .FirstOrDefaultAsync(t => t.Id == id);
+
+            if (topic == null)
+            {
+                throw new ArgumentNullException();
+            }
+
+            return topic;
         }
     }
 }

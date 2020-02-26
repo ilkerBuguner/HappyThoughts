@@ -36,7 +36,7 @@
 
         public DbSet<Topic> Topics { get; set; }
 
-        public DbSet<TopicCategory> TopicsCategories { get; set; }
+        public DbSet<TopicReport> TopicReports { get; set; }
 
         public override int SaveChanges() => this.SaveChanges(true);
 
@@ -142,11 +142,6 @@
                 .WithMany(c => c.SubComments)
                 .HasForeignKey(c => c.RootCommentId)
                 .OnDelete(DeleteBehavior.Restrict);
-            });
-
-            builder.Entity<TopicCategory>(entity =>
-            {
-                entity.HasKey(k => new { k.TopicId, k.CategoryId });
             });
         }
 

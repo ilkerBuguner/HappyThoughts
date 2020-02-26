@@ -12,7 +12,7 @@
         public Category()
         {
             this.Id = Guid.NewGuid().ToString();
-            this.Topics = new HashSet<TopicCategory>();
+            this.Topics = new HashSet<Topic>();
             this.CreatedOn = DateTime.UtcNow;
             this.IsDeleted = false;
         }
@@ -22,6 +22,6 @@
         [Required]
         public string Name { get; set; }
 
-        public ICollection<TopicCategory> Topics { get; set; }
+        public ICollection<Topic> Topics { get; set; }
     }
 }

@@ -9,6 +9,7 @@
     using HappyThoughts.Data.Repositories;
     using HappyThoughts.Data.Seeding;
     using HappyThoughts.Services.Data;
+    using HappyThoughts.Services.Data.Categories;
     using HappyThoughts.Services.Data.Topics;
     using HappyThoughts.Services.Mapping;
     using HappyThoughts.Services.Messaging;
@@ -61,6 +62,7 @@
             services.AddTransient<IEmailSender, NullMessageSender>();
             services.AddTransient<ISettingsService, SettingsService>();
             services.AddTransient<ITopicsService, TopicsService>();
+            services.AddTransient<ICategoriesService, CategoriesService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

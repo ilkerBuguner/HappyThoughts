@@ -42,8 +42,13 @@
 
         public ApplicationUser Author { get; set; }
 
-        public ICollection<TopicCategory> Categories { get; set; }
+        [ForeignKey("Category")]
+        // [Required]
+        public string CategoryId { get; set; }
 
+        public Category Category { get; set; }
+
+        // public ICollection<TopicCategory> Categories { get; set; }
         public ICollection<Comment> Comments { get; set; }
 
         public ICollection<SubComment> SubComments { get; set; }

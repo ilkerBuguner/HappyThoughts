@@ -5,7 +5,9 @@
     using System.Linq;
     using System.Security.Claims;
     using System.Threading.Tasks;
+    using HappyThoughts.Services.Data.Categories;
     using HappyThoughts.Services.Data.Topics;
+    using HappyThoughts.Web.ViewModels.Categories;
     using HappyThoughts.Web.ViewModels.InputModels;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
@@ -13,16 +15,24 @@
     public class TopicsController : BaseController
     {
         private readonly ITopicsService topicsService;
+        private readonly ICategoriesService categoriesService;
 
-        public TopicsController(ITopicsService topicsService)
+        public TopicsController(ITopicsService topicsService, ICategoriesService categoriesService)
         {
             this.topicsService = topicsService;
+            this.categoriesService = categoriesService;
         }
 
         [Authorize]
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            return this.View();
+            var categories = await this.categoriesService.GetAllAsync<CategoryInfoViewModel>();
+
+            var viewModel = new CreateTopicInputModel()
+            {
+                Categories = categories,
+            };
+            return this.View(viewModel);
         }
 
         [HttpPost]
@@ -31,14 +41,17 @@
         {
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
             input.AuthorId = userId;
+            input.CategoryId = this.categoriesService.GetIdByNameAsync(input.CategoryName);
             await this.topicsService.CreateAsync(input);
 
             return this.Redirect("/");
         }
 
-        public IActionResult Details()
+        public async Task<IActionResult> Details(string topicId)
         {
-            return this.View();
+            var viewModel = await this.topicsService.GetByIdAsViewModelAsync(topicId);
+
+            return this.View(viewModel);
         }
     }
 }

@@ -25,7 +25,7 @@ namespace HappyThoughts.Web.ViewModels.Topics
 
         public void CreateMappings(IProfileExpression configuration)
         {
-            configuration.CreateMap<Topic, TopicInfoVIewModel>().ForMember(x => x.Content, t => t.MapFrom(opt => opt.Content.Substring(0, 220)));
+            configuration.CreateMap<Topic, TopicInfoVIewModel>().ForMember(x => x.Content, t => t.MapFrom(opt => opt.Content.Substring(0, 220) + "..."));
         }
     }
 }
