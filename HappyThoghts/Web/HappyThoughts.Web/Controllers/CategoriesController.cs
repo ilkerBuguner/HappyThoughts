@@ -6,6 +6,7 @@
     using System.Threading.Tasks;
 
     using HappyThoughts.Services.Data.Categories;
+    using HappyThoughts.Web.ViewModels.Categories;
     using HappyThoughts.Web.ViewModels.InputModels.Categories;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
@@ -32,6 +33,13 @@
             await this.categoriesService.CreateAsync(input);
 
             return this.Redirect("/");
+        }
+
+        [Authorize]
+        public async Task<IActionResult> All()
+        {
+            var viewModel = await this.categoriesService.GetAllAsync<CategoryInfoViewModel>();
+            return this.View(viewModel);
         }
     }
 }

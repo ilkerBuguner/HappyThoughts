@@ -6,6 +6,6 @@ namespace HappyThoughts.Web.ViewModels.Topics
 {
     public class TopicsListingViewModel
     {
-        public TopicInfoVIewModel[] Topics { get; set; }
+        public IEnumerable<TopicInfoVIewModel> Topics { get; set; }
     }
 }

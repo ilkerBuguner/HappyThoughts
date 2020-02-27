@@ -39,6 +39,11 @@
         [Authorize]
         public async Task<IActionResult> Create(CreateTopicInputModel input)
         {
+            if (!this.ModelState.IsValid)
+            {
+                return this.View();
+            }
+
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
             input.AuthorId = userId;
             input.CategoryId = this.categoriesService.GetIdByNameAsync(input.CategoryName);

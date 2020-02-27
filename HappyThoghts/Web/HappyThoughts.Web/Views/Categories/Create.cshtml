@@ -1,4 +1,4 @@
-﻿@model HappyThoughts.Data.Models.Category
+﻿@model HappyThoughts.Web.ViewModels.InputModels.Categories.CreateCategoryInputModel
 
 @{
     ViewData["Title"] = "Create";
@@ -18,13 +18,13 @@
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input asp-controller="Categories" asp-action="Create" type="submit" value="Create" class="btn btn-primary" />
+                <input asp-controller="Categories" asp-action="Create" type="submit" value="Create" class="btn btn-success" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a class="btn btn-primary" asp-controller="Categories" asp-action="All">All Categories</a>
 </div>
 

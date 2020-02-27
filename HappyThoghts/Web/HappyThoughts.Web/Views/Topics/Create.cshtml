@@ -8,7 +8,7 @@
 <h1 class="text-center mb-3">Create Topic</h1>
 <hr />
 <div >
-    <div class="offset-md-3 col-md-6 offset-sm-0 col-sm-12">
+    <div class="offset-md-3 col-md-6 offset-sm-0 col-sm-12 card">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
@@ -27,7 +27,7 @@
                 <span asp-validation-for="PictureUrl" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="CategoryName">Example select</label>
+                <label asp-for="CategoryName">Category</label>
                 <select asp-for="CategoryName" class="form-control">
                     @foreach (var category in Model.Categories)
                     {
