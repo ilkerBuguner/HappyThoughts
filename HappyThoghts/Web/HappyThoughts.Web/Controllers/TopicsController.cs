@@ -41,7 +41,8 @@
         {
             if (!this.ModelState.IsValid)
             {
-                return this.View();
+                input.Categories = await this.categoriesService.GetAllAsync<CategoryInfoViewModel>();
+                return this.View(input);
             }
 
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);

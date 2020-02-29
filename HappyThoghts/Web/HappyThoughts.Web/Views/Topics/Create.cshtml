@@ -8,17 +8,17 @@
 <h1 class="text-center mb-3">Create Topic</h1>
 <hr />
 <div >
-    <div class="offset-md-3 col-md-6 offset-sm-0 col-sm-12 card">
+    <div class="offset-md-2 col-md-8 offset-sm-0 col-sm-12 card border border-primary">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
+            <div class="form-group required">
                 <label asp-for="Title" class="control-label"></label>
                 <input asp-for="Title" class="form-control" />
                 <span asp-validation-for="Title" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group required">
                 <label asp-for="Content" class="control-label"></label>
-                <textarea asp-for="Content" class="form-control" rows="3"></textarea>
+                <textarea asp-for="Content" class="form-control" rows="8"></textarea>
                 <span asp-validation-for="Content" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -26,7 +26,7 @@
                 <input asp-for="PictureUrl" class="form-control" />
                 <span asp-validation-for="PictureUrl" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group required">
                 <label asp-for="CategoryName">Category</label>
                 <select asp-for="CategoryName" class="form-control">
                     @foreach (var category in Model.Categories)
@@ -42,7 +42,7 @@
     </div>
 </div>
 
-<div class="offset-md-3 col-md-6 offset-sm-0 col-sm-12">
+<div class="offset-md-2 col-md-8 offset-sm-0 col-sm-12">
     <a asp-controller="Home" asp-action="Index">Back to Home Page</a>
 </div>
 

@@ -11,5 +11,11 @@
         Task<T[]> GetAllAsync<T>();
 
         string GetIdByNameAsync(string name);
+
+        string GetNameById(string id);
+
+        Task EditAsync(CategoryInfoViewModel categoryInfoViewModel);
+
+        Task DeleteByIdAsync(string id);
     }
 }

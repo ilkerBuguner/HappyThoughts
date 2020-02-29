@@ -22,7 +22,7 @@
         public async Task<IActionResult> Index()
         {
             var topics = await this.topicsService.GetAllAsync<TopicInfoVIewModel>();
-            var topicsList = topics.ToList().OrderByDescending(t => t.CreatedOn);
+            var topicsList = topics.ToList().Where(t => t.CreatedOn > DateTime.UtcNow.AddDays(-1)).OrderByDescending(t => t.CreatedOn);
             var viewModel = new TopicsListingViewModel()
             {
                 Topics = topicsList,
