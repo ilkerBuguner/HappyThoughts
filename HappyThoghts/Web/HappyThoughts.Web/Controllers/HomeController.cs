@@ -7,6 +7,7 @@
     using System.Threading.Tasks;
     using HappyThoughts.Services.Data.Topics;
     using HappyThoughts.Web.ViewModels;
+    using HappyThoughts.Web.ViewModels.Errors;
     using HappyThoughts.Web.ViewModels.Topics;
     using Microsoft.AspNetCore.Mvc;
 
@@ -41,6 +42,22 @@
         {
             return this.View(
                 new ErrorViewModel { RequestId = Activity.Current?.Id ?? this.HttpContext.TraceIdentifier });
+        }
+
+        public IActionResult HttpError(int statusCode)
+        {
+            var viewModel = new HttpErrorViewModel
+            {
+                StatusCode = statusCode,
+            };
+
+            if (statusCode == 404)
+            {
+                return this.View(viewModel);
+            }
+
+            return this.View(
+                "Error", new ErrorViewModel { RequestId = Activity.Current?.Id ?? this.HttpContext.TraceIdentifier });
         }
     }
 }

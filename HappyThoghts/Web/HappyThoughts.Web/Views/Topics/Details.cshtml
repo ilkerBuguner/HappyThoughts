@@ -3,6 +3,10 @@
 @inject SignInManager<ApplicationUser> SignInManager
 
 @model HappyThoughts.Web.ViewModels.Topics.TopicDetailsViewModel
+
+@{
+    this.ViewData["Title"] = "Topic Details";
+}
 <!-- Page Content -->
 <div class="container">
 
@@ -38,6 +42,10 @@
             <p class="lead">
                 @Model.Content
             </p>
+
+            <div class="text-center">
+                <button type="button" class="btn btn-outline-danger">Report</button>
+            </div>
 
             <hr>
 

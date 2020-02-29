@@ -94,6 +94,7 @@
                 app.UseHsts();
             }
 
+            app.UseStatusCodePagesWithRedirects("/Home/HttpError?statusCode={0}"); // Middleware for 404 error page
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();

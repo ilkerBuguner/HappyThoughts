@@ -11,17 +11,10 @@
 <!-- Page Content -->
 <div class="container">
     <div class="row col-lg-9 text-center">
-        <div class="btn-group btn-group-toggle col-lg-11" data-toggle="buttons">
-            <label class="btn btn-primary active">
-                <input type="radio" name="options" id="option1" autocomplete="off" checked> Today
-            </label>
-            <label class="btn btn-primary">
-                <input type="radio" name="options" id="option2" autocomplete="off"> Trend
-            </label>
-            <label class="btn btn-primary">
-                <input type="radio" name="options" id="option3" autocomplete="off"> Categories
-            </label>
-
+        <div class="btn-group btn-group-toggle col-lg-11">
+            <a class="btn btn-primary" asp-controller="Home" asp-action="Index">Today</a>
+            <a class="btn btn-primary" asp-controller="Home" asp-action="Index">Trend</a>
+            <a class="btn btn-primary" asp-controller="Categories" asp-action="All">Categories</a>
         </div>
     </div>
 
