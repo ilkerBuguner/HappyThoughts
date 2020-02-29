@@ -50,6 +50,7 @@
             var topic = await this.topicRepository
                 .All()
                 .Include(x => x.Author)
+                .Include(x => x.Category)
                 .To<TopicDetailsViewModel>()
                 .FirstOrDefaultAsync(t => t.Id == id);
 
@@ -59,6 +60,13 @@
             }
 
             return topic;
+        }
+
+        public async Task IncreaseViews(string id)
+        {
+            var topic = await this.topicRepository.GetByIdWithDeletedAsync(id);
+            topic.Views += 1;
+            await this.topicRepository.SaveChangesAsync();
         }
     }
 }

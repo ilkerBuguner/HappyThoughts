@@ -55,8 +55,8 @@
 
         public async Task<IActionResult> Details(string topicId)
         {
+            await this.topicsService.IncreaseViews(topicId);
             var viewModel = await this.topicsService.GetByIdAsViewModelAsync(topicId);
-
             return this.View(viewModel);
         }
     }

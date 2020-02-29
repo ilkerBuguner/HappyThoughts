@@ -3,7 +3,6 @@
 @inject SignInManager<ApplicationUser> SignInManager
 
 @model HappyThoughts.Web.ViewModels.Topics.TopicDetailsViewModel
-
 <!-- Page Content -->
 <div class="container">
 
@@ -24,12 +23,14 @@
             <hr>
 
             <!-- Date/Time -->
-            <p>@Model.CreatedOn</p>
+            <p class="text-center"><b>Published On: @Model.CreatedOn | Category: @Model.CategoryName | Views: @Model.Views</b></p>
 
             <hr>
 
             <!-- Preview Image -->
-            <img class="img-fluid rounded" src="http://placehold.it/900x300" alt="">
+            <div class="text-center">
+                <img class="img-fluid rounded" src="@Model.PictureUrl" alt="topic picture">
+            </div>
 
             <hr>
 

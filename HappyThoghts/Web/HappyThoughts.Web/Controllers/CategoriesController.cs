@@ -69,9 +69,9 @@
 
         [Authorize]
         [HttpPost]
-        public async Task<IActionResult> Delete(string id, string name)
+        public async Task<IActionResult> Delete(CategoryInfoViewModel input)
         {
-            await this.categoriesService.DeleteByIdAsync(id);
+            await this.categoriesService.DeleteByIdAsync(input.Id);
             return this.Redirect("/Categories/All");
         }
     }
