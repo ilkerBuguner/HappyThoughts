@@ -2,19 +2,20 @@
 {
     using System.Reflection;
 
+    using CloudinaryDotNet;
     using HappyThoughts.Data;
     using HappyThoughts.Data.Common;
     using HappyThoughts.Data.Common.Repositories;
     using HappyThoughts.Data.Models;
     using HappyThoughts.Data.Repositories;
     using HappyThoughts.Data.Seeding;
+    using HappyThoughts.Services;
     using HappyThoughts.Services.Data;
     using HappyThoughts.Services.Data.Categories;
     using HappyThoughts.Services.Data.Topics;
     using HappyThoughts.Services.Mapping;
     using HappyThoughts.Services.Messaging;
     using HappyThoughts.Web.ViewModels;
-
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Http;
@@ -37,6 +38,15 @@
         {
             services.AddDbContext<ApplicationDbContext>(
                 options => options.UseSqlServer(this.configuration.GetConnectionString("DefaultConnection")));
+
+            Account cloudinaryCredentials = new Account(
+                this.configuration["Cloudinary:CloudName"],
+                this.configuration["Cloudinary:ApiKey"],
+                this.configuration["Cloudinary:ApiSecret"]);
+
+            Cloudinary cloudinaryUtility = new Cloudinary(cloudinaryCredentials);
+
+            services.AddSingleton(cloudinaryUtility);
 
             services.AddDefaultIdentity<ApplicationUser>(IdentityOptionsProvider.GetIdentityOptions)
                 .AddRoles<ApplicationRole>().AddEntityFrameworkStores<ApplicationDbContext>();
@@ -63,6 +73,7 @@
             services.AddTransient<ISettingsService, SettingsService>();
             services.AddTransient<ITopicsService, TopicsService>();
             services.AddTransient<ICategoriesService, CategoriesService>();
+            services.AddTransient<ICloudinaryService, CloudinaryService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

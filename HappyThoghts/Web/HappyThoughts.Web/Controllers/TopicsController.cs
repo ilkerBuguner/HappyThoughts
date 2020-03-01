@@ -5,6 +5,7 @@
     using System.Linq;
     using System.Security.Claims;
     using System.Threading.Tasks;
+    using HappyThoughts.Services;
     using HappyThoughts.Services.Data.Categories;
     using HappyThoughts.Services.Data.Topics;
     using HappyThoughts.Web.ViewModels.Categories;
@@ -16,11 +17,16 @@
     {
         private readonly ITopicsService topicsService;
         private readonly ICategoriesService categoriesService;
+        private readonly ICloudinaryService cloudinaryService;
 
-        public TopicsController(ITopicsService topicsService, ICategoriesService categoriesService)
+        public TopicsController(
+            ITopicsService topicsService,
+            ICategoriesService categoriesService,
+            ICloudinaryService cloudinaryService)
         {
             this.topicsService = topicsService;
             this.categoriesService = categoriesService;
+            this.cloudinaryService = cloudinaryService;
         }
 
         [Authorize]
@@ -48,6 +54,13 @@
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
             input.AuthorId = userId;
             input.CategoryId = this.categoriesService.GetIdByNameAsync(input.CategoryName);
+
+            var pictureUrl = await this.cloudinaryService.UploadPhotoAsync(
+                input.Picture,
+                $"{userId}-{input.Title}");
+
+            input.PictureUrl = pictureUrl;
+
             await this.topicsService.CreateAsync(input);
 
             return this.Redirect("/");

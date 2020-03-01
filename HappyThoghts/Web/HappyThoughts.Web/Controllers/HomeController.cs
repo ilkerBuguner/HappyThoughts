@@ -5,6 +5,7 @@
     using System.Linq;
     using System.Security.Claims;
     using System.Threading.Tasks;
+
     using HappyThoughts.Services.Data.Topics;
     using HappyThoughts.Web.ViewModels;
     using HappyThoughts.Web.ViewModels.Errors;
@@ -23,7 +24,7 @@
         public async Task<IActionResult> Index()
         {
             var topics = await this.topicsService.GetAllAsync<TopicInfoVIewModel>();
-            var topicsList = topics.ToList().Where(t => t.CreatedOn > DateTime.UtcNow.AddDays(-1)).OrderByDescending(t => t.CreatedOn);
+            var topicsList = topics.ToList().Where(t => t.CreatedOn > DateTime.Now.AddDays(-1)).OrderByDescending(t => t.CreatedOn);
             var viewModel = new TopicsListingViewModel()
             {
                 Topics = topicsList,

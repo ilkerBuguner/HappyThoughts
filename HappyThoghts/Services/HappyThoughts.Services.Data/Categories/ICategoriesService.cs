@@ -1,6 +1,7 @@
 ﻿namespace HappyThoughts.Services.Data.Categories
 {
     using System.Threading.Tasks;
+
     using HappyThoughts.Web.ViewModels.Categories;
     using HappyThoughts.Web.ViewModels.InputModels.Categories;
 

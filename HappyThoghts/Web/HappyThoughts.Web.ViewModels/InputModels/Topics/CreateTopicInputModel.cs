@@ -6,6 +6,7 @@
     using System.Text;
 
     using HappyThoughts.Web.ViewModels.Categories;
+    using Microsoft.AspNetCore.Http;
 
     public class CreateTopicInputModel
     {
@@ -18,6 +19,8 @@
         public string Content { get; set; }
 
         public string PictureUrl { get; set; }
+
+        public IFormFile Picture { get; set; }
 
         public string AuthorId { get; set; }
 
