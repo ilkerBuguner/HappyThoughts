@@ -7,8 +7,10 @@
     using System.Threading.Tasks;
     using HappyThoughts.Services;
     using HappyThoughts.Services.Data.Categories;
+    using HappyThoughts.Services.Data.Comments;
     using HappyThoughts.Services.Data.Topics;
     using HappyThoughts.Web.ViewModels.Categories;
+    using HappyThoughts.Web.ViewModels.Comments;
     using HappyThoughts.Web.ViewModels.InputModels;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
@@ -18,15 +20,18 @@
         private readonly ITopicsService topicsService;
         private readonly ICategoriesService categoriesService;
         private readonly ICloudinaryService cloudinaryService;
+        private readonly ICommentsService commentsService;
 
         public TopicsController(
             ITopicsService topicsService,
             ICategoriesService categoriesService,
-            ICloudinaryService cloudinaryService)
+            ICloudinaryService cloudinaryService,
+            ICommentsService commentsService)
         {
             this.topicsService = topicsService;
             this.categoriesService = categoriesService;
             this.cloudinaryService = cloudinaryService;
+            this.commentsService = commentsService;
         }
 
         [Authorize]
@@ -70,6 +75,8 @@
         {
             await this.topicsService.IncreaseViews(topicId);
             var viewModel = await this.topicsService.GetByIdAsViewModelAsync(topicId);
+            var comments = await this.commentsService.GetAllAsync<CommentInfoViewModel>();
+            viewModel.Comments = comments.Where(c => c.AuthorId == viewModel.AuthorId).ToList();
             return this.View(viewModel);
         }
     }

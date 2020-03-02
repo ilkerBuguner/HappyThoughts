@@ -6,9 +6,15 @@
 
     using HappyThoughts.Data.Models;
     using HappyThoughts.Services.Mapping;
+    using HappyThoughts.Web.ViewModels.Comments;
 
     public class TopicDetailsViewModel : IMapFrom<Topic>
     {
+        public TopicDetailsViewModel()
+        {
+            this.Comments = new HashSet<CommentInfoViewModel>();
+        }
+
         public string Id { get; set; }
 
         public string Title { get; set; }
@@ -32,5 +38,7 @@
         public string CategoryId { get; set; }
 
         public string CategoryName { get; set; }
+
+        public ICollection<CommentInfoViewModel> Comments { get; set; }
     }
 }
