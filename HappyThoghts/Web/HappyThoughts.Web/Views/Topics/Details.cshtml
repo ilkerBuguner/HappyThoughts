@@ -131,83 +131,23 @@
                     <a href="/Identity/Account/Register" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">Register</a>
                 </div>
             }
+            else
+            {
+                <div class="card my-4">
+                    <h5 class="card-header">Why are you still waiting?</h5>
+                    <div class="card-body">
+                        HappyThoughts is love to the unknown, gather your courage, share your love!
+                    </div>
+                    <a href="/Topics/Create" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">Create Topic</a>
+                </div>
+            }
 
             <!-- Search Widget -->
-            <div class="card my-4">
-                <h5 class="card-header">Search</h5>
-                <div class="card-body">
-                    <div class="input-group">
-                        <input type="text" class="form-control" placeholder="Search for...">
-                        <span class="input-group-btn">
-                            <button class="btn btn-outline-primary" type="button">Search</button>
-                        </span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card my-4">
-                <h5 class="card-header">Popular Categories</h5>
-                <ul class="list-group">
-                    <a href="#">
-                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                            Cras justo odio
-                            <span class="badge badge-primary badge-pill">14</span>
-                        </li>
-                    </a>
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                        Dapibus ac facilisis in
-                        <span class="badge badge-primary badge-pill">2</span>
-                    </li>
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                        Morbi leo risus
-                        <span class="badge badge-primary badge-pill">1</span>
-                    </li>
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                        Morbi leo risus
-                        <span class="badge badge-primary badge-pill">1</span>
-                    </li>
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                        Morbi leo risus
-                        <span class="badge badge-primary badge-pill">1</span>
-                    </li>
-
-                </ul>
-            </div>
+            @await Html.PartialAsync("_SearchWidgetPartial")
 
             <!-- Categories Widget -->
-            <div class="card my-4">
-                <h5 class="card-header">Categories</h5>
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-lg-6">
-                            <ul class="list-unstyled mb-0">
-                                <li>
-                                    <a href="#">Web Design</a>
-                                </li>
-                                <li>
-                                    <a href="#">HTML</a>
-                                </li>
-                                <li>
-                                    <a href="#">Freebies</a>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="col-lg-6">
-                            <ul class="list-unstyled mb-0">
-                                <li>
-                                    <a href="#">JavaScript</a>
-                                </li>
-                                <li>
-                                    <a href="#">CSS</a>
-                                </li>
-                                <li>
-                                    <a href="#">Tutorials</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            @await Html.PartialAsync("_PopularCategoriesPartial", Model.Categories)
+
 
         </div>
 

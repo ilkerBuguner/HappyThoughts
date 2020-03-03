@@ -76,7 +76,8 @@
             await this.topicsService.IncreaseViews(topicId);
             var viewModel = await this.topicsService.GetByIdAsViewModelAsync(topicId);
             var comments = await this.commentsService.GetAllAsync<CommentInfoViewModel>();
-            viewModel.Comments = comments.Where(c => c.AuthorId == viewModel.AuthorId).OrderByDescending(c => c.CreatedOn).ToList();
+            viewModel.Comments = comments.Where(c => c.AuthorId == viewModel.AuthorId && c.TopicId == topicId).OrderByDescending(c => c.CreatedOn).ToList();
+            viewModel.Categories = await this.categoriesService.GetAllAsync<CategoryInfoViewModel>();
             return this.View(viewModel);
         }
     }

@@ -1,12 +1,14 @@
-﻿using AutoMapper;
-using HappyThoughts.Data.Models;
-using HappyThoughts.Services.Mapping;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace HappyThoughts.Web.ViewModels.Topics
+﻿namespace HappyThoughts.Web.ViewModels.Topics
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Text;
+
+    using AutoMapper;
+    using HappyThoughts.Data.Models;
+    using HappyThoughts.Services.Mapping;
+    using HappyThoughts.Web.ViewModels.Categories;
+
     public class TopicInfoVIewModel : IMapFrom<Topic>, IHaveCustomMappings
     {
         public string Id { get; set; }
@@ -22,6 +24,7 @@ namespace HappyThoughts.Web.ViewModels.Topics
         public string AuthorId { get; set; }
 
         public string AuthorUsername { get; set; }
+
 
         public void CreateMappings(IProfileExpression configuration)
         {

@@ -5,9 +5,10 @@
     using System.Linq;
     using System.Security.Claims;
     using System.Threading.Tasks;
-
+    using HappyThoughts.Services.Data.Categories;
     using HappyThoughts.Services.Data.Topics;
     using HappyThoughts.Web.ViewModels;
+    using HappyThoughts.Web.ViewModels.Categories;
     using HappyThoughts.Web.ViewModels.Errors;
     using HappyThoughts.Web.ViewModels.Topics;
     using Microsoft.AspNetCore.Mvc;
@@ -15,10 +16,12 @@
     public class HomeController : BaseController
     {
         private readonly ITopicsService topicsService;
+        private readonly ICategoriesService categoriesService;
 
-        public HomeController(ITopicsService topicsService)
+        public HomeController(ITopicsService topicsService, ICategoriesService categoriesService)
         {
             this.topicsService = topicsService;
+            this.categoriesService = categoriesService;
         }
 
         public async Task<IActionResult> Index()
@@ -28,6 +31,7 @@
             var viewModel = new TopicsListingViewModel()
             {
                 Topics = topicsList,
+                Categories = await this.categoriesService.GetAllAsync<CategoryInfoViewModel>(),
             };
 
             return this.View(viewModel);

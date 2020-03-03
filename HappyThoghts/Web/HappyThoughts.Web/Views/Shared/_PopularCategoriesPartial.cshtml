@@ -1,0 +1,16 @@
+﻿@model IEnumerable<HappyThoughts.Web.ViewModels.Categories.CategoryInfoViewModel>
+
+    <div class="card my-4">
+        <h5 class="card-header">Popular Categories</h5>
+        <ul class="list-group">
+            @foreach (var category in Model.OrderByDescending(c => c.TopicsCount).Take(7))
+            {
+                <a href="#">
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        @category.Name
+                        <span class="badge badge-primary badge-pill">@category.TopicsCount</span>
+                    </li>
+                </a>
+            }
+        </ul>
+    </div>

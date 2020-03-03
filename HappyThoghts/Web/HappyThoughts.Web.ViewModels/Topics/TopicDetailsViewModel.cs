@@ -5,6 +5,7 @@
     using System.ComponentModel.DataAnnotations;
     using HappyThoughts.Data.Models;
     using HappyThoughts.Services.Mapping;
+    using HappyThoughts.Web.ViewModels.Categories;
     using HappyThoughts.Web.ViewModels.Comments;
 
     public class TopicDetailsViewModel : IMapFrom<Topic>
@@ -39,5 +40,7 @@
         public string CategoryName { get; set; }
 
         public ICollection<CommentInfoViewModel> Comments { get; set; }
+
+        public IEnumerable<CategoryInfoViewModel> Categories { get; set; }
     }
 }
