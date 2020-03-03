@@ -2,8 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Text;
-
+    using System.ComponentModel.DataAnnotations;
     using HappyThoughts.Data.Models;
     using HappyThoughts.Services.Mapping;
     using HappyThoughts.Web.ViewModels.Comments;
