@@ -61,11 +61,14 @@
             input.AuthorId = userId;
             input.CategoryId = this.categoriesService.GetIdByNameAsync(input.CategoryName);
 
-            var pictureUrl = await this.cloudinaryService.UploadPhotoAsync(
+            if (input.Picture != null)
+            {
+                var pictureUrl = await this.cloudinaryService.UploadPhotoAsync(
                 input.Picture,
                 $"{userId}-{input.Title}");
 
-            input.PictureUrl = pictureUrl;
+                input.PictureUrl = pictureUrl;
+            }
 
             await this.topicsService.CreateAsync(input);
 
@@ -77,7 +80,7 @@
             await this.topicsService.IncreaseViews(topicId);
             var viewModel = await this.topicsService.GetByIdAsViewModelAsync(topicId);
             var comments = await this.commentsService.GetAllAsync<CommentInfoViewModel>();
-            viewModel.Comments = comments.Where(c => c.AuthorId == viewModel.AuthorId && c.TopicId == topicId).OrderByDescending(c => c.CreatedOn).ToList();
+            viewModel.Comments = comments.Where(c => c.TopicId == topicId).OrderByDescending(c => c.CreatedOn).ToList();
             viewModel.Categories = await this.categoriesService.GetAllAsync<CategoryInfoViewModel>();
             return this.View(viewModel);
         }

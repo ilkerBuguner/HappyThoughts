@@ -34,11 +34,14 @@
             <hr>
 
             <!-- Preview Image -->
-            <div class="text-center">
-                <img class="img-fluid rounded" src="@Model.PictureUrl" alt="topic picture">
-            </div>
+            @if (!String.IsNullOrEmpty(Model.PictureUrl))
+            {
+                <div class="text-center">
+                    <img class="img-fluid rounded" src="@Model.PictureUrl" alt="topic picture">
+                </div>
 
-            <hr>
+                <hr>
+            }
 
             <!-- Post Content -->
             <p class="lead">
@@ -50,7 +53,7 @@
                     @if (this.User.FindFirstValue(ClaimTypes.NameIdentifier) == Model.AuthorId)
                     {
                         <a href="/Topics/Edit?topicId=@Model.Id&categoryName=@Model.CategoryName" class="btn btn-outline-primary">Edit</a>
-                        <a class="btn btn-outline-danger" asp-controller="Topics" asp-action="Delete" asp-route-id="@Model.Id">Delete</a>
+                        <a class="btn btn-outline-danger" id="delete">Delete</a>
                     }
                     <a class="btn btn-outline-secondary" asp-controller="Reports" asp-action="Send" asp-route-id="@Model.Id">Report</a>
                 </div>
@@ -68,7 +71,7 @@
                             <textarea id="Content" name="Content" class="form-control" rows="4"></textarea>
                             <span asp-validation-for="Content" class="text-danger"></span>
                         </div>
-                        <input type="hidden" asp-for="AuthorId" value="@Model.AuthorId" />
+                        <input type="hidden" id="AuthorId" name="AuthorId" value="@this.User.FindFirstValue(ClaimTypes.NameIdentifier)" />
                         <input type="hidden" id="TopicId" name="TopicId" value="@Model.Id" />
                         <div class="form-group">
                             <input asp-controller="Comments" asp-action="Create" type="submit" value="Create" class="btn btn-primary" />
@@ -164,6 +167,28 @@
     <!-- /.row -->
 
 </div>
+
+<!-- Modal -->
+<div class="modal fade" id="confirmDeleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Delete</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to delete this Topic?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <a class="btn btn-danger" asp-controller="Topics" asp-action="Delete" asp-route-id="@Model.Id">Delete</a>
+            </div>
+        </div>
+    </div>
+</div>
+
 <!-- /.container -->
 <!-- Bootstrap core JavaScript -->
 <script src="vendor/jquery/jquery.min.js"></script>
@@ -173,3 +198,23 @@
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
 
+
+<!-- Scripts for deletion modal -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js">
+
+</script>
+<script src="bootstrap/js/bootstrap.min.js"></script>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $("#delete").click(function () {
+            $("#confirmDeleteModal").modal('show');
+        });
+    });
+
+    $("#btnHideModal").click(function () {
+        $("#confirmDeleteModal").modal('hide');
+    });
+</script>
+<!-- Scripts for deletion modal -->
