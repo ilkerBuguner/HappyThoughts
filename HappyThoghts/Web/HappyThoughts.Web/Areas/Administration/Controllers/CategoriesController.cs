@@ -36,7 +36,7 @@
         {
             await this.categoriesService.CreateAsync(input);
 
-            return this.Redirect("/Categories/All");
+            return this.Redirect("/Administration/Categories/All");
         }
 
         [Authorize]
@@ -57,7 +57,7 @@
         public async Task<IActionResult> Edit(CategoryInfoViewModel input)
         {
             await this.categoriesService.EditAsync(input);
-            return this.Redirect("/Categories/All");
+            return this.Redirect("/Administration/Categories/All");
         }
 
         [Authorize]
@@ -76,7 +76,7 @@
         public async Task<IActionResult> Delete(CategoryInfoViewModel input)
         {
             await this.categoriesService.DeleteByIdAsync(input.Id);
-            return this.Redirect("/Categories/All");
+            return this.Redirect("/Administration/Categories/All");
         }
     }
 }

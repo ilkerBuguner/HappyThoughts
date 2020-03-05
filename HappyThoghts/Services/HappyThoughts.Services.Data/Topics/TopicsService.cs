@@ -15,6 +15,12 @@
 
     public class TopicsService : ITopicsService
     {
+        private const string InvalidTopicIdErrorMessage = "Topic with ID: {0} does not exist.";
+
+        private const int TitleMaxLength = 50;
+
+        private const int ContentMinLength = 10;
+
         private readonly IDeletableEntityRepository<Topic> topicRepository;
 
         public TopicsService(IDeletableEntityRepository<Topic> topicRepository)
@@ -34,6 +40,45 @@
             };
 
             await this.topicRepository.AddAsync(topic);
+            await this.topicRepository.SaveChangesAsync();
+        }
+
+        public async Task DeleteByIdAsync(string topicId)
+        {
+            var topic = await this.topicRepository.GetByIdWithDeletedAsync(topicId);
+
+            if (topic == null)
+            {
+                throw new ArgumentNullException(
+                    string.Format(InvalidTopicIdErrorMessage, topicId));
+            }
+
+            this.topicRepository.Delete(topic);
+            await this.topicRepository.SaveChangesAsync();
+        }
+
+        public async Task EditAsync(TopicEditViewModel input)
+        {
+            var topicFromDb = await this.topicRepository
+                .GetByIdWithDeletedAsync(input.Id);
+
+            if (topicFromDb == null)
+            {
+                throw new ArgumentNullException(
+                     string.Format(InvalidTopicIdErrorMessage, input.Id));
+            }
+
+            if (input.Title.Length <= TitleMaxLength && input.Title != null && input.Title != topicFromDb.Title)
+            {
+                topicFromDb.Title = input.Title;
+            }
+
+            if (input.Content != null && input.Content.Length >= ContentMinLength && input.Content != topicFromDb.Content)
+            {
+                topicFromDb.Content = input.Content;
+            }
+
+            this.topicRepository.Update(topicFromDb);
             await this.topicRepository.SaveChangesAsync();
         }
 
@@ -68,5 +113,6 @@
             topic.Views += 1;
             await this.topicRepository.SaveChangesAsync();
         }
+
     }
 }

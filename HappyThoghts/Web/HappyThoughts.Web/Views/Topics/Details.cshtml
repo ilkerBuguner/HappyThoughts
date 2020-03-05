@@ -1,5 +1,7 @@
 ﻿@using HappyThoughts.Data.Models
-@using Microsoft.AspNetCore.Identity
+@using Microsoft.AspNetCore.Identity;
+@using System.Security.Claims
+
 @inject SignInManager<ApplicationUser> SignInManager
 
 @model HappyThoughts.Web.ViewModels.Topics.TopicDetailsViewModel
@@ -44,7 +46,14 @@
             </p>
 
             <div class="text-center">
-                <button type="button" class="btn btn-outline-danger">Report</button>
+                <div class="form-group">
+                    @if (this.User.FindFirstValue(ClaimTypes.NameIdentifier) == Model.AuthorId)
+                    {
+                        <a href="/Topics/Edit?topicId=@Model.Id&categoryName=@Model.CategoryName" class="btn btn-outline-primary">Edit</a>
+                        <a class="btn btn-outline-danger" asp-controller="Topics" asp-action="Delete" asp-route-id="@Model.Id">Delete</a>
+                    }
+                    <a class="btn btn-outline-secondary" asp-controller="Reports" asp-action="Send" asp-route-id="@Model.Id">Report</a>
+                </div>
             </div>
 
             <hr>
@@ -75,7 +84,7 @@
                     <div class="media-body">
                         <h5 class="mt-0">User: @comment.AuthorName</h5>
                         <div class="d-flex w-100 justify-content-between">
-                            <h6 class="mb-1">@comment.Content</h6>
+                            <span class="mb-1">@comment.Content</span>
                             <small>Commented on: @comment.CreatedOn.ToString()</small>
                         </div>
                     </div>

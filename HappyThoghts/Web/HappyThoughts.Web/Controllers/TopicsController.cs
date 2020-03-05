@@ -12,6 +12,7 @@
     using HappyThoughts.Web.ViewModels.Categories;
     using HappyThoughts.Web.ViewModels.Comments;
     using HappyThoughts.Web.ViewModels.InputModels;
+    using HappyThoughts.Web.ViewModels.Topics;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
 
@@ -79,6 +80,39 @@
             viewModel.Comments = comments.Where(c => c.AuthorId == viewModel.AuthorId && c.TopicId == topicId).OrderByDescending(c => c.CreatedOn).ToList();
             viewModel.Categories = await this.categoriesService.GetAllAsync<CategoryInfoViewModel>();
             return this.View(viewModel);
+        }
+
+        public async Task<IActionResult> Edit(string topicId, string categoryName)
+        {
+            var model = await this.topicsService.GetByIdAsViewModelAsync(topicId);
+            var viewModel = new TopicEditViewModel()
+            {
+                Id = topicId,
+                CategoryName = categoryName,
+                Title = model.Title,
+                Content = model.Content,
+            };
+
+            return this.View(viewModel);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(TopicEditViewModel input)
+        {
+            if (!this.ModelState.IsValid)
+            {
+                return this.Redirect($"/Topics/Edit?topicId={input.Id}&categoryName={input.CategoryName}");
+            }
+
+            await this.topicsService.EditAsync(input);
+
+            return this.Redirect($"/Topics/Details?topicId={input.Id}");
+        }
+
+        public async Task<IActionResult> Delete(string id)
+        {
+            await this.topicsService.DeleteByIdAsync(id);
+            return this.Redirect("/Home/Index");
         }
     }
 }
