@@ -29,7 +29,7 @@
             <hr>
 
             <!-- Date/Time -->
-            <p class="text-center"><b>Published On: @Model.CreatedOn | Category: @Model.CategoryName | Views: @Model.Views</b></p>
+            <p class="text-center"><b>Published On: @Model.CreatedOn | Category: <a href="/Categories/ByName?name=@Model.CategoryName">@Model.CategoryName</a> | Views: @Model.Views</b></p>
 
             <hr>
 
