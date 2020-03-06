@@ -90,6 +90,13 @@
                 .ToArrayAsync();
         }
 
+        public IQueryable<T> GetAllAsQueryable<T>()
+        {
+            return this.topicRepository
+                .AllAsNoTracking()
+                .To<T>();
+        }
+
         public async Task<TopicDetailsViewModel> GetByIdAsViewModelAsync(string id)
         {
             var topic = await this.topicRepository

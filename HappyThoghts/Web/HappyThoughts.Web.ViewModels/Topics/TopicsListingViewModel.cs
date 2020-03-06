@@ -7,7 +7,7 @@
 
     public class TopicsListingViewModel
     {
-        public IEnumerable<TopicInfoVIewModel> Topics { get; set; }
+        public IEnumerable<TopicInfoViewModel> Topics { get; set; }
 
         public IEnumerable<CategoryInfoViewModel> Categories { get; set; }
     }

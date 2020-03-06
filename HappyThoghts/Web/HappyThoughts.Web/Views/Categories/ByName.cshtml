@@ -1,0 +1,51 @@
+﻿@model HappyThoughts.Web.ViewModels.Categories.TopicsByCategoryNameViewModel
+
+@using HappyThoughts.Common
+@{
+    this.ViewData["Title"] = $"All topics in {Model.CategoryName}";
+}
+
+<div class="row">
+
+    <!-- Post Content Column -->
+    <div class="col-lg-8">
+        <div class="list-group-horizontal-sm">
+            @foreach (var topic in Model.CategoryTopics.Topics)
+            {
+                <a href="/Topics/Details?topicId=@topic.Id" class="list-group-item list-group-item-action flex-column align-items-start">
+                    <div class="d-flex w-100 justify-content-between">
+                        <h5 class="mb-1">@topic.Title</h5>
+                        <small>@topic.CreatedOn</small>
+                    </div>
+                    <p class="mb-1">@topic.Content</p>
+
+                    <div class="d-flex w-100 justify-content-between">
+                        <h6>Author: @topic.AuthorUsername</h6>
+                        <h6>Category: @topic.CategoryName</h6>
+                    </div>
+                </a>
+            }
+        </div>
+    </div>
+
+    <!-- Sidebar Widgets Column -->
+    <div class="col-md-4">
+
+        <!-- Side Widget -->
+        @await Html.PartialAsync("_PromptingWidgetPartial")
+
+        <!-- Search Widget -->
+        @await Html.PartialAsync("_SearchWidgetPartial")
+
+        <!-- Categories Widget -->
+        @await Html.PartialAsync("_PopularCategoriesPartial", Model.CategoryTopics.Categories)
+
+
+    </div>
+
+</div>
+<!-- /.row -->
+<!-- /.container -->
+<!-- Bootstrap core JavaScript -->
+<script src="vendor/jquery/jquery.min.js"></script>
+<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>

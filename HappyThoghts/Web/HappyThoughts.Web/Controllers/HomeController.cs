@@ -26,11 +26,15 @@
 
         public async Task<IActionResult> Index()
         {
-            var topics = await this.topicsService.GetAllAsync<TopicInfoVIewModel>();
-            var topicsList = topics.ToList().Where(t => t.CreatedOn > DateTime.Now.AddDays(-1)).OrderByDescending(t => t.CreatedOn);
+            var topics = this.topicsService.GetAllAsQueryable<TopicInfoViewModel>()
+                .Where(t => t.CreatedOn > DateTime.Now.AddDays(-28))
+                .OrderByDescending(t => t.CreatedOn)
+                .ToList();
+
+            // var topicsList = topics.ToList().Where(t => t.CreatedOn > DateTime.Now.AddDays(-1)).OrderByDescending(t => t.CreatedOn);
             var viewModel = new TopicsListingViewModel()
             {
-                Topics = topicsList,
+                Topics = topics,
                 Categories = await this.categoriesService.GetAllAsync<CategoryInfoViewModel>(),
             };
 

@@ -29,6 +29,7 @@
             var category = new Category()
             {
                 Name = input.Name,
+                PictureUrl = input.PictureUrl,
             };
 
             await this.categoryRepository.AddAsync(category);

@@ -6,6 +6,7 @@
     using System.Threading.Tasks;
 
     using HappyThoughts.Common;
+    using HappyThoughts.Services;
     using HappyThoughts.Services.Data.Categories;
     using HappyThoughts.Web.Controllers;
     using HappyThoughts.Web.ViewModels.Categories;
@@ -18,10 +19,12 @@
     public class CategoriesController : BaseController
     {
         private readonly ICategoriesService categoriesService;
+        private readonly ICloudinaryService cloudinaryService;
 
-        public CategoriesController(ICategoriesService categoriesService)
+        public CategoriesController(ICategoriesService categoriesService, ICloudinaryService cloudinaryService)
         {
             this.categoriesService = categoriesService;
+            this.cloudinaryService = cloudinaryService;
         }
 
         [Authorize]
@@ -34,6 +37,20 @@
         [Authorize]
         public async Task<IActionResult> Create(CreateCategoryInputModel input)
         {
+            if (!this.ModelState.IsValid)
+            {
+                return this.View(input);
+            }
+
+            if (input.Picture != null)
+            {
+                var pictureUrl = await this.cloudinaryService.UploadPhotoAsync(
+                input.Picture,
+                $"{input.Name}-{Guid.NewGuid().ToString()}");
+
+                input.PictureUrl = pictureUrl;
+            }
+
             await this.categoriesService.CreateAsync(input);
 
             return this.Redirect("/Administration/Categories/All");

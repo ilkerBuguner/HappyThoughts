@@ -15,6 +15,8 @@ namespace HappyThoughts.Web.ViewModels.Categories
 
         public DateTime CreatedOn { get; set; }
 
+        public string PictureUrl { get; set; }
+
         public int TopicsCount { get; set; }
 
         public void CreateMappings(IProfileExpression configuration)

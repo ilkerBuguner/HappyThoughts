@@ -9,7 +9,7 @@
     using HappyThoughts.Services.Mapping;
     using HappyThoughts.Web.ViewModels.Categories;
 
-    public class TopicInfoVIewModel : IMapFrom<Topic>, IHaveCustomMappings
+    public class TopicInfoViewModel : IMapFrom<Topic>, IHaveCustomMappings
     {
         public string Id { get; set; }
 
@@ -25,10 +25,13 @@
 
         public string AuthorUsername { get; set; }
 
+        public string CategoryName { get; set; }
+
 
         public void CreateMappings(IProfileExpression configuration)
         {
-            configuration.CreateMap<Topic, TopicInfoVIewModel>().ForMember(x => x.Content, t => t.MapFrom(opt => opt.Content.Substring(0, 220) + "..."));
+            configuration.CreateMap<Topic, TopicInfoViewModel>().ForMember(x => x.Content, t => t.MapFrom(opt => opt.Content.Substring(0, 220) + "..."))
+                .ForMember(x => x.CategoryName, t => t.MapFrom(opt => opt.Category.Name));
         }
     }
 }

@@ -10,12 +10,22 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create">
+        <form asp-action="Create" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Name" class="control-label"></label>
                 <input asp-for="Name" class="form-control" placeholder="Enter category name..." />
                 <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Picture" class="upload-btn">
+                    <i class="fa fa-upload"></i> Upload Picture
+                    <input asp-for="Picture" type="file" class="form-control" />
+                </label>
+                <div class="margin-top-0"></div>
+                <span asp-validation-for="Picture" class="text-danger"></span>
+                <div class="margin-top-0"></div>
+                <span id="file-selected"></span>
             </div>
             <div class="form-group">
                 <input asp-controller="Categories" asp-action="Create" type="submit" value="Create" class="btn btn-success" />

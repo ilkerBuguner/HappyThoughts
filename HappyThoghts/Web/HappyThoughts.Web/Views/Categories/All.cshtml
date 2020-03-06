@@ -4,25 +4,23 @@
     ViewData["Title"] = "All Categories";
 }
 
-<h1 class="text-center">All Categories</h1>
+<h2 class="text-center">All Categories</h2>
 
-<table class="table text-center">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Name)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Name)
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+<hr />
+
+<div class="row">
+    @foreach (var category in Model)
+    {
+        <div class="col-md-4 text-center">
+            <a href="/Categories/ByName?name=@category.Name">
+                <div class="card list-group-item-action" style="width: 18rem;">
+                    <img class="card-img-top" src="@category.PictureUrl" alt="@category.Name">
+                    <div class="card-body">
+                        <p class="card-text">@category.Name</p>
+                    </div>
+                </div>
+            </a>
+
+        </div>
+    }
+</div>

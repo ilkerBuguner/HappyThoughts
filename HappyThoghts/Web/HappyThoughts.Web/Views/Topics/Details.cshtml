@@ -37,7 +37,7 @@
             @if (!String.IsNullOrEmpty(Model.PictureUrl))
             {
                 <div class="text-center">
-                    <img class="img-fluid rounded" src="@Model.PictureUrl" alt="topic picture">
+                    <img class="img-fluid rounded" src="@Model.PictureUrl" width="400" alt="topic picture">
                 </div>
 
                 <hr>
@@ -133,26 +133,8 @@
 
         <!-- Sidebar Widgets Column -->
         <div class="col-md-4">
-            @if (!this.SignInManager.IsSignedIn(this.User))
-            {
-                <div class="card my-4">
-                    <h5 class="card-header">Why are you still waiting?</h5>
-                    <div class="card-body">
-                        Aren't you tired of working in boring plazas? Relieve your stress, share your knowledge.
-                    </div>
-                    <a href="/Identity/Account/Register" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">Register</a>
-                </div>
-            }
-            else
-            {
-                <div class="card my-4">
-                    <h5 class="card-header">Why are you still waiting?</h5>
-                    <div class="card-body">
-                        HappyThoughts is love to the unknown, gather your courage, share your love!
-                    </div>
-                    <a href="/Topics/Create" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">Create Topic</a>
-                </div>
-            }
+            <!-- Side Widget -->
+            @await Html.PartialAsync("_PromptingWidgetPartial")
 
             <!-- Search Widget -->
             @await Html.PartialAsync("_SearchWidgetPartial")
