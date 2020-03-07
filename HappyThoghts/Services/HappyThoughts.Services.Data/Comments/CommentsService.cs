@@ -1,5 +1,6 @@
 ﻿namespace HappyThoughts.Services.Data.Comments
 {
+    using System.Linq;
     using System.Threading.Tasks;
 
     using HappyThoughts.Data.Common.Repositories;
@@ -36,6 +37,13 @@
                 .All()
                 .To<T>()
                 .ToArrayAsync();
+        }
+
+        public IQueryable<T> GetAllAsQueryable<T>()
+        {
+            return this.commentRepository
+                .All()
+                .To<T>();
         }
     }
 }

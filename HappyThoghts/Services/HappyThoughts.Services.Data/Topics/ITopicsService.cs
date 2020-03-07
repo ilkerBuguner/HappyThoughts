@@ -1,5 +1,6 @@
 ﻿namespace HappyThoughts.Services.Data.Topics
 {
+    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
 
@@ -21,5 +22,7 @@
         Task DeleteByIdAsync(string topicId);
 
         Task EditAsync(TopicEditViewModel input);
+
+        Task<IEnumerable<TopicInfoViewModel>> GetAllTopicsBySearchAsync(string input);
     }
 }

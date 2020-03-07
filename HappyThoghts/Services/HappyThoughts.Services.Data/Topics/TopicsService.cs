@@ -120,5 +120,30 @@
             topic.Views += 1;
             await this.topicRepository.SaveChangesAsync();
         }
+
+        public async Task<IEnumerable<TopicInfoViewModel>> GetAllTopicsBySearchAsync(string input)
+        {
+            var searchParts = input.Split(" ", StringSplitOptions.RemoveEmptyEntries);
+
+            var topicsFromDb = await this.GetAllAsync<TopicInfoViewModel>();
+
+            var matchingTopics = new List<TopicInfoViewModel>();
+
+            foreach (var searchPart in searchParts)
+            {
+                foreach (var topicFromDb in topicsFromDb)
+                {
+                    var normalizedTitle = topicFromDb.Title.ToLower();
+                    var normalizedContent = topicFromDb.Content.ToLower();
+
+                    if (normalizedTitle.Contains(searchPart.ToLower()) || normalizedContent.Contains(searchPart.ToLower()))
+                    {
+                        matchingTopics.Add(topicFromDb);
+                    }
+                }
+            }
+
+            return matchingTopics;
+        }
     }
 }

@@ -79,10 +79,39 @@
         public async Task<IActionResult> Details(string topicId)
         {
             await this.topicsService.IncreaseViews(topicId);
-            var viewModel = await this.topicsService.GetByIdAsViewModelAsync(topicId);
-            var comments = await this.commentsService.GetAllAsync<CommentInfoViewModel>();
-            viewModel.Comments = comments.Where(c => c.TopicId == topicId).OrderByDescending(c => c.CreatedOn).ToList();
-            viewModel.Categories = await this.categoriesService.GetAllAsync<CategoryInfoViewModel>();
+            var viewModel = await this.topicsService
+                .GetByIdAsViewModelAsync(topicId);
+
+            viewModel.Comments = this.commentsService.GetAllAsQueryable<CommentInfoViewModel>()
+                .Where(c => c.TopicId == topicId)
+                .OrderByDescending(c => c.CreatedOn)
+                .ToList();
+
+            viewModel.Categories = await this.categoriesService
+                .GetAllAsync<CategoryInfoViewModel>();
+
+            return this.View(viewModel);
+        }
+
+        public async Task<IActionResult> Search(string searchTerm)
+        {
+            if (string.IsNullOrEmpty(searchTerm) || string.IsNullOrWhiteSpace(searchTerm))
+            {
+                return this.Redirect("/");
+            }
+
+            var topics = await this.topicsService.GetAllTopicsBySearchAsync(searchTerm);
+
+            var viewModel = new TopicSearchViewModel()
+            {
+                SearchTerm = searchTerm,
+                Topics = new TopicsListingViewModel()
+                {
+                    Topics = topics,
+                    Categories = await this.categoriesService.GetAllAsync<CategoryInfoViewModel>(),
+                },
+            };
+
             return this.View(viewModel);
         }
 
