@@ -33,7 +33,7 @@
         public async Task<T[]> GetAllAsync<T>()
         {
             return await this.commentRepository
-                .AllAsNoTracking()
+                .All()
                 .To<T>()
                 .ToArrayAsync();
         }

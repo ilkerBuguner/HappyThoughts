@@ -40,17 +40,17 @@
         [Required]
         public string AuthorId { get; set; }
 
-        public ApplicationUser Author { get; set; }
+        public virtual ApplicationUser Author { get; set; }
 
         [ForeignKey("Category")]
         // [Required]
         public string CategoryId { get; set; }
 
-        public Category Category { get; set; }
+        public virtual Category Category { get; set; }
 
         // public ICollection<TopicCategory> Categories { get; set; }
-        public ICollection<Comment> Comments { get; set; }
+        public virtual ICollection<Comment> Comments { get; set; }
 
-        public ICollection<SubComment> SubComments { get; set; }
+        public virtual ICollection<SubComment> SubComments { get; set; }
     }
 }

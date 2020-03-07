@@ -26,12 +26,12 @@
         [Required]
         public string SenderId { get; set; }
 
-        public ApplicationUser Sender { get; set; }
+        public virtual ApplicationUser Sender { get; set; }
 
         [ForeignKey("ApplicationUser")]
         [Required]
         public string ReceiverId { get; set; }
 
-        public ApplicationUser Receiver { get; set; }
+        public virtual ApplicationUser Receiver { get; set; }
     }
 }

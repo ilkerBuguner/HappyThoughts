@@ -37,9 +37,12 @@
                 .OrderByDescending(t => t.CreatedOn)
                 .ToList();
 
+            var category = this.categoriesService.GetCategoryByName(name);
+
             var viewModel = new TopicsByCategoryNameViewModel()
             {
-                CategoryName = name,
+                CategoryName = category.Name,
+                PictureUrl = category.PictureUrl,
                 CategoryTopics = new TopicsListingViewModel()
                 {
                     Topics = topics,

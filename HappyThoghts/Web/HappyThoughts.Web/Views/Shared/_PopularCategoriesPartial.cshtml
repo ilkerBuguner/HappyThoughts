@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<HappyThoughts.Web.ViewModels.Categories.CategoryInfoViewModel>
 
     <div class="card my-4">
-        <h5 class="card-header">Popular Categories</h5>
+        <h5 class="card-header">Popular <a href="/Categories/All">Categories</a></h5>
         <ul class="list-group">
             @foreach (var category in Model.OrderByDescending(c => c.TopicsCount).Take(7))
             {

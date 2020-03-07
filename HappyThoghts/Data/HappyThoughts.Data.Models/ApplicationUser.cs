@@ -54,14 +54,14 @@ namespace HappyThoughts.Data.Models
 
         public string ProfilePictureUrl { get; set; } // byte[]
 
-        public ICollection<Topic> Posts { get; set; }
+        public virtual ICollection<Topic> Posts { get; set; }
 
-        public ICollection<Comment> Comments { get; set; }
+        public virtual ICollection<Comment> Comments { get; set; }
 
-        public ICollection<Message> MessagesSent { get; set; }
+        public virtual ICollection<Message> MessagesSent { get; set; }
 
-        public ICollection<Message> MessagesReceived { get; set; }
+        public virtual ICollection<Message> MessagesReceived { get; set; }
 
-        public ICollection<SubComment> SubComments { get; set; }
+        public virtual ICollection<SubComment> SubComments { get; set; }
     }
 }

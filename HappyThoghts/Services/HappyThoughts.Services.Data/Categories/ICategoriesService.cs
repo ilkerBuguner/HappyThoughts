@@ -1,5 +1,6 @@
 ﻿namespace HappyThoughts.Services.Data.Categories
 {
+    using System.Linq;
     using System.Threading.Tasks;
 
     using HappyThoughts.Web.ViewModels.Categories;
@@ -11,9 +12,13 @@
 
         Task<T[]> GetAllAsync<T>();
 
-        string GetIdByNameAsync(string name);
+        IQueryable<T> GetAllAsQueryable<T>();
+
+        string GetIdByName(string name);
 
         string GetNameById(string id);
+
+        CategoryInfoViewModel GetCategoryByName(string name);
 
         Task EditAsync(CategoryInfoViewModel categoryInfoViewModel);
 

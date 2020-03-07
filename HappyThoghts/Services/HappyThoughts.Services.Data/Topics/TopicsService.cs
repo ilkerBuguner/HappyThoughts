@@ -85,7 +85,7 @@
         public async Task<T[]> GetAllAsync<T>()
         {
             return await this.topicRepository
-                .AllAsNoTracking()
+                .All()
                 .To<T>()
                 .ToArrayAsync();
         }
@@ -93,7 +93,7 @@
         public IQueryable<T> GetAllAsQueryable<T>()
         {
             return this.topicRepository
-                .AllAsNoTracking()
+                .All()
                 .To<T>();
         }
 
@@ -120,6 +120,5 @@
             topic.Views += 1;
             await this.topicRepository.SaveChangesAsync();
         }
-
     }
 }

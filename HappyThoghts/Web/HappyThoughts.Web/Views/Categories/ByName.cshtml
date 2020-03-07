@@ -9,7 +9,10 @@
 
     <!-- Post Content Column -->
     <div class="col-lg-8">
-        <h1 class="text-center">Category '@Model.CategoryName' Topics</h1>
+        <div class="text-center">
+            <h1>'@Model.CategoryName'</h1>
+            <img width="200" src="@Model.PictureUrl" />
+        </div>
         <hr />
         <div class="list-group-horizontal-sm">
             @if (!Model.CategoryTopics.Topics.Any())

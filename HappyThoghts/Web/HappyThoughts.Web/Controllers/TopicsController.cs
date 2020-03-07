@@ -5,6 +5,7 @@
     using System.Linq;
     using System.Security.Claims;
     using System.Threading.Tasks;
+
     using HappyThoughts.Services;
     using HappyThoughts.Services.Data.Categories;
     using HappyThoughts.Services.Data.Comments;
@@ -59,7 +60,7 @@
 
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
             input.AuthorId = userId;
-            input.CategoryId = this.categoriesService.GetIdByNameAsync(input.CategoryName);
+            input.CategoryId = this.categoriesService.GetIdByName(input.CategoryName);
 
             if (input.Picture != null)
             {

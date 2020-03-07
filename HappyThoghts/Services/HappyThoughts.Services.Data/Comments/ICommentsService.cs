@@ -1,8 +1,9 @@
-﻿using HappyThoughts.Web.ViewModels.InputModels.Comments;
-using System.Threading.Tasks;
-
-namespace HappyThoughts.Services.Data.Comments
+﻿namespace HappyThoughts.Services.Data.Comments
 {
+    using System.Threading.Tasks;
+
+    using HappyThoughts.Web.ViewModels.InputModels.Comments;
+
     public interface ICommentsService
     {
         Task CreateAsync(CreateCommentInputModel input);

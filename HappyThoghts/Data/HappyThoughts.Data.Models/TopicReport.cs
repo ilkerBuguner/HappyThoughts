@@ -27,12 +27,12 @@
         [Required]
         public string AuthorId { get; set; }
 
-        public ApplicationUser Author { get; set; }
+        public virtual ApplicationUser Author { get; set; }
 
         [ForeignKey("Topic")]
         [Required]
         public string TopicId { get; set; }
 
-        public Topic Topic { get; set; }
+        public virtual Topic Topic { get; set; }
     }
 }

@@ -24,6 +24,6 @@
 
         public string PictureUrl { get; set; }
 
-        public ICollection<Topic> Topics { get; set; }
+        public virtual ICollection<Topic> Topics { get; set; }
     }
 }

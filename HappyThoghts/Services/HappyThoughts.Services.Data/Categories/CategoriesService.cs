@@ -67,6 +67,13 @@
             await this.categoryRepository.SaveChangesAsync();
         }
 
+        public IQueryable<T> GetAllAsQueryable<T>()
+        {
+            return this.categoryRepository
+                .AllAsNoTracking()
+                .To<T>();
+        }
+
         public async Task<T[]> GetAllAsync<T>()
         {
             return await this.categoryRepository
@@ -75,14 +82,19 @@
                 .ToArrayAsync();
         }
 
-        public string GetIdByNameAsync(string name)
+        public CategoryInfoViewModel GetCategoryByName(string name)
         {
-            return this.categoryRepository.AllAsNoTracking().FirstOrDefault(c => c.Name == name).Id;
+            return this.categoryRepository.All().To<CategoryInfoViewModel>().FirstOrDefault(c => c.Name == name);
+        }
+
+        public string GetIdByName(string name)
+        {
+            return this.categoryRepository.All().FirstOrDefault(c => c.Name == name).Id;
         }
 
         public string GetNameById(string id)
         {
-            return this.categoryRepository.AllAsNoTracking().FirstOrDefault(c => c.Id == id).Name;
+            return this.categoryRepository.All().FirstOrDefault(c => c.Id == id).Name;
         }
     }
 }
