@@ -11,10 +11,10 @@
 <div class="row">
     @foreach (var category in Model)
     {
-        <div class="col-md-4 text-center">
+        <div class="col-md-4 text-center categoryBottom">
             <a href="/Categories/ByName?name=@category.Name">
                 <div class="card list-group-item-action" style="width: 18rem;">
-                    <img class="card-img-top" src="@category.PictureUrl" alt="@category.Name">
+                    <img class="card-img-top" src="@category.PictureUrl" alt="@category.Name" height="200">
                     <div class="card-body">
                         <p class="card-text">@category.Name  (@category.TopicsCount)</p>
                     </div>

@@ -2,13 +2,15 @@
 
 @using HappyThoughts.Common
 @{
-    this.ViewData["Title"] = $"All topics in {Model.CategoryName}";
+    this.ViewData["Title"] = $"All topics for {Model.CategoryName}";
 }
 
 <div class="row">
 
     <!-- Post Content Column -->
     <div class="col-lg-8">
+        <h1 class="text-center">Category '@Model.CategoryName' Topics</h1>
+        <hr />
         <div class="list-group-horizontal-sm">
             @if (!Model.CategoryTopics.Topics.Any())
             {
