@@ -24,5 +24,7 @@
         Task EditAsync(TopicEditViewModel input);
 
         Task<IEnumerable<TopicInfoViewModel>> GetAllTopicsBySearchAsync(string input);
+
+        string GetIdByTitle(string title);
     }
 }

@@ -116,7 +116,7 @@
 
         public async Task IncreaseViews(string id)
         {
-            var topic = await this.topicRepository.GetByIdWithDeletedAsync(id);
+            var topic = await this.topicRepository.All().FirstOrDefaultAsync(t => t.Id == id);
             topic.Views += 1;
             await this.topicRepository.SaveChangesAsync();
         }
@@ -144,6 +144,11 @@
             }
 
             return matchingTopics;
+        }
+
+        public string GetIdByTitle(string title)
+        {
+            return this.topicRepository.All().FirstOrDefault(t => t.Title == title).Id;
         }
     }
 }

@@ -19,6 +19,12 @@
 
         public string PictureUrl { get; set; }
 
+        public int Views { get; set; }
+
+        public int Likes { get; set; }
+
+        public int Dislikes { get; set; }
+
         public DateTime CreatedOn { get; set; }
 
         public string AuthorId { get; set; }
@@ -27,12 +33,15 @@
 
         public string CategoryName { get; set; }
 
+        public int CommentsCount { get; set; }
+
 
         public void CreateMappings(IProfileExpression configuration)
         {
             configuration.CreateMap<Topic, TopicInfoViewModel>()
                 .ForMember(x => x.Content, t => t.MapFrom(opt => opt.Content.Substring(0, 220) + "..."))
-                .ForMember(x => x.CategoryName, t => t.MapFrom(opt => opt.Category.Name));
+                .ForMember(x => x.CategoryName, t => t.MapFrom(opt => opt.Category.Name))
+                .ForMember(x => x.CommentsCount, t => t.MapFrom(opt => opt.Comments.Count));
         }
     }
 }

@@ -73,7 +73,9 @@
 
             await this.topicsService.CreateAsync(input);
 
-            return this.Redirect("/");
+            var newTopicId = this.topicsService.GetIdByTitle(input.Title);
+
+            return this.Redirect($"/Topics/Details?topicId={newTopicId}");
         }
 
         public async Task<IActionResult> Details(string topicId)

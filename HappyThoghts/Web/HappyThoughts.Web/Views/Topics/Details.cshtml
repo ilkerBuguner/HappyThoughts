@@ -1,6 +1,7 @@
 ﻿@using HappyThoughts.Data.Models
 @using Microsoft.AspNetCore.Identity;
 @using System.Security.Claims
+@using HappyThoughts.Common;
 
 @inject SignInManager<ApplicationUser> SignInManager
 
@@ -29,7 +30,7 @@
             <hr>
 
             <!-- Date/Time -->
-            <p class="text-center"><b>Published On: @Model.CreatedOn | Category: <a href="/Categories/ByName?name=@Model.CategoryName">@Model.CategoryName</a> | Views: @Model.Views</b></p>
+            <p class="text-center"><b>Posted On: @Model.CreatedOn | Category: <a href="/Categories/ByName?name=@Model.CategoryName">@Model.CategoryName</a> | Views: @Model.Views</b></p>
 
             <hr>
 
@@ -43,6 +44,9 @@
                 <hr>
             }
 
+            <p class="text-center"><b>Comments: @Model.Comments.Count | Likes: @Model.Likes | Dislikes: @Model.Dislikes</b></p>
+
+            <hr />
             <!-- Post Content -->
             <p class="lead">
                 @Model.Content
@@ -50,12 +54,12 @@
 
             <div class="text-center">
                 <div class="form-group">
-                    @if (this.User.FindFirstValue(ClaimTypes.NameIdentifier) == Model.AuthorId)
+                    @if (this.User.FindFirstValue(ClaimTypes.NameIdentifier) == Model.AuthorId || this.User.IsInRole(GlobalConstants.AdministratorRoleName))
                     {
                         <a href="/Topics/Edit?topicId=@Model.Id&categoryName=@Model.CategoryName" class="btn btn-outline-primary">Edit</a>
                         <a class="btn btn-outline-danger" id="delete">Delete</a>
                     }
-                    <a class="btn btn-outline-secondary" asp-controller="Reports" asp-action="Send" asp-route-id="@Model.Id">Report</a>
+                    <a class="btn btn-outline-secondary" href="/TopicReports/Send?topicId=@Model.Id">Report</a>
                 </div>
             </div>
 

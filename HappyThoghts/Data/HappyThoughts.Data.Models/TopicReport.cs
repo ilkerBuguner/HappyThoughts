@@ -25,9 +25,9 @@
 
         [ForeignKey("ApplicationUser")]
         [Required]
-        public string AuthorId { get; set; }
+        public string SenderId { get; set; }
 
-        public virtual ApplicationUser Author { get; set; }
+        public virtual ApplicationUser Sender { get; set; }
 
         [ForeignKey("Topic")]
         [Required]

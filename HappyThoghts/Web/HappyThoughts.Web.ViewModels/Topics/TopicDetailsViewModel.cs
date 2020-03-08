@@ -40,6 +40,8 @@
 
         public string CategoryName { get; set; }
 
+        public int CommentsCount => this.Comments.Count;
+
         public ICollection<CommentInfoViewModel> Comments { get; set; }
 
         public IEnumerable<CategoryInfoViewModel> Categories { get; set; }
