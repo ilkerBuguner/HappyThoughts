@@ -21,6 +21,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Data\HappyThoughts.Data.Models\HappyThoughts.Data.Models.csproj" />
+    <ProjectReference Include="..\..\HappyThoughts.Common\HappyThoughts.Common.csproj" />
     <ProjectReference Include="..\..\Services\HappyThoughts.Services.Mapping\HappyThoughts.Services.Mapping.csproj" />
   </ItemGroup>
 

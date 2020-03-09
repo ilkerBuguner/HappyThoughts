@@ -4,7 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
-
+    using HappyThoughts.Common;
     using HappyThoughts.Services.Data.Categories;
     using HappyThoughts.Services.Data.Topics;
     using HappyThoughts.Web.ViewModels.Categories;
@@ -30,12 +30,9 @@
             return this.View(viewModel);
         }
 
-        public async Task<IActionResult> ByName(string name)
+        public async Task<IActionResult> ByName(string name, int page = GlobalConstants.DefaultPageNumber)
         {
-            var topics = this.topicsService.GetAllAsQueryable<TopicInfoViewModel>()
-                .Where(t => t.CategoryName == name)
-                .OrderByDescending(t => t.CreatedOn)
-                .ToList();
+            var topicsServiceModel = this.topicsService.GetTopicsByCategoryName(name, page);
 
             var category = this.categoriesService.GetCategoryByName(name);
 
@@ -45,7 +42,9 @@
                 PictureUrl = category.PictureUrl,
                 CategoryTopics = new TopicsListingViewModel()
                 {
-                    Topics = topics,
+                    TotalTopicsCount = topicsServiceModel.TotalTopicsCount,
+                    CurrentPage = page,
+                    Topics = topicsServiceModel.Topics,
                     Categories = await this.categoriesService.GetAllAsync<CategoryInfoViewModel>(),
                 },
             };

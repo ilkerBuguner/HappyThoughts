@@ -43,6 +43,11 @@
                     </a>
                 }
             </div>
+
+            <br />
+            
+            <a href="/Home/Index?page=@Model.PreviousPage" class="float-left btn btn-primary @(Model.IsPreviousPageDisabled ? "disabled" : string.Empty)">Prev</a>
+            <a href="/Home/Index?page=@Model.NextPage" class="float-right btn btn-primary  @(Model.IsNextPageDisabled ? "disabled" : string.Empty)">Next</a>
         </div>
 
         <!-- Sidebar Widgets Column -->

@@ -5,11 +5,12 @@
     using System.Linq;
     using System.Text;
     using System.Threading.Tasks;
-
+    using HappyThoughts.Common;
     using HappyThoughts.Data.Common.Repositories;
     using HappyThoughts.Data.Models;
     using HappyThoughts.Services.Mapping;
     using HappyThoughts.Web.ViewModels.InputModels;
+    using HappyThoughts.Web.ViewModels.ServiceModels.Topics;
     using HappyThoughts.Web.ViewModels.Topics;
     using Microsoft.EntityFrameworkCore;
 
@@ -121,7 +122,7 @@
             await this.topicRepository.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<TopicInfoViewModel>> GetAllTopicsBySearchAsync(string input)
+        public async Task<TopicServiceModel> GetAllTopicsBySearchAsync(string input, int page = 1)
         {
             var searchParts = input.Split(" ", StringSplitOptions.RemoveEmptyEntries);
 
@@ -143,12 +144,57 @@
                 }
             }
 
-            return matchingTopics;
+            var topicsForPage = matchingTopics.OrderByDescending(c => c.CreatedOn).Skip((page - 1) * GlobalConstants.DefaultPageSize)
+                .Take(GlobalConstants.DefaultPageSize).ToList();
+
+            var serviceModel = new TopicServiceModel()
+            {
+                TotalTopicsCount = matchingTopics.Count(),
+                Topics = topicsForPage,
+            };
+
+            return serviceModel;
         }
 
         public string GetIdByTitle(string title)
         {
             return this.topicRepository.All().FirstOrDefault(t => t.Title == title).Id;
+        }
+
+        public IEnumerable<TopicInfoViewModel> GetLatestTopics(int page = GlobalConstants.DefaultPageNumber)
+        {
+            var topics = this.GetAllAsQueryable<TopicInfoViewModel>()
+                .Where(t => t.CreatedOn > DateTime.Now.AddDays(-28))
+                .OrderByDescending(t => t.CreatedOn)
+                .Skip((page - 1) * GlobalConstants.DefaultPageSize)
+                .Take(GlobalConstants.DefaultPageSize)
+                .ToList();
+
+            return topics;
+        }
+
+        public int GetTotalTopicsCount()
+        {
+            return this.topicRepository.All().Count();
+        }
+
+        public TopicServiceModel GetTopicsByCategoryName(string categoryName, int page = GlobalConstants.DefaultPageNumber)
+        {
+            var topics = this.GetAllAsQueryable<TopicInfoViewModel>()
+                .Where(t => t.CategoryName == categoryName)
+                .ToList();
+
+            var topicsForPage = topics.OrderByDescending(t => t.CreatedOn)
+                .Skip((page - 1) * GlobalConstants.DefaultPageSize)
+                .Take(GlobalConstants.DefaultPageSize);
+
+            var serviceModel = new TopicServiceModel()
+            {
+                TotalTopicsCount = topics.Count,
+                Topics = topicsForPage,
+            };
+
+            return serviceModel;
         }
     }
 }

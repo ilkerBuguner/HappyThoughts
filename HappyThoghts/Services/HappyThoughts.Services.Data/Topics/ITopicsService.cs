@@ -5,6 +5,7 @@
     using System.Threading.Tasks;
 
     using HappyThoughts.Web.ViewModels.InputModels;
+    using HappyThoughts.Web.ViewModels.ServiceModels.Topics;
     using HappyThoughts.Web.ViewModels.Topics;
 
     public interface ITopicsService
@@ -23,8 +24,14 @@
 
         Task EditAsync(TopicEditViewModel input);
 
-        Task<IEnumerable<TopicInfoViewModel>> GetAllTopicsBySearchAsync(string input);
+        Task<TopicServiceModel> GetAllTopicsBySearchAsync(string input, int page = 1);
+
+        TopicServiceModel GetTopicsByCategoryName(string categoryName, int page = 1);
 
         string GetIdByTitle(string title);
+
+        IEnumerable<TopicInfoViewModel> GetLatestTopics(int page = 1);
+
+        int GetTotalTopicsCount();
     }
 }

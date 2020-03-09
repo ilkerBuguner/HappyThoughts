@@ -5,7 +5,7 @@
     using System.Linq;
     using System.Security.Claims;
     using System.Threading.Tasks;
-
+    using HappyThoughts.Common;
     using HappyThoughts.Services;
     using HappyThoughts.Services.Data.Categories;
     using HappyThoughts.Services.Data.Comments;
@@ -95,21 +95,23 @@
             return this.View(viewModel);
         }
 
-        public async Task<IActionResult> Search(string searchTerm)
+        public async Task<IActionResult> Search(string searchTerm, int page = GlobalConstants.DefaultPageNumber)
         {
             if (string.IsNullOrEmpty(searchTerm) || string.IsNullOrWhiteSpace(searchTerm))
             {
                 return this.Redirect("/");
             }
 
-            var topics = await this.topicsService.GetAllTopicsBySearchAsync(searchTerm);
+            var serviceModel = await this.topicsService.GetAllTopicsBySearchAsync(searchTerm);
 
             var viewModel = new TopicSearchViewModel()
             {
                 SearchTerm = searchTerm,
                 Topics = new TopicsListingViewModel()
                 {
-                    Topics = topics,
+                    TotalTopicsCount = serviceModel.TotalTopicsCount,
+                    CurrentPage = page,
+                    Topics = serviceModel.Topics,
                     Categories = await this.categoriesService.GetAllAsync<CategoryInfoViewModel>(),
                 },
             };

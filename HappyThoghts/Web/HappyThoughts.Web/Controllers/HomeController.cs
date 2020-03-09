@@ -5,6 +5,7 @@
     using System.Linq;
     using System.Security.Claims;
     using System.Threading.Tasks;
+    using HappyThoughts.Common;
     using HappyThoughts.Services.Data.Categories;
     using HappyThoughts.Services.Data.Topics;
     using HappyThoughts.Web.ViewModels;
@@ -24,16 +25,15 @@
             this.categoriesService = categoriesService;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int page = GlobalConstants.DefaultPageNumber)
         {
-            var topics = this.topicsService.GetAllAsQueryable<TopicInfoViewModel>()
-                .Where(t => t.CreatedOn > DateTime.Now.AddDays(-28))
-                .OrderByDescending(t => t.CreatedOn)
-                .ToList();
+            var topics = this.topicsService.GetLatestTopics(page);
 
             // var topicsList = topics.ToList().Where(t => t.CreatedOn > DateTime.Now.AddDays(-1)).OrderByDescending(t => t.CreatedOn);
             var viewModel = new TopicsListingViewModel()
             {
+                TotalTopicsCount = this.topicsService.GetTotalTopicsCount(),
+                CurrentPage = page,
                 Topics = topics,
                 Categories = await this.categoriesService.GetAllAsync<CategoryInfoViewModel>(),
             };
