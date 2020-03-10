@@ -80,7 +80,8 @@
 
         public async Task<IActionResult> Details(string topicId)
         {
-            await this.topicsService.IncreaseViews(topicId);
+            await this.topicsService.IncreaseViewsAsync(topicId);
+
             var viewModel = await this.topicsService
                 .GetByIdAsViewModelAsync(topicId);
 
@@ -102,7 +103,7 @@
                 return this.Redirect("/");
             }
 
-            var serviceModel = await this.topicsService.GetAllTopicsBySearchAsync(searchTerm);
+            var serviceModel = await this.topicsService.GetAllTopicsBySearchAsync(searchTerm, page);
 
             var viewModel = new TopicSearchViewModel()
             {

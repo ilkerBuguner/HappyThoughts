@@ -17,13 +17,15 @@
 
         public bool IsPreviousPageDisabled => this.CurrentPage == 1;
 
+        public int MaxPages => (int)Math.Ceiling((double)this.TotalTopicsCount / GlobalConstants.DefaultPageSize);
+
         public bool IsNextPageDisabled
         {
             get
             {
-                var maxPage = Math.Ceiling((double)this.TotalTopicsCount / GlobalConstants.DefaultPageSize);
+                var maxPages = Math.Ceiling((double)this.TotalTopicsCount / GlobalConstants.DefaultPageSize);
 
-                return maxPage == this.CurrentPage;
+                return maxPages == this.CurrentPage;
             }
         }
 

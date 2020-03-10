@@ -115,14 +115,14 @@
             return topic;
         }
 
-        public async Task IncreaseViews(string id)
+        public async Task IncreaseViewsAsync(string id)
         {
             var topic = await this.topicRepository.All().FirstOrDefaultAsync(t => t.Id == id);
             topic.Views += 1;
             await this.topicRepository.SaveChangesAsync();
         }
 
-        public async Task<TopicServiceModel> GetAllTopicsBySearchAsync(string input, int page = 1)
+        public async Task<TopicServiceModel> GetAllTopicsBySearchAsync(string input, int page = GlobalConstants.DefaultPageNumber)
         {
             var searchParts = input.Split(" ", StringSplitOptions.RemoveEmptyEntries);
 

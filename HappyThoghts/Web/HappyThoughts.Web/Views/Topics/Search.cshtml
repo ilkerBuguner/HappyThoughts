@@ -6,72 +6,92 @@
 }
 
 <!-- Page Content -->
-    <div class="row">
+<div class="row">
 
-        <!-- Post Content Column -->
-        <div class="col-lg-8">
-            <div class="text-center">
-                <h1>Results for '@Model.SearchTerm':</h1>
-            </div>
-            <br />
-            <div class="list-group-horizontal-sm">
-                @if (!Model.Topics.Topics.Any())
-                {
-                    <h1 class="text-center">Nothing Here!</h1>
-                    <h3 class="text-center">
-                        <a class="btn btn-primary" href="/Home/Index">
-                            Current trending topics
-                        </a>
-                    </h3>
-                }
-                else
-                {
-                    @foreach (var topic in Model.Topics.Topics)
-                    {
-                        <a href="/Topics/Details?topicId=@topic.Id" class="list-group-item list-group-item-action flex-column align-items-start">
-                            <div class="d-flex w-100 justify-content-between">
-                                <h5 class="mb-1">@topic.Title</h5>
-                                <small>@topic.CreatedOn</small>
-                            </div>
-                            <p class="mb-1">@topic.Content</p>
-
-                            <div class="d-flex w-100 justify-content-between">
-                                <h6>
-                                    <i class="fas fa-user"></i> @topic.AuthorUsername
-                                    &nbsp; <i class="fas fa-eye"></i> @topic.Views
-                                    &nbsp; <i class="fas fa-comments"></i> @topic.CommentsCount
-                                    &nbsp; <i class="fas fa-thumbs-up"></i> @topic.Likes
-                                    &nbsp; <i class="fas fa-thumbs-down"></i> @topic.Dislikes
-                                </h6>
-                                <h6>Category: @topic.CategoryName</h6>
-                            </div>
-                        </a>
-                    }
-
-                    <br />
-
-                    <a href="/Topics/Search?searchTerm=@Model.SearchTerm&page=@Model.Topics.PreviousPage" class="float-left btn btn-primary @(Model.Topics.IsPreviousPageDisabled ? "disabled" : string.Empty)">Prev</a>
-                    <a href="/Topics/Search?searchTerm=@Model.SearchTerm&page=@Model.Topics.NextPage"  class="float-right btn btn-primary  @(Model.Topics.IsNextPageDisabled ? "disabled" : string.Empty)">Next</a>
-                }
-            </div>
+    <!-- Post Content Column -->
+    <div class="col-lg-8">
+        <div class="text-center">
+            <h1>Results for '@Model.SearchTerm':</h1>
         </div>
+        <br />
+        <div class="list-group-horizontal-sm">
+            @if (!Model.Topics.Topics.Any())
+            {
+                <h1 class="text-center">Nothing Here!</h1>
+                <h3 class="text-center">
+                    <a class="btn btn-primary" href="/Home/Index">
+                        Current trending topics
+                    </a>
+                </h3>
+            }
+            else
+            {
+                @foreach (var topic in Model.Topics.Topics)
+                {
+                    <a href="/Topics/Details?topicId=@topic.Id" class="list-group-item list-group-item-action flex-column align-items-start">
+                        <div class="media">
+                            @if (topic.PictureUrl == null)
+                            {
+                                <img class="mr-3" src="https://res.cloudinary.com/doyjshrjs/image/upload/v1583873417/no_image_uj863g.jpg" width="120" height="120" alt="@topic.Title">
+                            }
+                            else
+                            {
+                                <img class="mr-3" src="@topic.PictureUrl" width="120" height="120" alt="@topic.Title">
+                            }
+                            <div class="media-body">
+                                <div class="d-flex w-100 justify-content-between">
+                                    <h5 class="mb-1">@topic.Title</h5>
+                                    <small>@topic.CreatedOn</small>
+                                </div>
+                                <p class="mb-1">@topic.Content</p>
 
-        <!-- Sidebar Widgets Column -->
-        <div class="col-md-4">
+                                <div class="d-flex w-100 justify-content-between">
+                                    <h6>
+                                        <i class="fas fa-user"></i> @topic.AuthorUsername
+                                        &nbsp; <i class="fas fa-eye"></i> @topic.Views
+                                        &nbsp; <i class="fas fa-comments"></i> @topic.CommentsCount
+                                        &nbsp; <i class="fas fa-thumbs-up"></i> @topic.Likes
+                                        &nbsp; <i class="fas fa-thumbs-down"></i> @topic.Dislikes
+                                    </h6>
+                                    <h6>Category: @topic.CategoryName</h6>
+                                </div>
+                            </div>
+                        </div>
 
-            <!-- Side Widget -->
-            @await Html.PartialAsync("_PromptingWidgetPartial")
+                    </a>
+                }
 
-            <!-- Search Widget -->
-            @await Html.PartialAsync("_SearchWidgetPartial")
-
-            <!-- Categories Widget -->
-            @await Html.PartialAsync("_PopularCategoriesPartial", Model.Topics.Categories)
-
-
+                <br />
+                @if (!Model.Topics.IsPreviousPageDisabled)
+                {
+                    <a href="/Topics/Search?searchTerm=@Model.SearchTerm&page=1" class="float-left btn btn-primary"><i class="fas fa-fast-backward"></i></a>
+                    <a href="/Topics/Search?searchTerm=@Model.SearchTerm&page=@Model.Topics.PreviousPage" class="float-left btn btn-primary">Prev</a>
+                }
+                @if (!Model.Topics.IsNextPageDisabled)
+                {
+                    <a href="/Topics/Search?searchTerm=@Model.SearchTerm&page=@Model.Topics.MaxPages" class="float-right btn btn-primary"><i class="fas fa-fast-forward"></i></a>
+                    <a href="/Topics/Search?searchTerm=@Model.SearchTerm&page=@Model.Topics.NextPage" class="float-right btn btn-primary">Next</a>
+                }
+            }
         </div>
+    </div>
+
+    <!-- Sidebar Widgets Column -->
+    <div class="col-md-4">
+
+        <!-- Side Widget -->
+        @await Html.PartialAsync("_PromptingWidgetPartial")
+
+        <!-- Search Widget -->
+        @await Html.PartialAsync("_SearchWidgetPartial")
+
+        <!-- Categories Widget -->
+        @await Html.PartialAsync("_PopularCategoriesPartial", Model.Topics.Categories)
+
 
     </div>
+
+</div>
 <!-- /.container -->
 <!-- Bootstrap core JavaScript -->
 <script src="vendor/jquery/jquery.min.js"></script>
