@@ -39,7 +39,7 @@
         public void CreateMappings(IProfileExpression configuration)
         {
             configuration.CreateMap<Topic, TopicInfoViewModel>()
-                .ForMember(x => x.Content, t => t.MapFrom(opt => opt.Content.Substring(0, 220) + "..."))
+                .ForMember(x => x.Content, t => t.MapFrom(opt => opt.Content.Substring(0, 180) + "..."))
                 .ForMember(x => x.CategoryName, t => t.MapFrom(opt => opt.Category.Name))
                 .ForMember(x => x.CommentsCount, t => t.MapFrom(opt => opt.Comments.Count));
         }

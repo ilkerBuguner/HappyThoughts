@@ -27,11 +27,11 @@
                         <div class="media">
                             @if (topic.PictureUrl == null)
                             {
-                                <img class="mr-3" src="https://res.cloudinary.com/doyjshrjs/image/upload/v1583873417/no_image_uj863g.jpg" width="120" height="120" alt="@topic.Title">
+                                <img class="align-self-center mr-3 img-thumbnail" src="https://res.cloudinary.com/doyjshrjs/image/upload/v1583873417/no_image_uj863g.jpg" width="120" height="120" alt="@topic.Title">
                             }
                             else
                             {
-                                <img class="align-self-center mr-3" src="@topic.PictureUrl" width="120" height="120" alt="@topic.Title">
+                                <img class="align-self-center mr-3 img-thumbnail" src="@topic.PictureUrl" width="120" height="120" alt="@topic.Title">
                             }
                             <div class="media-body">
                                 <div class="d-flex w-100 justify-content-between">
