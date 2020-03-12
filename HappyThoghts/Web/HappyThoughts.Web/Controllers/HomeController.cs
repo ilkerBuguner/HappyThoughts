@@ -29,6 +29,43 @@
         {
             var topics = this.topicsService.GetLatestTopics(page);
 
+            var viewModel = new TopicsListingViewModel()
+            {
+                TotalTopicsCount = this.topicsService.GetTotalTopicsCount(),
+                CurrentPage = page,
+                Topics = topics,
+                Categories = await this.categoriesService.GetAllAsync<CategoryInfoViewModel>(),
+            };
+
+            this.ViewData["Title"] = "Home Page";
+            this.ViewData["Controller/Action"] = "/Home/Index";
+
+            return this.View(viewModel);
+        }
+
+        public async Task<IActionResult> Trend(int page = GlobalConstants.DefaultPageNumber)
+        {
+            var serviceModel = this.topicsService.GetTrendingTopics(page);
+
+            // var topicsList = topics.ToList().Where(t => t.CreatedOn > DateTime.Now.AddDays(-1)).OrderByDescending(t => t.CreatedOn);
+            var viewModel = new TopicsListingViewModel()
+            {
+                TotalTopicsCount = serviceModel.TotalTopicsCount,
+                CurrentPage = page,
+                Topics = serviceModel.Topics,
+                Categories = await this.categoriesService.GetAllAsync<CategoryInfoViewModel>(),
+            };
+
+            this.ViewData["Title"] = "Trending Topics";
+            this.ViewData["Controller/Action"] = "/Home/Trend";
+
+            return this.View("Index", viewModel);
+        }
+
+        public async Task<IActionResult> Random(int page = GlobalConstants.DefaultPageNumber)
+        {
+            var topics = this.topicsService.GetRandomTopics(page);
+
             // var topicsList = topics.ToList().Where(t => t.CreatedOn > DateTime.Now.AddDays(-1)).OrderByDescending(t => t.CreatedOn);
             var viewModel = new TopicsListingViewModel()
             {
@@ -38,7 +75,10 @@
                 Categories = await this.categoriesService.GetAllAsync<CategoryInfoViewModel>(),
             };
 
-            return this.View(viewModel);
+            this.ViewData["Title"] = "Random Topics";
+            this.ViewData["Controller/Action"] = "/Home/Random";
+
+            return this.View("Index", viewModel);
         }
 
         public IActionResult Privacy()

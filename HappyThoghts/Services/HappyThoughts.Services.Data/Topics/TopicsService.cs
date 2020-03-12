@@ -5,6 +5,7 @@
     using System.Linq;
     using System.Text;
     using System.Threading.Tasks;
+
     using HappyThoughts.Common;
     using HappyThoughts.Data.Common.Repositories;
     using HappyThoughts.Data.Models;
@@ -170,6 +171,7 @@
                 .Take(GlobalConstants.DefaultPageSize)
                 .ToList();
 
+            // var topics = topics.ToList().Where(t => t.CreatedOn > DateTime.Now.AddDays(-1)).OrderByDescending(t => t.CreatedOn);            
             return topics;
         }
 
@@ -195,6 +197,56 @@
             };
 
             return serviceModel;
+        }
+
+        public TopicServiceModel GetTrendingTopics(int page)
+        {
+            var topics = this.GetAllAsQueryable<TopicInfoViewModel>()
+                .Where(t => t.CreatedOn > DateTime.Now.AddDays(-7))
+                .OrderByDescending(t => t.Likes)
+                .ToList();
+
+            var topicsForPage = topics
+                .Skip((page - 1) * GlobalConstants.DefaultPageSize)
+                .Take(GlobalConstants.DefaultPageSize);
+
+            var topicsServiceModel = new TopicServiceModel()
+            {
+                TotalTopicsCount = topics.Count,
+                Topics = topicsForPage,
+            };
+
+            return topicsServiceModel;
+        }
+
+        public IEnumerable<TopicInfoViewModel> GetRandomTopics(int page = GlobalConstants.DefaultPageNumber)
+        {
+            var topics = this.GetAllAsQueryable<TopicInfoViewModel>()
+                .ToList();
+
+            Shuffle(topics);
+
+            topics = topics
+                .Skip((page - 1) * GlobalConstants.DefaultPageSize)
+                .Take(GlobalConstants.DefaultPageSize)
+                .ToList();
+
+            return topics;
+        }
+
+        private static void Shuffle(List<TopicInfoViewModel> topics)
+        {
+            var random = new Random();
+
+            int remainingElementsToShuffle = topics.Count;
+            while (remainingElementsToShuffle > 1)
+            {
+                remainingElementsToShuffle--;
+                int randomPos = random.Next(remainingElementsToShuffle + 1);
+                var value = topics[randomPos];
+                topics[randomPos] = topics[remainingElementsToShuffle];
+                topics[remainingElementsToShuffle] = value;
+            }
         }
     }
 }

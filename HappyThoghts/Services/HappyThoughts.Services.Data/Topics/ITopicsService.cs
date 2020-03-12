@@ -24,13 +24,17 @@
 
         Task EditAsync(TopicEditViewModel input);
 
-        Task<TopicServiceModel> GetAllTopicsBySearchAsync(string input, int page = 1);
+        Task<TopicServiceModel> GetAllTopicsBySearchAsync(string input, int page);
 
-        TopicServiceModel GetTopicsByCategoryName(string categoryName, int page = 1);
+        TopicServiceModel GetTopicsByCategoryName(string categoryName, int page);
 
         string GetIdByTitle(string title);
 
         IEnumerable<TopicInfoViewModel> GetLatestTopics(int page = 1);
+
+        public TopicServiceModel GetTrendingTopics(int page);
+
+        public IEnumerable<TopicInfoViewModel> GetRandomTopics(int page);
 
         int GetTotalTopicsCount();
     }

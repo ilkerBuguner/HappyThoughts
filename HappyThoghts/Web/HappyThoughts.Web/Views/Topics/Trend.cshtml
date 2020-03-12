@@ -1,14 +1,16 @@
 ﻿@model HappyThoughts.Web.ViewModels.Topics.TopicsListingViewModel
 
 @using HappyThoughts.Common
-
+@{
+    this.ViewData["Title"] = "Trending";
+}
 <!-- Page Content -->
 <div class="container">
     <div class="row col-lg-9 text-center">
         <div class="btn-group btn-group-toggle col-lg-11">
             <a class="btn btn-primary" asp-controller="Home" asp-action="Index">Today</a>
-            <a class="btn btn-primary" asp-controller="Home" asp-action="Trend">Trend</a>
-            <a class="btn btn-primary" asp-controller="Home" asp-action="Random">Random</a>
+            <a class="btn btn-primary" asp-controller="Home" asp-action="Index">Trend</a>
+            <a class="btn btn-primary" asp-controller="Categories" asp-action="All">Categories</a>
         </div>
     </div>
 
@@ -41,10 +43,10 @@
                                 <div class="d-flex w-100 justify-content-between">
                                     <h6>
                                         <i class="fas fa-user"></i> @topic.AuthorUsername
-                                        &nbsp; <i class="fas fa-thumbs-up"></i> @topic.Likes
-                                        &nbsp; <i class="fas fa-thumbs-down"></i> @topic.Dislikes
                                         &nbsp; <i class="fas fa-eye"></i> @topic.Views
                                         &nbsp; <i class="fas fa-comments"></i> @topic.CommentsCount
+                                        &nbsp; <i class="fas fa-thumbs-up"></i> @topic.Likes
+                                        &nbsp; <i class="fas fa-thumbs-down"></i> @topic.Dislikes
                                     </h6>
                                     <h6>Category: @topic.CategoryName</h6>
                                 </div>
@@ -58,13 +60,13 @@
             <br />
             @if (!Model.IsPreviousPageDisabled)
             {
-                <a href="@ViewData["Controller/Action"]?page=1" class="float-left btn btn-primary"><i class="fas fa-fast-backward"></i></a>
-                <a href="@ViewData["Controller/Action"]?page=@Model.PreviousPage" class="float-left btn btn-primary">Prev</a>
+                <a href="/Topics/Trend?page=1" class="float-left btn btn-primary"><i class="fas fa-fast-backward"></i></a>
+                <a href="/Topics/Trend?page=@Model.PreviousPage" class="float-left btn btn-primary">Prev</a>
             }
             @if (!Model.IsNextPageDisabled)
             {
-                <a href="@ViewData["Controller/Action"]?page=@Model.MaxPages" class="float-right btn btn-primary"><i class="fas fa-fast-forward"></i></a>
-                <a href="@ViewData["Controller/Action"]?page=@Model.NextPage" class="float-right btn btn-primary">Next</a>
+                <a href="/Topics/Trend?page=@Model.MaxPages" class="float-right btn btn-primary"><i class="fas fa-fast-forward"></i></a>
+                <a href="/Topics/Trend?page=@Model.NextPage" class="float-right btn btn-primary">Next</a>
             }
         </div>
 
@@ -91,3 +93,4 @@
 <!-- Bootstrap core JavaScript -->
 <script src="vendor/jquery/jquery.min.js"></script>
 <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+

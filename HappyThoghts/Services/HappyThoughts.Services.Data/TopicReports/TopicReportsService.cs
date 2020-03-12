@@ -1,10 +1,11 @@
-﻿using HappyThoughts.Data.Common.Repositories;
-using HappyThoughts.Data.Models;
-using HappyThoughts.Web.ViewModels.InputModels.TopicReports;
-using System.Threading.Tasks;
-
-namespace HappyThoughts.Services.Data.TopicReports
+﻿namespace HappyThoughts.Services.Data.TopicReports
 {
+    using System.Threading.Tasks;
+
+    using HappyThoughts.Data.Common.Repositories;
+    using HappyThoughts.Data.Models;
+    using HappyThoughts.Web.ViewModels.InputModels.TopicReports;
+
     public class TopicReportsService : ITopicReportsService
     {
         private readonly IDeletableEntityRepository<TopicReport> topicReportRepository;
