@@ -245,6 +245,17 @@
             await this.topicRepository.SaveChangesAsync();
         }
 
+        public async Task DislikeTopicAsync(string topicId)
+        {
+            var topicFromDb = await this.topicRepository
+                .GetByIdWithDeletedAsync(topicId);
+
+            topicFromDb.Dislikes += 1;
+
+            this.topicRepository.Update(topicFromDb);
+            await this.topicRepository.SaveChangesAsync();
+        }
+
         private static void Shuffle(List<TopicInfoViewModel> topics)
         {
             var random = new Random();

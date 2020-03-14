@@ -7,5 +7,9 @@
     public interface ITopicReportsService
     {
         Task SendAsync(CreateTopicReportInputModel input);
+
+        Task<T[]> GetAllAsync<T>();
+
+        Task DeleteByIdAsync(string id);
     }
 }

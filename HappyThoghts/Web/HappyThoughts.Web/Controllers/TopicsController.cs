@@ -128,6 +128,14 @@
             return this.Json("succeed");
         }
 
+        [HttpPost]
+        public async Task<IActionResult> DislikeTopic(string topicId)
+        {
+            await this.topicsService.DislikeTopicAsync(topicId);
+
+            return this.Json("succeed");
+        }
+
         public async Task<IActionResult> Edit(string topicId, string categoryName, string authorId)
         {
 

@@ -57,9 +57,10 @@
 
             <div class="text-center">
                 <div class="form-group">
-                    <button class="btn btn-outline-primary" id="like"><i class="far fa-thumbs-up"></i> Like</button>
+                    <button class="btn btn-outline-primary" id="like"><i class="far fa-thumbs-up"></i>Like</button>
                     <button hidden class="btn btn-outline-primary" id="likeClicked"><i class="fas fa-thumbs-up"></i>Liked</button>
-                    <button class="btn btn-outline-primary" id="dislike"><i class="far fa-thumbs-down"></i> Dislike</button>
+                    <button class="btn btn-outline-primary" id="dislike"><i class="far fa-thumbs-down"></i>Dislike</button>
+                    <button hidden class="btn btn-outline-primary" id="dislikeClicked"><i class="fas fa-thumbs-down"></i>Disliked</button>
                     @if (this.User.FindFirstValue(ClaimTypes.NameIdentifier) == Model.AuthorId || this.User.IsInRole(GlobalConstants.AdministratorRoleName))
                     {
                         <a asp-controller="Topics" asp-action="Edit" asp-route-topicId="@Model.Id" asp-route-categoryName="@Model.CategoryName" asp-route-authorId="@Model.AuthorId" class="btn btn-outline-primary">Edit</a>
@@ -211,7 +212,7 @@
     });
 </script>
 <!-- Scripts for deletion modal -->
-<!-- Scripts for like modal -->
+<!-- Ajax request for like function -->
 <script>
     $(document).ready(function () {
         $("#like").click(function () {
@@ -219,8 +220,27 @@
                 type: 'POST',  // http method
                 data: { topicId: '@Model.Id' },  // data to submit
                 success: function () {
-                    $("#like").hide(function () {
-                        $("#likeClicked").show()
+                    $("#like").hide(function () { });
+                    document.getElementById('likeClicked').style.visibility = 'visible';
+                },
+                error: function (jqXhr, textStatus, errorMessage) {
+                    $('p').append('Error' + errorMessage);
+                }
+            });
+        });
+    });
+</script>
+<!-- Ajax request for like function -->
+<!-- Ajax request for dislike function -->
+<script>
+    $(document).ready(function () {
+        $("#dislike").click(function () {
+            $.ajax('/Topics/DislikeTopic', {
+                type: 'POST',  // http method
+                data: { topicId: '@Model.Id' },  // data to submit
+                success: function () {
+                    $("#dislike").hide(function () {
+                        $("#dislikeClicked").show()
                     });
                 },
                 error: function (jqXhr, textStatus, errorMessage) {
@@ -230,4 +250,4 @@
         });
     });
 </script>
-<!-- Scripts for like modal -->
+<!-- Ajax request for dislike function -->

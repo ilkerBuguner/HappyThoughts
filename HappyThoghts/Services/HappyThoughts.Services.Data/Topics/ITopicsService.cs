@@ -39,5 +39,7 @@
         int GetTotalTopicsCount();
 
         Task LikeTopicAsync(string topicId);
+
+        Task DislikeTopicAsync(string topicId);
     }
 }

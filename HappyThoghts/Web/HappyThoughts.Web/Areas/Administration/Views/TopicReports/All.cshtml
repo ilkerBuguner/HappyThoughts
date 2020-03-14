@@ -1,0 +1,54 @@
+﻿@model IEnumerable<HappyThoughts.Web.ViewModels.TopicReports.TopicReportDetailsViewModel>
+
+@{
+    ViewData["Title"] = "All Topic Reports";
+}
+
+<h1 class="text-center">Topic Reports</h1>
+<br />
+<table class="table">
+    <thead class="thead-dark">
+        <tr>
+            <th>
+                Title
+            </th>
+            <th>
+                Description
+            </th>
+            <th>
+                SenderId
+            </th>
+            <th>
+                Topic
+            </th>
+            <th>
+                SendOn
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td width="200">
+                @item.Title
+            </td>
+            <td width="600">
+                @item.Description
+            </td>
+            <td>
+                @item.SenderId
+            </td>
+            <td>
+                <a asp-area="" asp-controller="Topics" asp-action="Details" asp-route-topicId="@item.TopicId">Topic Details</a>
+            </td>
+            <td>
+                @item.SendOn
+            </td>
+            <td>
+                <a class="btn btn-primary" asp-action="Delete" asp-route-topicReportId="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
