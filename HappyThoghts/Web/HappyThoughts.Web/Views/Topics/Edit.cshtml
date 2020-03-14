@@ -29,6 +29,7 @@
                 </fieldset>
             </div>
             <input type="hidden" asp-for="Id" value="@Model.Id" />
+            <input type="hidden" asp-for="AuthorId" value="@Model.AuthorId" />
             <div class="form-group">
                 <input asp-controller="Topics" asp-action="Edit" type="submit" value="Save Changes" class="btn btn-primary" />
             </div>

@@ -32,10 +32,12 @@
 
         IEnumerable<TopicInfoViewModel> GetLatestTopics(int page = 1);
 
-        public TopicServiceModel GetTrendingTopics(int page);
+        TopicServiceModel GetTrendingTopics(int page);
 
-        public IEnumerable<TopicInfoViewModel> GetRandomTopics(int page);
+        IEnumerable<TopicInfoViewModel> GetRandomTopics(int page);
 
         int GetTotalTopicsCount();
+
+        Task LikeTopicAsync(string topicId);
     }
 }

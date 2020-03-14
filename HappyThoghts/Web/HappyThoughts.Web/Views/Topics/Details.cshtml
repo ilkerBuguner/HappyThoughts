@@ -52,14 +52,20 @@
                 @Model.Content
             </p>
 
+            <br />
+            <hr />
+
             <div class="text-center">
                 <div class="form-group">
+                    <button class="btn btn-outline-primary" id="like"><i class="far fa-thumbs-up"></i> Like</button>
+                    <button hidden class="btn btn-outline-primary" id="likeClicked"><i class="fas fa-thumbs-up"></i>Liked</button>
+                    <button class="btn btn-outline-primary" id="dislike"><i class="far fa-thumbs-down"></i> Dislike</button>
                     @if (this.User.FindFirstValue(ClaimTypes.NameIdentifier) == Model.AuthorId || this.User.IsInRole(GlobalConstants.AdministratorRoleName))
                     {
-                        <a href="/Topics/Edit?topicId=@Model.Id&categoryName=@Model.CategoryName" class="btn btn-outline-primary">Edit</a>
+                        <a asp-controller="Topics" asp-action="Edit" asp-route-topicId="@Model.Id" asp-route-categoryName="@Model.CategoryName" asp-route-authorId="@Model.AuthorId" class="btn btn-outline-primary">Edit</a>
                         <a class="btn btn-outline-danger" id="delete">Delete</a>
                     }
-                    <a class="btn btn-outline-secondary" href="/TopicReports/Send?topicId=@Model.Id">Report</a>
+                    <a asp-controller="TopicReports" asp-action="Send" asp-route-topicId="@Model.Id" class="btn btn-outline-secondary">Report</a>
                 </div>
             </div>
 
@@ -169,7 +175,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <a class="btn btn-danger" asp-controller="Topics" asp-action="Delete" asp-route-id="@Model.Id">Delete</a>
+                <a class="btn btn-danger" asp-controller="Topics" asp-action="Delete" asp-route-id="@Model.Id" asp-route-authorId="@Model.AuthorId">Delete</a>
             </div>
         </div>
     </div>
@@ -189,6 +195,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js">
 
 </script>
+
 <script src="bootstrap/js/bootstrap.min.js"></script>
 
 <script type="text/javascript">
@@ -204,3 +211,23 @@
     });
 </script>
 <!-- Scripts for deletion modal -->
+<!-- Scripts for like modal -->
+<script>
+    $(document).ready(function () {
+        $("#like").click(function () {
+            $.ajax('/Topics/LikeTopic', {
+                type: 'POST',  // http method
+                data: { topicId: '@Model.Id' },  // data to submit
+                success: function () {
+                    $("#like").hide(function () {
+                        $("#likeClicked").show()
+                    });
+                },
+                error: function (jqXhr, textStatus, errorMessage) {
+                    $('p').append('Error' + errorMessage);
+                }
+            });
+        });
+    });
+</script>
+<!-- Scripts for like modal -->

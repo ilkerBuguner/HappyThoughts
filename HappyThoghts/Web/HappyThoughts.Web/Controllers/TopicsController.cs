@@ -120,18 +120,33 @@
             return this.View(viewModel);
         }
 
-        public async Task<IActionResult> Edit(string topicId, string categoryName)
+        [HttpPost]
+        public async Task<IActionResult> LikeTopic(string topicId)
         {
-            var model = await this.topicsService.GetByIdAsViewModelAsync(topicId);
-            var viewModel = new TopicEditViewModel()
-            {
-                Id = topicId,
-                CategoryName = categoryName,
-                Title = model.Title,
-                Content = model.Content,
-            };
+            await this.topicsService.LikeTopicAsync(topicId);
 
-            return this.View(viewModel);
+            return this.Json("succeed");
+        }
+
+        public async Task<IActionResult> Edit(string topicId, string categoryName, string authorId)
+        {
+
+            if (this.User.IsInRole(GlobalConstants.AdministratorRoleName) || this.User.FindFirstValue(ClaimTypes.NameIdentifier) == authorId)
+            {
+                var model = await this.topicsService.GetByIdAsViewModelAsync(topicId);
+                var viewModel = new TopicEditViewModel()
+                {
+                    Id = topicId,
+                    CategoryName = categoryName,
+                    Title = model.Title,
+                    Content = model.Content,
+                    AuthorId = authorId,
+                };
+
+                return this.View(viewModel);
+            }
+
+            return this.Redirect($"/Topics/Details?topicId={topicId}");
         }
 
         [HttpPost]
@@ -142,14 +157,21 @@
                 return this.Redirect($"/Topics/Edit?topicId={input.Id}&categoryName={input.CategoryName}");
             }
 
-            await this.topicsService.EditAsync(input);
+            if (this.User.IsInRole(GlobalConstants.AdministratorRoleName) || this.User.FindFirstValue(ClaimTypes.NameIdentifier) == input.AuthorId)
+            {
+                await this.topicsService.EditAsync(input);
+            }
 
             return this.Redirect($"/Topics/Details?topicId={input.Id}");
         }
 
-        public async Task<IActionResult> Delete(string id)
+        public async Task<IActionResult> Delete(string id, string authorId)
         {
-            await this.topicsService.DeleteByIdAsync(id);
+            if (this.User.IsInRole(GlobalConstants.AdministratorRoleName) || this.User.FindFirstValue(ClaimTypes.NameIdentifier) == authorId)
+            {
+                await this.topicsService.DeleteByIdAsync(id);
+            }
+
             return this.Redirect("/Home/Index");
         }
     }

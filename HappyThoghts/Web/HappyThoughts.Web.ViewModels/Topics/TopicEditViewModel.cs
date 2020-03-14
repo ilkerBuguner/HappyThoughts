@@ -18,5 +18,7 @@ namespace HappyThoughts.Web.ViewModels.Topics
 
         public string CategoryName { get; set; }
 
+        public string AuthorId { get; set; }
+
     }
 }

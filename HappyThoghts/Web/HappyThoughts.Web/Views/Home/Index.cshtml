@@ -21,7 +21,7 @@
             <div class="list-group-horizontal-sm">
                 @foreach (var topic in Model.Topics)
                 {
-                    <a href="/Topics/Details?topicId=@topic.Id" class="list-group-item list-group-item-action flex-column align-items-start">
+                    <a asp-controller="Topics" asp-action="Details" asp-route-topicId="@topic.Id" class="list-group-item list-group-item-action flex-column align-items-start">
                         <div class="media">
                             @if (topic.PictureUrl == null)
                             {

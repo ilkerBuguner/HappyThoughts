@@ -165,7 +165,7 @@
         public IEnumerable<TopicInfoViewModel> GetLatestTopics(int page = GlobalConstants.DefaultPageNumber)
         {
             var topics = this.GetAllAsQueryable<TopicInfoViewModel>()
-                .Where(t => t.CreatedOn > DateTime.Now.AddDays(-28))
+                .Where(t => t.CreatedOn > DateTime.Now.AddDays(-100))
                 .OrderByDescending(t => t.CreatedOn)
                 .Skip((page - 1) * GlobalConstants.DefaultPageSize)
                 .Take(GlobalConstants.DefaultPageSize)
@@ -232,6 +232,17 @@
                 .ToList();
 
             return topics;
+        }
+
+        public async Task LikeTopicAsync(string topicId)
+        {
+            var topicFromDb = await this.topicRepository
+                .GetByIdWithDeletedAsync(topicId);
+
+            topicFromDb.Likes += 1;
+
+            this.topicRepository.Update(topicFromDb);
+            await this.topicRepository.SaveChangesAsync();
         }
 
         private static void Shuffle(List<TopicInfoViewModel> topics)
