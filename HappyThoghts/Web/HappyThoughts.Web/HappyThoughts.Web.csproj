@@ -49,4 +49,13 @@
     <ProjectReference Include="..\HappyThoughts.Web.Infrastructure\HappyThoughts.Web.Infrastructure.csproj" />
     <ProjectReference Include="..\HappyThoughts.Web.ViewModels\HappyThoughts.Web.ViewModels.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Data\" />
+    <Folder Include="Models\" />
+    <Folder Include="Pages\" />
+    <Folder Include="wwwroot\css\" />
+    <Folder Include="wwwroot\images\" />
+    <Folder Include="wwwroot\js\" />
+  </ItemGroup>
 </Project>

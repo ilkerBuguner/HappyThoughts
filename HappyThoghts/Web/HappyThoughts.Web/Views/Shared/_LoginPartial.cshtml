@@ -7,15 +7,20 @@
 <ul class="navbar-nav">
     @if (this.SignInManager.IsSignedIn(this.User))
     {
-        <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @(this.User.Identity.Name)!</a>
+        <li class="nav-item active dropdown">
+            <a asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage" class="nav-link dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fas fa-user"></i> Hello @(this.User.Identity.Name)
+            </a>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
+                {
+                    <a class="dropdown-item" asp-area="Administration" asp-controller="TopicReports" asp-action="All"><i class="fas fa-paperclip"></i> Pending Reports</a>
+                    <a class="dropdown-item" asp-area="Administration" asp-controller="Categories" asp-action="Create"><i class="fas fa-plus"></i> Create Category</a>
+                    <a class="dropdown-item" asp-area="Administration" asp-controller="Dashboard" asp-action="Index" title="Admin"><i class="fas fa-user-shield"></i> Admin</a>
+                }
+                <a class="dropdown-item" asp-area="Identity" asp-page="/Account/Manage/Index"><i class="fas fa-user-cog"></i> Account Settings</a>
+            </div>
         </li>
-        if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
-        {
-            <li class="nav-item">
-                <a class="nav-link text-dark" asp-area="Administration" asp-controller="Dashboard" asp-action="Index" title="Admin">Admin</a>
-            </li>
-        }
         <li class="nav-item">
             <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@(this.Url.Action("Index", "Home", new { area = string.Empty }))">
                 <button type="submit" class="nav-link btn btn-link text-dark">Logout</button>

@@ -188,7 +188,7 @@ body {
     height: 400px;
 }
 
-.col-md-3 {
+#sendReportForm {
     background: #26a1ff;
     padding: 4%;
     border-top-left-radius: 0.5rem;
