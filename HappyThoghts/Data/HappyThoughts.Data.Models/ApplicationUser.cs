@@ -44,8 +44,19 @@ namespace HappyThoughts.Data.Models
         public virtual ICollection<IdentityUserLogin<string>> Logins { get; set; }
 
         // Additional info
+        [PersonalData]
+        [MaxLength(50)]
+        public string FullName { get; set; }
+
+        [PersonalData]
+        [MaxLength(300)]
+        public string Biography { get; set; }
+
+        [PersonalData]
+        [MaxLength(100)]
         public string Location { get; set; }
 
+        [PersonalData]
         public Gender Gender { get; set; }
 
         public long Reputation { get; set; }
