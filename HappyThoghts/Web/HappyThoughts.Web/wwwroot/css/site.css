@@ -228,3 +228,11 @@ body {
     .contact-form button:focus {
         box-shadow: none;
     }
+
+/*Down here is the css for no responsive image clas for profile page*/
+
+img.no-resize {
+    min-height: 160px;
+    min-width: 160px;
+}
+

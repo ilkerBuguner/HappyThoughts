@@ -15,14 +15,13 @@
     <div class="row">
         <div class="col-12">
             <div class="card">
-
                 <div class="card-body">
                     <div class="card-title mb-4">
                         <div class="d-flex justify-content-start">
                             @if (Model.ProfilePictureUrl == null)
                             {
                                 <div class="image-container">
-                                    <img src="https://res.cloudinary.com/doyjshrjs/image/upload/v1584395277/Profile-PNG-Icon-715x715_smb7cf.png" id="imgProfile" style="width: 150px; height: 150px" class="img-thumbnail" />
+                                    <img src="https://res.cloudinary.com/doyjshrjs/image/upload/v1584395277/Profile-PNG-Icon-715x715_smb7cf.png" id="imgProfile" style="width: 150px; height: 150px" class="img-thumbnail no-resize" />
                                     <div class="middle">
                                     </div>
                                 </div>
@@ -30,7 +29,7 @@
                             else
                             {
                                 <div class="image-container">
-                                    <img src="@Model.ProfilePictureUrl" id="imgProfile" style="width: 150px; height: 150px" class="img-thumbnail" />
+                                    <img src="@Model.ProfilePictureUrl" id="imgProfile" style="width: 150px; height: 150px" class="img-thumbnail no-resize" />
                                     <div class="middle">
                                     </div>
                                 </div>
@@ -121,7 +120,41 @@
 
                                 </div>
                                 <div class="tab-pane fade" id="connectedServices" role="tabpanel" aria-labelledby="ConnectedServices-tab">
-                                    Facebook, Google, Twitter Account that are connected to this account
+                                    <div class="list-group-horizontal-sm">
+                                        @foreach (var topic in Model.Topics.OrderByDescending(t => t.CreatedOn))
+                                        {
+                                            <a asp-controller="Topics" asp-action="Details" asp-route-topicId="@topic.Id" class="list-group-item list-group-item-action flex-column align-items-start">
+                                                <div class="media">
+                                                    @if (topic.PictureUrl == null)
+                                                    {
+                                                        <img class="align-self-center mr-3 img-thumbnail" src="https://res.cloudinary.com/doyjshrjs/image/upload/v1583873417/no_image_uj863g.jpg" width="120" height="120" alt="@topic.Title">
+                                                    }
+                                                    else
+                                                    {
+                                                        <img class="align-self-center mr-3 img-thumbnail" src="@topic.PictureUrl" width="120" height="120" alt="@topic.Title">
+                                                    }
+                                                    <div class="media-body">
+                                                        <div class="d-flex w-100 justify-content-between">
+                                                            <h5 class="mb-1">@topic.Title</h5>
+                                                            <small>@topic.CreatedOn</small>
+                                                        </div>
+                                                        <p class="mb-1">@topic.Content</p>
+
+                                                        <div class="d-flex w-100 justify-content-between">
+                                                            <h6>
+                                                                <i class="fas fa-user"></i> @topic.AuthorUsername
+                                                                &nbsp; <i class="fas fa-thumbs-up"></i> @topic.Likes
+                                                                &nbsp; <i class="fas fa-thumbs-down"></i> @topic.Dislikes
+                                                                &nbsp; <i class="fas fa-eye"></i> @topic.Views
+                                                                &nbsp; <i class="fas fa-comments"></i> @topic.CommentsCount
+                                                            </h6>
+                                                            <h6>Category: @topic.CategoryName</h6>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        }
+                                    </div>
                                 </div>
                             </div>
                         </div>
