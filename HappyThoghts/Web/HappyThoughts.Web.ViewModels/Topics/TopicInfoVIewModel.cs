@@ -2,8 +2,9 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Net;
     using System.Text;
-
+    using System.Text.RegularExpressions;
     using AutoMapper;
     using HappyThoughts.Data.Models;
     using HappyThoughts.Services.Mapping;
@@ -16,6 +17,18 @@
         public string Title { get; set; }
 
         public string Content { get; set; }
+
+        public string CleanContent
+        {
+            get
+            {
+                var cleanContent = WebUtility.HtmlDecode(Regex.Replace(this.Content, "<.*?>", string.Empty));
+                return cleanContent.Length > 180
+                        ? cleanContent.Substring(0, 180) + "..."
+                        : cleanContent;
+
+            }
+        }
 
         public string PictureUrl { get; set; }
 
@@ -39,7 +52,7 @@
         public void CreateMappings(IProfileExpression configuration)
         {
             configuration.CreateMap<Topic, TopicInfoViewModel>()
-                .ForMember(x => x.Content, t => t.MapFrom(opt => opt.Content.Substring(0, 180) + "..."))
+                //.ForMember(x => x.Content, t => t.MapFrom(opt => opt.Content.Substring(0, 180) + "..."))
                 .ForMember(x => x.CategoryName, t => t.MapFrom(opt => opt.Category.Name))
                 .ForMember(x => x.CommentsCount, t => t.MapFrom(opt => opt.Comments.Count));
         }
