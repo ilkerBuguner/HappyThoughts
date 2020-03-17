@@ -15,6 +15,7 @@
     using HappyThoughts.Services.Data.Comments;
     using HappyThoughts.Services.Data.TopicReports;
     using HappyThoughts.Services.Data.Topics;
+    using HappyThoughts.Services.Data.Users;
     using HappyThoughts.Services.Mapping;
     using HappyThoughts.Services.Messaging;
     using HappyThoughts.Web.ViewModels;
@@ -78,6 +79,7 @@
             services.AddTransient<ICloudinaryService, CloudinaryService>();
             services.AddTransient<ICommentsService, CommentsService>();
             services.AddTransient<ITopicReportsService, TopicReportsService>();
+            services.AddTransient<IUsersService, UsersService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

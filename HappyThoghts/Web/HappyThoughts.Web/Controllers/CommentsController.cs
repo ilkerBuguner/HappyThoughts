@@ -1,11 +1,12 @@
-﻿using HappyThoughts.Services.Data.Comments;
-using HappyThoughts.Web.ViewModels.InputModels.Comments;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
-
-namespace HappyThoughts.Web.Controllers
+﻿namespace HappyThoughts.Web.Controllers
 {
+    using System.Threading.Tasks;
+
+    using HappyThoughts.Services.Data.Comments;
+    using HappyThoughts.Web.ViewModels.InputModels.Comments;
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Mvc;
+
     public class CommentsController : BaseController
     {
         private readonly ICommentsService commentsService;

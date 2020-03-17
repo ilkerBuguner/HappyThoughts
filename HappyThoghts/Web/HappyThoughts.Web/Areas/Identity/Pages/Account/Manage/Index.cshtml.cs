@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Globalization;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using HappyThoughts.Data.Common.Repositories;
 using HappyThoughts.Data.Models;
@@ -51,6 +53,9 @@ namespace HappyThoughts.Web.Areas.Identity.Pages.Account.Manage
             [Display(Name = "Full Name")]
             public string FullName { get; set; }
 
+            [Display(Name = "Birthday")]
+            public DateTime Birthday { get; set; }
+
             [Display(Name = "Profile Picture")]
             public IFormFile ProfilePicture { get; set; }
 
@@ -82,7 +87,12 @@ namespace HappyThoughts.Web.Areas.Identity.Pages.Account.Manage
 
             Input = new InputModel
             {
-                PhoneNumber = phoneNumber
+                PhoneNumber = phoneNumber,
+                FullName = user.FullName,
+                Biography = user.Biography,
+                Birthday = user.Birthday,
+                Gender = user.Gender.ToString(),
+                Location = user.Location,
             };
         }
 
@@ -176,12 +186,25 @@ namespace HappyThoughts.Web.Areas.Identity.Pages.Account.Manage
                 currentUser.Gender = gender;
             }
 
+            if (!this.Input.Birthday.ToString().Contains("1.1.0001"))
+            {
+                var userFromDb = this.userRepository.GetByIdWithDeletedAsync(this.User.FindFirstValue(ClaimTypes.NameIdentifier));
+                var birthdayFromDb = userFromDb.Result.Birthday;
+
+                if (birthdayFromDb != this.Input.Birthday)
+                {
+                    var birthdayParsed = DateTime.Parse(this.Input.Birthday.ToString());
+
+                    currentUser.Birthday = birthdayParsed;
+                }
+            }
+
             this.userRepository.Update(currentUser);
             await this.userRepository.SaveChangesAsync();
 
             await _signInManager.RefreshSignInAsync(user);
-            StatusMessage = "Your profile has been updated";
-            return RedirectToPage();
+            // StatusMessage = "Your profile has been updated";
+            return this.Redirect($"/Users/Profile/{currentUser.Id}");
         }
     }
 }

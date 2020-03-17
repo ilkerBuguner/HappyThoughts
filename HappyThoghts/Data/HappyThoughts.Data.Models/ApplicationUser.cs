@@ -20,7 +20,7 @@ namespace HappyThoughts.Data.Models
             this.Claims = new HashSet<IdentityUserClaim<string>>();
             this.Logins = new HashSet<IdentityUserLogin<string>>();
 
-            this.Posts = new HashSet<Topic>();
+            this.Topics = new HashSet<Topic>();
             this.Comments = new HashSet<Comment>();
             this.MessagesSent = new HashSet<Message>();
             this.MessagesReceived = new HashSet<Message>();
@@ -53,6 +53,9 @@ namespace HappyThoughts.Data.Models
         public string Biography { get; set; }
 
         [PersonalData]
+        public DateTime Birthday { get; set; }
+
+        [PersonalData]
         [MaxLength(100)]
         public string Location { get; set; }
 
@@ -65,7 +68,7 @@ namespace HappyThoughts.Data.Models
 
         public string ProfilePictureUrl { get; set; } // byte[]
 
-        public virtual ICollection<Topic> Posts { get; set; }
+        public virtual ICollection<Topic> Topics { get; set; }
 
         public virtual ICollection<Comment> Comments { get; set; }
 

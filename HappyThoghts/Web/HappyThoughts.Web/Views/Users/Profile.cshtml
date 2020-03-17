@@ -1,0 +1,133 @@
+﻿@using HappyThoughts.Data.Models
+@using Microsoft.AspNetCore.Identity
+@using System.Security.Claims
+@using HappyThoughts.Common;
+
+@model HappyThoughts.Web.ViewModels.Users.ApplicationUserDetailsViewModel
+
+@inject SignInManager<ApplicationUser> SignInManager
+
+@{
+    this.ViewData["Title"] = Model.UserName;
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+
+                <div class="card-body">
+                    <div class="card-title mb-4">
+                        <div class="d-flex justify-content-start">
+                            @if (Model.ProfilePictureUrl == null)
+                            {
+                                <div class="image-container">
+                                    <img src="https://res.cloudinary.com/doyjshrjs/image/upload/v1584395277/Profile-PNG-Icon-715x715_smb7cf.png" id="imgProfile" style="width: 150px; height: 150px" class="img-thumbnail" />
+                                    <div class="middle">
+                                    </div>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="image-container">
+                                    <img src="@Model.ProfilePictureUrl" id="imgProfile" style="width: 150px; height: 150px" class="img-thumbnail" />
+                                    <div class="middle">
+                                    </div>
+                                </div>
+                            }
+                            <div class="userData ml-3">
+                                <h2 class="d-block" style="font-size: 1.5rem; font-weight: bold"><a href="javascript:void(0);">@Model.UserName</a></h2>
+                                <h6 class="d-block"><a href="javascript:void(0)">@Model.Topics.Count()</a> Topics Created</h6>
+                                <h6 class="d-block">@Model.Biography</h6>
+                                <!--<h6 class="d-block"><a href="javascript:void(0)">300</a> Blog Posts</h6>-->
+                            </div>
+                            <div class="ml-auto">
+                                <input type="button" class="btn btn-primary d-none" id="btnDiscard" value="Discard Changes" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-12">
+                            <ul class="nav nav-tabs mb-4" id="myTab" role="tablist">
+                                <li class="nav-item">
+                                    <a class="nav-link active" id="basicInfo-tab" data-toggle="tab" href="#basicInfo" role="tab" aria-controls="basicInfo" aria-selected="true">Basic Info</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" id="connectedServices-tab" data-toggle="tab" href="#connectedServices" role="tab" aria-controls="connectedServices" aria-selected="false">Topics</a>
+                                </li>
+                            </ul>
+                            <div class="tab-content ml-1" id="myTabContent">
+                                <div class="tab-pane fade show active" id="basicInfo" role="tabpanel" aria-labelledby="basicInfo-tab">
+
+                                    <div class="row">
+                                        <div class="col-sm-3 col-md-2 col-5">
+                                            <label style="font-weight:bold;">Full Name</label>
+                                        </div>
+                                        <div class="col-md-8 col-6">
+                                            @(Model.FullName != null ? Model.FullName : "No Information")
+                                        </div>
+                                    </div>
+                                    <hr />
+                                    <div class="row">
+                                        <div class="col-sm-3 col-md-2 col-5">
+                                            <label style="font-weight:bold;">Birthday</label>
+                                        </div>
+                                        <div class="col-md-8 col-6">
+                                            @(Model.Birthday.Contains("1.1.0001") ? "No Information" : Model.Birthday)
+                                        </div>
+                                    </div>
+                                    <hr />
+                                    <div class="row">
+                                        <div class="col-sm-3 col-md-2 col-5">
+                                            <label style="font-weight:bold;">Registered On</label>
+                                        </div>
+                                        <div class="col-md-8 col-6">
+                                            @(Model.CreatedOn != null ? Model.CreatedOn : "No Information")
+                                        </div>
+                                    </div>
+                                    <hr />
+                                    <div class="row">
+                                        <div class="col-sm-3 col-md-2 col-5">
+                                            <label style="font-weight:bold;">Location</label>
+                                        </div>
+                                        <div class="col-md-8 col-6">
+                                            @(Model.Location != null ? Model.Location : "No Information")
+                                        </div>
+                                    </div>
+                                    <hr />
+                                    <div class="row">
+                                        <div class="col-sm-3 col-md-2 col-5">
+                                            <label style="font-weight:bold;">Gender</label>
+                                        </div>
+                                        <div class="col-md-8 col-6">
+                                            @(Model.Gender != "Not_Selected" ? Model.Gender : "No Information")
+                                        </div>
+                                    </div>
+                                    <hr />
+                                    <div class="row">
+                                        <div class="col-sm-3 col-md-2 col-5">
+                                            <label style="font-weight:bold;">Something</label>
+                                        </div>
+                                        <div class="col-md-8 col-6">
+                                            Something
+                                        </div>
+                                    </div>
+                                    @if (this.User.FindFirstValue(ClaimTypes.NameIdentifier) == Model.Id)
+                                    {
+                                        <br />
+                                        <a class="btn btn-primary" asp-area="Identity" asp-controller="Account" asp-action="Manage">Change</a>
+                                    }
+
+                                </div>
+                                <div class="tab-pane fade" id="connectedServices" role="tabpanel" aria-labelledby="ConnectedServices-tab">
+                                    Facebook, Google, Twitter Account that are connected to this account
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
