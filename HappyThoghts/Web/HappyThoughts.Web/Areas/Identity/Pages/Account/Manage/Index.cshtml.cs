@@ -156,6 +156,10 @@ namespace HappyThoughts.Web.Areas.Identity.Pages.Account.Manage
 
                 currentUser.FullName = this.Input.FullName;
             }
+            else
+            {
+                currentUser.FullName = string.Empty;
+            }
 
             if (this.Input.Biography != null)
             {
@@ -167,6 +171,10 @@ namespace HappyThoughts.Web.Areas.Identity.Pages.Account.Manage
 
                 currentUser.Biography = this.Input.Biography;
             }
+            else
+            {
+                currentUser.Biography = string.Empty;
+            }
 
             if (this.Input.Location != null)
             {
@@ -177,6 +185,10 @@ namespace HappyThoughts.Web.Areas.Identity.Pages.Account.Manage
                 }
 
                 currentUser.Location = this.Input.Location;
+            }
+            else
+            {
+                currentUser.Location = string.Empty;
             }
 
             if (this.Input.Gender != "Not Selected")

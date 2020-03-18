@@ -1,0 +1,24 @@
+﻿@model HappyThoughts.Web.ViewModels.Users.ApplicationUserDetailsViewModel
+
+<div class="card mb-3" style="max-width: 540px;">
+    <div class="row no-gutters">
+        <div>
+            @if (Model.ProfilePictureUrl == null)
+            {
+                <img src="https://res.cloudinary.com/doyjshrjs/image/upload/v1584395277/Profile-PNG-Icon-715x715_smb7cf.png" style="margin-left:90px; margin-top:20px;" class="card-img no-resize" alt="...">
+            }
+            else
+            {
+                <img src="@Model.ProfilePictureUrl" style="margin-left:90px; margin-top:20px;" class="card-img no-resize" alt="...">
+            }
+        </div>
+        <div class="card-body">
+            <div class="text-center">
+                <h4 class="card-title">@Model.UserName</h4>
+                <h6>@Model.Topics.Count Created Topics</h6>
+                <p class="card-text">@Model.Biography</p>
+                <a asp-controller="Users" asp-action="Profile" asp-route-id="@Model.Id" class="btn btn-primary">Profile</a>
+            </div>
+        </div>
+    </div>
+</div>

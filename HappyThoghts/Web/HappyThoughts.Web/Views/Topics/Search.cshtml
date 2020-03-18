@@ -78,17 +78,11 @@
 
     <!-- Sidebar Widgets Column -->
     <div class="col-md-4">
-
         <!-- Side Widget -->
         @await Html.PartialAsync("_PromptingWidgetPartial")
 
-        <!-- Search Widget -->
-        @await Html.PartialAsync("_SearchWidgetPartial")
-
         <!-- Categories Widget -->
         @await Html.PartialAsync("_PopularCategoriesPartial", Model.Topics.Categories)
-
-
     </div>
 
 </div>

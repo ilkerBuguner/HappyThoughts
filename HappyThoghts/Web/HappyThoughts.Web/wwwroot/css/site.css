@@ -234,5 +234,7 @@ body {
 img.no-resize {
     min-height: 160px;
     min-width: 160px;
+    max-height: 160px;
+    max-width: 160px
 }
 

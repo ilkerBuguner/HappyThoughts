@@ -24,7 +24,7 @@
             <!-- Author -->
             <p class="lead">
                 Author:
-                <a asp-controller="Users" asp-action="Profile" asp-route-id="@Model.AuthorId">@Model.AuthorUsername</a>
+                <a asp-controller="Users" asp-action="Profile" asp-route-id="@Model.Author.Id">@Model.Author.UserName</a>
             </p>
 
             <hr>
@@ -58,9 +58,9 @@
                     <button hidden class="btn btn-outline-primary" id="likeClicked"><i class="fas fa-thumbs-up"></i>Liked</button>
                     <button class="btn btn-outline-primary" id="dislike"><i class="far fa-thumbs-down"></i>Dislike</button>
                     <button hidden class="btn btn-outline-primary" id="dislikeClicked"><i class="fas fa-thumbs-down"></i>Disliked</button>
-                    @if (this.User.FindFirstValue(ClaimTypes.NameIdentifier) == Model.AuthorId || this.User.IsInRole(GlobalConstants.AdministratorRoleName))
+                    @if (this.User.FindFirstValue(ClaimTypes.NameIdentifier) == Model.Author.Id || this.User.IsInRole(GlobalConstants.AdministratorRoleName))
                     {
-                        <a asp-controller="Topics" asp-action="Edit" asp-route-topicId="@Model.Id" asp-route-categoryName="@Model.CategoryName" asp-route-authorId="@Model.AuthorId" class="btn btn-outline-primary">Edit</a>
+                        <a asp-controller="Topics" asp-action="Edit" asp-route-topicId="@Model.Id" asp-route-categoryName="@Model.CategoryName" asp-route-authorId="@Model.Author.Id" class="btn btn-outline-primary">Edit</a>
                         <a class="btn btn-outline-danger" id="delete">Delete</a>
                     }
                     <a asp-controller="TopicReports" asp-action="Send" asp-route-topicId="@Model.Id" class="btn btn-outline-secondary">Report</a>
@@ -141,11 +141,12 @@
 
         <!-- Sidebar Widgets Column -->
         <div class="col-md-4">
+
+            <!--Profile Info Widget-->
+            @await  Html.PartialAsync("_ProfileInfoSideWidget", Model.Author)
+
             <!-- Side Widget -->
             @await Html.PartialAsync("_PromptingWidgetPartial")
-
-            <!-- Search Widget -->
-            @await Html.PartialAsync("_SearchWidgetPartial")
 
             <!-- Categories Widget -->
             @await Html.PartialAsync("_PopularCategoriesPartial", Model.Categories)
@@ -173,7 +174,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <a class="btn btn-danger" asp-controller="Topics" asp-action="Delete" asp-route-id="@Model.Id" asp-route-authorId="@Model.AuthorId">Delete</a>
+                <a class="btn btn-danger" asp-controller="Topics" asp-action="Delete" asp-route-id="@Model.Id" asp-route-authorId="@Model.Author.Id">Delete</a>
             </div>
         </div>
     </div>
