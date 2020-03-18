@@ -22,7 +22,7 @@
         {
             var comment = new Comment()
             {
-                Content = input.Content,
+                Content = input.CommentContent,
                 AuthorId = input.AuthorId,
                 TopicId = input.TopicId,
             };

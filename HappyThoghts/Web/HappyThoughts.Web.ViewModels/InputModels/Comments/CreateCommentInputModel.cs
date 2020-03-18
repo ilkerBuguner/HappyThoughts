@@ -5,7 +5,8 @@ namespace HappyThoughts.Web.ViewModels.InputModels.Comments
     public class CreateCommentInputModel
     {
         [Required]
-        public string Content { get; set; }
+        [MinLength(2)]
+        public string CommentContent { get; set; }
 
         public string AuthorId { get; set; }
 

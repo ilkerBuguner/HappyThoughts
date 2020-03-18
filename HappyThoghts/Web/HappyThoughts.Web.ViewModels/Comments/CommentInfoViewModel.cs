@@ -6,6 +6,7 @@
     using HappyThoughts.Data.Models;
     using HappyThoughts.Services.Mapping;
     using HappyThoughts.Web.ViewModels.SubComments;
+    using HappyThoughts.Web.ViewModels.Users;
 
     public class CommentInfoViewModel : IMapFrom<Comment>, IHaveCustomMappings
     {
@@ -27,6 +28,8 @@
         public int Dislikes { get; set; }
 
         public DateTime CreatedOn { get; set; }
+
+        public ApplicationUserDetailsViewModel Author { get; set; }
 
         public ICollection<SubCommentInfoViewModel> SubComments { get; set; }
 
