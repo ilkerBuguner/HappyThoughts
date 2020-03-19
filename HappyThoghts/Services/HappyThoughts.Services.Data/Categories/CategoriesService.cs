@@ -82,6 +82,13 @@
                 .ToArrayAsync();
         }
 
+        public Task<CategoryInfoViewModel> GetCategoryById(string id)
+        {
+            var category = this.categoryRepository.All().To<CategoryInfoViewModel>().FirstOrDefaultAsync(c => c.Id == id);
+
+            return category;
+        }
+
         public CategoryInfoViewModel GetCategoryByName(string name)
         {
             return this.categoryRepository.All().To<CategoryInfoViewModel>().FirstOrDefault(c => c.Name == name);

@@ -64,9 +64,10 @@
         }
 
         [Authorize]
-        public IActionResult Edit(string id)
+        public async Task<IActionResult> Edit(string id)
         {
-            return this.View();
+            var categoryViewModel = await this.categoriesService.GetCategoryById(id);
+            return this.View(categoryViewModel);
         }
 
         [Authorize]

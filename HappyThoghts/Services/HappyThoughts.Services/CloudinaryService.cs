@@ -1,14 +1,15 @@
-﻿using CloudinaryDotNet;
-using CloudinaryDotNet.Actions;
-using Microsoft.AspNetCore.Http;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace HappyThoughts.Services
+﻿namespace HappyThoughts.Services
 {
+    using System;
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Text;
+    using System.Threading.Tasks;
+
+    using CloudinaryDotNet;
+    using CloudinaryDotNet.Actions;
+    using Microsoft.AspNetCore.Http;
+
     public class CloudinaryService : ICloudinaryService
     {
         private readonly Cloudinary cloudinaryUtility;

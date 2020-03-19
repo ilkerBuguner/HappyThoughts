@@ -1,7 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace HappyThoughts.Web.ViewModels.InputModels.TopicReports
+﻿namespace HappyThoughts.Web.ViewModels.InputModels.TopicReports
 {
+    using System.ComponentModel.DataAnnotations;
+
     public class CreateTopicReportInputModel
     {
         [Required]

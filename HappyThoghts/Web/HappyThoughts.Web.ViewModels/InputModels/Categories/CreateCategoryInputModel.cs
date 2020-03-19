@@ -1,11 +1,12 @@
-﻿using Microsoft.AspNetCore.Http;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Text;
-
-namespace HappyThoughts.Web.ViewModels.InputModels.Categories
+﻿namespace HappyThoughts.Web.ViewModels.InputModels.Categories
 {
+    using System;
+    using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
+    using System.Text;
+
+    using Microsoft.AspNetCore.Http;
+
     public class CreateCategoryInputModel
     {
         [Required]

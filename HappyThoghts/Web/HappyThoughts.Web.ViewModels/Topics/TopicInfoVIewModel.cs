@@ -5,6 +5,7 @@
     using System.Net;
     using System.Text;
     using System.Text.RegularExpressions;
+
     using AutoMapper;
     using HappyThoughts.Data.Models;
     using HappyThoughts.Services.Mapping;

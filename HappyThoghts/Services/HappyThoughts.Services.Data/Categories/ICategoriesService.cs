@@ -23,5 +23,7 @@
         Task EditAsync(CategoryInfoViewModel categoryInfoViewModel);
 
         Task DeleteByIdAsync(string id);
+
+        Task<CategoryInfoViewModel> GetCategoryById(string id);
     }
 }

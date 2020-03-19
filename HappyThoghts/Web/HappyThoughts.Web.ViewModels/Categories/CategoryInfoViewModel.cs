@@ -1,12 +1,13 @@
-﻿using AutoMapper;
-using HappyThoughts.Data.Models;
-using HappyThoughts.Services.Mapping;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace HappyThoughts.Web.ViewModels.Categories
+﻿namespace HappyThoughts.Web.ViewModels.Categories
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Text;
+
+    using AutoMapper;
+    using HappyThoughts.Data.Models;
+    using HappyThoughts.Services.Mapping;
+
     public class CategoryInfoViewModel : IMapFrom<Category>, IHaveCustomMappings
     {
         public string Id { get; set; }

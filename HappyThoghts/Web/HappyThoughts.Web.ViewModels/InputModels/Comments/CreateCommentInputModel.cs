@@ -1,7 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace HappyThoughts.Web.ViewModels.InputModels.Comments
+﻿namespace HappyThoughts.Web.ViewModels.InputModels.Comments
 {
+    using System.ComponentModel.DataAnnotations;
+
     public class CreateCommentInputModel
     {
         [Required]

@@ -1,10 +1,11 @@
-﻿using AutoMapper;
-using HappyThoughts.Data.Models;
-using HappyThoughts.Services.Mapping;
-using System;
-
-namespace HappyThoughts.Web.ViewModels.TopicReports
+﻿namespace HappyThoughts.Web.ViewModels.TopicReports
 {
+    using System;
+
+    using AutoMapper;
+    using HappyThoughts.Data.Models;
+    using HappyThoughts.Services.Mapping;
+
     public class TopicReportDetailsViewModel : IMapFrom<TopicReport>, IHaveCustomMappings
     {
         public string Id { get; set; }

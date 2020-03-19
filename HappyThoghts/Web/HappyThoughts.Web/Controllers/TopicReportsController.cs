@@ -1,15 +1,16 @@
 ﻿namespace HappyThoughts.Web.Controllers
 {
-    using HappyThoughts.Services.Data.TopicReports;
-    using HappyThoughts.Services.Data.Topics;
-    using HappyThoughts.Web.ViewModels.InputModels.TopicReports;
-    using Microsoft.AspNetCore.Authorization;
-    using Microsoft.AspNetCore.Mvc;
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Security.Claims;
     using System.Threading.Tasks;
+
+    using HappyThoughts.Services.Data.TopicReports;
+    using HappyThoughts.Services.Data.Topics;
+    using HappyThoughts.Web.ViewModels.InputModels.TopicReports;
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Mvc;
 
     public class TopicReportsController : BaseController
     {

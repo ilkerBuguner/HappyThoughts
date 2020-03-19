@@ -1,15 +1,16 @@
-﻿using HappyThoughts.Data.Common.Repositories;
-using HappyThoughts.Data.Models;
-using HappyThoughts.Services.Mapping;
-using HappyThoughts.Web.ViewModels.Users;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace HappyThoughts.Services.Data.Users
+﻿namespace HappyThoughts.Services.Data.Users
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Text;
+    using System.Threading.Tasks;
+
+    using HappyThoughts.Data.Common.Repositories;
+    using HappyThoughts.Data.Models;
+    using HappyThoughts.Services.Mapping;
+    using HappyThoughts.Web.ViewModels.Users;
+    using Microsoft.EntityFrameworkCore;
+
     public class UsersService : IUsersService
     {
         private readonly IDeletableEntityRepository<ApplicationUser> userRepository;

@@ -1,9 +1,10 @@
-﻿using HappyThoughts.Services.Data.Users;
-using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
-
-namespace HappyThoughts.Web.Controllers
+﻿namespace HappyThoughts.Web.Controllers
 {
+    using System.Threading.Tasks;
+
+    using HappyThoughts.Services.Data.Users;
+    using Microsoft.AspNetCore.Mvc;
+
     public class UsersController : BaseController
     {
         private readonly IUsersService usersService;

@@ -1,11 +1,12 @@
 ﻿namespace HappyThoughts.Web.ViewModels.Topics
 {
-    using HappyThoughts.Common;
-    using HappyThoughts.Web.ViewModels.Categories;
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
+
+    using HappyThoughts.Common;
+    using HappyThoughts.Web.ViewModels.Categories;
 
     public class TopicsListingViewModel
     {

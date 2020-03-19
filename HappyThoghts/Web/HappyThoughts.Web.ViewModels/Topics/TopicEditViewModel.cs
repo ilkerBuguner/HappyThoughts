@@ -1,7 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace HappyThoughts.Web.ViewModels.Topics
+﻿namespace HappyThoughts.Web.ViewModels.Topics
 {
+    using System.ComponentModel.DataAnnotations;
+
     public class TopicEditViewModel
     {
         public string Id { get; set; }

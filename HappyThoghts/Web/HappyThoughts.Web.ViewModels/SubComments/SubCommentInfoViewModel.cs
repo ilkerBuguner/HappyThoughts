@@ -1,8 +1,8 @@
-﻿using HappyThoughts.Data.Models;
-using HappyThoughts.Services.Mapping;
-
-namespace HappyThoughts.Web.ViewModels.SubComments
+﻿namespace HappyThoughts.Web.ViewModels.SubComments
 {
+    using HappyThoughts.Data.Models;
+    using HappyThoughts.Services.Mapping;
+
     public class SubCommentInfoViewModel : IMapFrom<SubComment>
     {
         public string Content { get; set; }

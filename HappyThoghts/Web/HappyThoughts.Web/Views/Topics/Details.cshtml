@@ -12,86 +12,99 @@
 }
 <!-- Page Content -->
 <div class="container">
-
     <div class="row">
-
         <!-- Post Content Column -->
         <div class="col-lg-8">
-
             <!-- Title -->
             <h1 class="mt-4">@Model.Title</h1>
-
             <!-- Author -->
             <p class="lead">
                 Author:
                 <a asp-controller="Users" asp-action="Profile" asp-route-id="@Model.Author.Id">@Model.Author.UserName</a>
             </p>
-
             <hr>
-
             <!-- Date/Time -->
             <p class="text-center"><b>Posted On: @Model.CreatedOn | Category: <a href="/Categories/ByName?name=@Model.CategoryName">@Model.CategoryName</a> | Views: @Model.Views</b></p>
-
             <hr>
-
             <!-- Preview Image -->
             @if (!String.IsNullOrEmpty(Model.PictureUrl))
             {
                 <div class="text-center">
                     <img class="img-fluid rounded" src="@Model.PictureUrl" width="400" alt="topic picture">
                 </div>
-
                 <hr>
             }
-
-            <p class="text-center"><b>Comments: @Model.CommentsCount | Likes: @Model.Likes | Dislikes: @Model.Dislikes</b></p>
-
+            else
+            {
+                <div class="text-center">
+                    <img class="img-fluid rounded" src="https://res.cloudinary.com/doyjshrjs/image/upload/v1584631451/no-image-icon_qmpaf9.png" width="400" alt="topic picture">
+                </div>
+                <hr>
+            }
+            <p class="text-center"><b>Likes: @Model.Likes | Dislikes: @Model.Dislikes | Comments: @Model.CommentsCount</b></p>
             <hr />
             <!-- Post Content -->
             @Html.Raw(Model.SanitizedContent)
             <br />
             <hr />
-
             <div class="text-center">
                 <div class="form-group">
-                    <button class="btn btn-outline-primary" id="like"><i class="far fa-thumbs-up"></i>Like</button>
-                    <button hidden class="btn btn-outline-primary" id="likeClicked"><i class="fas fa-thumbs-up"></i>Liked</button>
-                    <button class="btn btn-outline-primary" id="dislike"><i class="far fa-thumbs-down"></i>Dislike</button>
-                    <button hidden class="btn btn-outline-primary" id="dislikeClicked"><i class="fas fa-thumbs-down"></i>Disliked</button>
+                    <button class="btn btn-outline-primary" id="like"><i class="far fa-thumbs-up"></i> Like</button>
+                    <button hidden class="btn btn-outline-primary" id="likeClicked"><i class="fas fa-thumbs-up"></i> Liked</button>
+                    <button class="btn btn-outline-primary" id="dislike"><i class="far fa-thumbs-down"></i> Dislike</button>
+                    <button hidden class="btn btn-outline-primary" id="dislikeClicked"><i class="fas fa-thumbs-down"></i> Disliked</button>
                     @if (this.User.FindFirstValue(ClaimTypes.NameIdentifier) == Model.Author.Id || this.User.IsInRole(GlobalConstants.AdministratorRoleName))
                     {
-                        <a asp-controller="Topics" asp-action="Edit" asp-route-topicId="@Model.Id" asp-route-categoryName="@Model.CategoryName" asp-route-authorId="@Model.Author.Id" class="btn btn-outline-primary">Edit</a>
-                        <a class="btn btn-outline-danger" id="delete">Delete</a>
+                        <a asp-controller="Topics" asp-action="Edit" asp-route-topicId="@Model.Id" asp-route-categoryName="@Model.CategoryName" asp-route-authorId="@Model.Author.Id" class="btn btn-outline-primary"><i class="far fa-edit"></i> Edit</a>
+                        <a class="btn btn-outline-danger" id="delete"><i class="far fa-trash-alt"></i> Delete</a>
                     }
-                    <a asp-controller="TopicReports" asp-action="Send" asp-route-topicId="@Model.Id" class="btn btn-outline-secondary">Report</a>
+                    <a asp-controller="TopicReports" asp-action="Send" asp-route-topicId="@Model.Id" class="btn btn-outline-secondary"><i class="far fa-flag"></i> Report</a>
                 </div>
             </div>
-
             <hr>
-
             <!-- Comments Form -->
-            <div class="card my-4">
-                <h5 class="card-header">Leave a Comment:</h5>
-                <div class="card-body">
-                    <form asp-action="Create">
-                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                        <div class="form-group">
-                            <textarea asp-for="@Model.CommentContent"  id="Content" class="form-control" rows="4"></textarea>
-                            <span asp-validation-for="@Model.CommentContent" class="text-danger"></span>
-                        </div>
-                        <input type="hidden" id="AuthorId" name="AuthorId" value="@this.User.FindFirstValue(ClaimTypes.NameIdentifier)" />
-                        <input type="hidden" id="TopicId" name="TopicId" value="@Model.Id" />
-                        <div class="form-group">
-                            <input asp-controller="Comments" asp-action="Create" type="submit" value="Create" class="btn btn-primary" />
-                        </div>
-                    </form>
+            @if (this.User.Identity.IsAuthenticated)
+            {
+                <div class="card my-4">
+                    <h5 class="card-header">Leave a Comment:</h5>
+                    <div class="card-body">
+                        <form asp-action="Create">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <div class="form-group">
+                                <textarea asp-for="@Model.CommentContent" id="Content" class="form-control" rows="4"></textarea>
+                                <span asp-validation-for="@Model.CommentContent" class="text-danger"></span>
+                            </div>
+                            <input type="hidden" id="AuthorId" name="AuthorId" value="@this.User.FindFirstValue(ClaimTypes.NameIdentifier)" />
+                            <input type="hidden" id="TopicId" name="TopicId" value="@Model.Id" />
+                            <div class="form-group">
+                                <input asp-controller="Comments" asp-action="Create" type="submit" value="Create" class="btn btn-primary" />
+                            </div>
+                        </form>
+                    </div>
                 </div>
-            </div>
+            }
+            else
+            {
+                <div class="alert alert-info text-center" role="alert">
+                    <h5>You have to be logged in to post a comment!</h5>
+                    <p>
+                        <a class="text-dark" asp-area="Identity" asp-page="/Account/Login"><i class="fas fa-sign-in-alt"></i> Login</a> &nbsp; | &nbsp;
+                        <a class="text-dark" asp-area="Identity" asp-page="/Account/Register"><i class="fas fa-user-plus"></i> Register</a>
+                    </p>
+                </div>
+            }
 
             @foreach (var comment in Model.Comments)
             {
                 <div class="media mb-4">
-                    <img class="d-flex mr-3 rounded-circle comment-picture-no-resize" src="@comment.Author.ProfilePictureUrl" alt="">
+                    @if (comment.Author.ProfilePictureUrl == null)
+                    {
+                        <img class="d-flex mr-3 rounded-circle comment-picture-no-resize" src="https://res.cloudinary.com/doyjshrjs/image/upload/v1584395277/Profile-PNG-Icon-715x715_smb7cf.png" alt="">
+                    }
+                    else
+                    {
+                        <img class="d-flex mr-3 rounded-circle comment-picture-no-resize" src="@comment.Author.ProfilePictureUrl" alt="">
+                    }
                     <div class="media-body">
                         <div class="d-flex w-100 justify-content-between">
                             <h5 class="mt-0"><a asp-controller="Users" asp-action="Profile" asp-route-id="@comment.Author.Id">@comment.Author.UserName</a></h5>
@@ -99,9 +112,13 @@
                         </div>
                         <p class="mb-1">@comment.Content</p>
 
-                        <a href="#" class="btn btn-primary btn-sm">Reply</a>
+                        @if (this.User.Identity.IsAuthenticated)
+                        {
+                            <a href="#" class="btn btn-primary btn-sm">Reply</a>
+                        }
+
                         @if (this.User.FindFirstValue(ClaimTypes.NameIdentifier) == comment.Author.Id
-                           || this.User.IsInRole(GlobalConstants.AdministratorRoleName))
+                          || this.User.IsInRole(GlobalConstants.AdministratorRoleName))
                         {
                             <a href="#" class="btn btn-primary btn-sm">Edit</a>
                             <a href="#" class="btn btn-danger btn-sm">Delete</a>

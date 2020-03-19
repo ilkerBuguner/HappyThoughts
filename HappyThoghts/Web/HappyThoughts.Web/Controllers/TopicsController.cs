@@ -5,6 +5,7 @@
     using System.Linq;
     using System.Security.Claims;
     using System.Threading.Tasks;
+
     using HappyThoughts.Common;
     using HappyThoughts.Services;
     using HappyThoughts.Services.Data.Categories;

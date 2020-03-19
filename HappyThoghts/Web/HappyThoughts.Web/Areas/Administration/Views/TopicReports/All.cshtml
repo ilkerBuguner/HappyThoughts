@@ -16,7 +16,7 @@
                 Description
             </th>
             <th>
-                SenderId
+                Sender
             </th>
             <th>
                 Topic
@@ -37,7 +37,7 @@
                 @item.Description
             </td>
             <td>
-                @item.SenderId
+                <a asp-area="" asp-controller="Users" asp-action="Profile" asp-route-id="@item.SenderId">Sender Details</a>
             </td>
             <td>
                 <a asp-area="" asp-controller="Topics" asp-action="Details" asp-route-topicId="@item.TopicId">Topic Details</a>
