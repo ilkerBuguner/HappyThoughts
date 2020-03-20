@@ -9,6 +9,8 @@
     {
         Task CreateAsync(CreateCommentInputModel input);
 
+        Task DeleteByIdAsync(string commentId);
+
         Task<T[]> GetAllAsync<T>();
 
         IQueryable<T> GetAllAsQueryable<T>();

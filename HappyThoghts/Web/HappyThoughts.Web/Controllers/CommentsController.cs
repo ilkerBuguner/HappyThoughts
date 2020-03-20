@@ -1,7 +1,8 @@
 ﻿namespace HappyThoughts.Web.Controllers
 {
+    using System.Security.Claims;
     using System.Threading.Tasks;
-
+    using HappyThoughts.Common;
     using HappyThoughts.Services.Data.Comments;
     using HappyThoughts.Web.ViewModels.InputModels.Comments;
     using Microsoft.AspNetCore.Authorization;
@@ -28,6 +29,17 @@
             await this.commentsService.CreateAsync(input);
 
             return this.Redirect($"/Topics/Details?topicId={input.TopicId}");
+        }
+
+        [Authorize]
+        public async Task<IActionResult> Delete(string id, string authorId, string topicId)
+        {
+            if (this.User.IsInRole(GlobalConstants.AdministratorRoleName) || this.User.FindFirstValue(ClaimTypes.NameIdentifier) == authorId)
+            {
+                await this.commentsService.DeleteByIdAsync(id);
+            }
+
+            return this.Redirect($"/Topics/Details?topicId={topicId}");
         }
     }
 }

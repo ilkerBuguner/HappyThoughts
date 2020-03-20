@@ -118,27 +118,19 @@
                         }
 
                         @if (this.User.FindFirstValue(ClaimTypes.NameIdentifier) == comment.Author.Id
-                          || this.User.IsInRole(GlobalConstants.AdministratorRoleName))
+                     || this.User.IsInRole(GlobalConstants.AdministratorRoleName))
                         {
                             <a href="#" class="btn btn-primary btn-sm">Edit</a>
-                            <a href="#" class="btn btn-danger btn-sm">Delete</a>
+                            <a class="btn btn-danger btn-sm" asp-controller="Comments" asp-action="Delete" asp-route-id="@comment.Id" asp-route-authorId="@comment.Author.Id" asp-route-topicId="@Model.Id">Delete</a>
                         }
                         else if (this.User.FindFirstValue(ClaimTypes.NameIdentifier) == Model.Author.Id)
                         {
-                            <a href="#" class="btn btn-danger btn-sm">Delete</a>
+                            <a class="btn btn-danger btn-sm" asp-controller="Comments" asp-action="Delete" asp-route-id="@comment.Id" asp-route-authorId="@comment.Author.Id" asp-route-topicId="@Model.Id">Delete</a>
                         }
+
                     </div>
                 </div>
             }
-
-            <!-- Single Comment -->
-            <div class="media mb-4">
-                <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
-                <div class="media-body">
-                    <h5 class="mt-0">Commenter Name</h5>
-                    Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
-                </div>
-            </div>
 
             <!-- Comment with nested comments -->
             <div class="media mb-4">
@@ -146,14 +138,6 @@
                 <div class="media-body">
                     <h5 class="mt-0">Commenter Name</h5>
                     Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
-
-                    <div class="media mt-4">
-                        <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
-                        <div class="media-body">
-                            <h5 class="mt-0">Commenter Name</h5>
-                            Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
-                        </div>
-                    </div>
 
                     <div class="media mt-4">
                         <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
@@ -188,7 +172,8 @@
 
 </div>
 
-<!-- Modal -->
+
+<!-- Topic Delete Modal -->
 <div class="modal fade" id="confirmDeleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -219,10 +204,8 @@
 }
 
 
-<!-- Scripts for deletion modal -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js">
-
-</script>
+<!-- Scripts for Topic deletion modal -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 
 <script src="bootstrap/js/bootstrap.min.js"></script>
 
@@ -238,7 +221,7 @@
         $("#confirmDeleteModal").modal('hide');
     });
 </script>
-<!-- Scripts for deletion modal -->
+
 <!-- Ajax request for like function -->
 <script>
     $(document).ready(function () {

@@ -16,6 +16,8 @@
             this.SubComments = new HashSet<SubCommentInfoViewModel>();
         }
 
+        public string Id { get; set; }
+
         public string AuthorName { get; set; }
 
         public string AuthorId { get; set; }

@@ -1,5 +1,6 @@
 ﻿namespace HappyThoughts.Services.Data.Comments
 {
+    using System;
     using System.Linq;
     using System.Threading.Tasks;
 
@@ -11,6 +12,8 @@
 
     public class CommentsService : ICommentsService
     {
+        private const string InvalidCommentIdErrorMessage = "Comment with ID: {0} does not exist.";
+
         private readonly IDeletableEntityRepository<Comment> commentRepository;
 
         public CommentsService(IDeletableEntityRepository<Comment> commentRepository)
@@ -44,6 +47,20 @@
             return this.commentRepository
                 .All()
                 .To<T>();
+        }
+
+        public async Task DeleteByIdAsync(string commentId)
+        {
+            var comment = await this.commentRepository.GetByIdWithDeletedAsync(commentId);
+
+            if (comment == null)
+            {
+                throw new ArgumentNullException(
+                    string.Format(InvalidCommentIdErrorMessage, commentId));
+            }
+
+            this.commentRepository.Delete(comment);
+            await this.commentRepository.SaveChangesAsync();
         }
     }
 }
