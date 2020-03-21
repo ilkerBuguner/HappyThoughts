@@ -32,6 +32,20 @@
         }
 
         [Authorize]
+        [HttpPost]
+        public async Task<IActionResult> Edit(EditCommentInputModel input)
+        {
+            if (!this.ModelState.IsValid)
+            {
+                return this.Redirect($"/Topics/Details?topicId={input.TopicId}");
+            }
+
+            await this.commentsService.EditAsync(input.Id, input.CommentContent);
+
+            return this.Redirect($"/Topics/Details?topicId={input.TopicId}");
+        }
+
+        [Authorize]
         public async Task<IActionResult> Delete(string id, string authorId, string topicId)
         {
             if (this.User.IsInRole(GlobalConstants.AdministratorRoleName) || this.User.FindFirstValue(ClaimTypes.NameIdentifier) == authorId)

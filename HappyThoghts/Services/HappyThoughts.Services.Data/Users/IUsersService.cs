@@ -6,5 +6,7 @@
     public interface IUsersService
     {
         Task<ApplicationUserDetailsViewModel> GetUserAsViewModelByIdAsync(string id);
+
+        Task<int> GetUsersCount();
     }
 }

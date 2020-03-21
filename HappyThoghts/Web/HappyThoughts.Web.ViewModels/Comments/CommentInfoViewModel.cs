@@ -2,7 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
-
+    using System.ComponentModel.DataAnnotations;
     using AutoMapper;
     using HappyThoughts.Data.Models;
     using HappyThoughts.Services.Mapping;
@@ -24,6 +24,8 @@
 
         public string TopicId { get; set; }
 
+        [Required]
+        [MinLength(2)]
         public string Content { get; set; }
 
         public int Likes { get; set; }

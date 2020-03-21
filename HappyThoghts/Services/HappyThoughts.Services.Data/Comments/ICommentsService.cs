@@ -9,6 +9,8 @@
     {
         Task CreateAsync(CreateCommentInputModel input);
 
+        Task EditAsync(string commentId, string commentContent);
+
         Task DeleteByIdAsync(string commentId);
 
         Task<T[]> GetAllAsync<T>();

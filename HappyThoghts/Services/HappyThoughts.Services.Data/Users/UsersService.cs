@@ -30,5 +30,12 @@
 
             return user;
         }
+
+        public async Task<int> GetUsersCount()
+        {
+            var usersCount = await this.userRepository.All().CountAsync();
+
+            return usersCount;
+        }
     }
 }

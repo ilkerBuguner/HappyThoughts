@@ -139,7 +139,6 @@
 
         public async Task<IActionResult> Edit(string topicId, string categoryName, string authorId)
         {
-
             if (this.User.IsInRole(GlobalConstants.AdministratorRoleName) || this.User.FindFirstValue(ClaimTypes.NameIdentifier) == authorId)
             {
                 var model = await this.topicsService.GetByIdAsViewModelAsync(topicId);

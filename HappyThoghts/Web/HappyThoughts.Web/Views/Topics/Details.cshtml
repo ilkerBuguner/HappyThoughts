@@ -94,6 +94,7 @@
                 </div>
             }
 
+            @{ int counter = 0;}
             @foreach (var comment in Model.Comments)
             {
                 <div class="media mb-4">
@@ -118,9 +119,9 @@
                         }
 
                         @if (this.User.FindFirstValue(ClaimTypes.NameIdentifier) == comment.Author.Id
-                     || this.User.IsInRole(GlobalConstants.AdministratorRoleName))
+                          || this.User.IsInRole(GlobalConstants.AdministratorRoleName))
                         {
-                            <a href="#" class="btn btn-primary btn-sm">Edit</a>
+                            <button class="btn btn-primary btn-sm" onclick="showEditForm(@counter)">Edit</button>
                             <a class="btn btn-danger btn-sm" asp-controller="Comments" asp-action="Delete" asp-route-id="@comment.Id" asp-route-authorId="@comment.Author.Id" asp-route-topicId="@Model.Id">Delete</a>
                         }
                         else if (this.User.FindFirstValue(ClaimTypes.NameIdentifier) == Model.Author.Id)
@@ -128,8 +129,23 @@
                             <a class="btn btn-danger btn-sm" asp-controller="Comments" asp-action="Delete" asp-route-id="@comment.Id" asp-route-authorId="@comment.Author.Id" asp-route-topicId="@Model.Id">Delete</a>
                         }
 
+                    <form asp-action="Edit" class="editCommentForm" id="editCommentForm @counter" style="display: none;">
+                        <br />
+                        <div class="form-group">
+                            <h6>Edit:</h6>
+                            <textarea asp-for="@comment.Content" name="CommentContent" class="form-control" rows="4"></textarea>
+                            <span asp-validation-for="@comment.Content" class="text-danger"></span>
+                        </div>
+                        <input type="hidden" asp-for="@comment.Id" name="Id" value="@comment.Id" />
+                        <input type="hidden" asp-for="@comment.TopicId" name="TopicId" value="@Model.Id" />
+                        <div class="form-group">
+                            <input asp-controller="Comments" asp-action="Edit" type="submit" value="Save Edits" class="btn btn-primary btn-sm" />
+                        </div>
+                    </form>
+
                     </div>
                 </div>
+                { counter++; }
             }
 
             <!-- Comment with nested comments -->
@@ -201,12 +217,17 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script>
+        function showEditForm(formNum) {
+            document.getElementById("editCommentForm " + formNum).style.display = 'block';
+        }
+    </script>
 }
 
 
 <!-- Scripts for Topic deletion modal -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-
 <script src="bootstrap/js/bootstrap.min.js"></script>
 
 <script type="text/javascript">
