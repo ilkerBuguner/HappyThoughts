@@ -38,20 +38,22 @@
 
         public DateTime CreatedOn { get; set; }
 
-        public string CategoryId { get; set; }
-
-        public string CategoryName { get; set; }
-
         public int CommentsCount => this.Comments.Count();
 
         [Required]
         [MinLength(2)]
         public string CommentContent { get; set; }
 
+        [Required]
+        [MinLength(2)]
+        public string ReplyContent { get; set; }
+
+        public CategoryInfoViewModel Category { get; set; }
+
         public ApplicationUserDetailsViewModel Author { get; set; }
 
         public IEnumerable<CommentInfoViewModel> Comments { get; set; }
 
-        public IEnumerable<CategoryInfoViewModel> Categories { get; set; }
+        public IEnumerable<CategoryInfoViewModel> TopCategories { get; set; }
     }
 }

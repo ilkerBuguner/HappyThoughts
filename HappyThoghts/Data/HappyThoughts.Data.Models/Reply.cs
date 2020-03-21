@@ -8,9 +8,9 @@
 
     using HappyThoughts.Data.Common.Models;
 
-    public class SubComment : BaseDeletableModel<string>
+    public class Reply : BaseDeletableModel<string>
     {
-        public SubComment()
+        public Reply()
         {
             this.Id = Guid.NewGuid().ToString();
             this.CreatedOn = DateTime.UtcNow;

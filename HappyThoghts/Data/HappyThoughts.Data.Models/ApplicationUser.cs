@@ -24,7 +24,7 @@ namespace HappyThoughts.Data.Models
             this.Comments = new HashSet<Comment>();
             this.MessagesSent = new HashSet<Message>();
             this.MessagesReceived = new HashSet<Message>();
-            this.SubComments = new HashSet<SubComment>();
+            this.Replies = new HashSet<Reply>();
         }
 
         // Audit info
@@ -76,6 +76,6 @@ namespace HappyThoughts.Data.Models
 
         public virtual ICollection<Message> MessagesReceived { get; set; }
 
-        public virtual ICollection<SubComment> SubComments { get; set; }
+        public virtual ICollection<Reply> Replies { get; set; }
     }
 }

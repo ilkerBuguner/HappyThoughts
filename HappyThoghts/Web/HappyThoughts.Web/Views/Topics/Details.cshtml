@@ -24,7 +24,7 @@
             </p>
             <hr>
             <!-- Date/Time -->
-            <p class="text-center"><b>Posted On: @Model.CreatedOn | Category: <a href="/Categories/ByName?name=@Model.CategoryName">@Model.CategoryName</a> | Views: @Model.Views</b></p>
+            <p class="text-center"><b>Posted On: @Model.CreatedOn | Category: <a href="/Categories/ByName?name=@Model.Category.Name">@Model.Category.Name</a> | Views: @Model.Views</b></p>
             <hr>
             <!-- Preview Image -->
             @if (!String.IsNullOrEmpty(Model.PictureUrl))
@@ -55,7 +55,7 @@
                     <button hidden class="btn btn-outline-primary" id="dislikeClicked"><i class="fas fa-thumbs-down"></i> Disliked</button>
                     @if (this.User.FindFirstValue(ClaimTypes.NameIdentifier) == Model.Author.Id || this.User.IsInRole(GlobalConstants.AdministratorRoleName))
                     {
-                        <a asp-controller="Topics" asp-action="Edit" asp-route-topicId="@Model.Id" asp-route-categoryName="@Model.CategoryName" asp-route-authorId="@Model.Author.Id" class="btn btn-outline-primary"><i class="far fa-edit"></i> Edit</a>
+                        <a asp-controller="Topics" asp-action="Edit" asp-route-topicId="@Model.Id" asp-route-categoryName="@Model.Category.Name" asp-route-authorId="@Model.Author.Id" class="btn btn-outline-primary"><i class="far fa-edit"></i> Edit</a>
                         <a class="btn btn-outline-danger" id="delete"><i class="far fa-trash-alt"></i> Delete</a>
                     }
                     <a asp-controller="TopicReports" asp-action="Send" asp-route-topicId="@Model.Id" class="btn btn-outline-secondary"><i class="far fa-flag"></i> Report</a>
@@ -95,7 +95,7 @@
             }
 
             @{ int counter = 0;}
-            @foreach (var comment in Model.Comments)
+            @foreach (var comment in Model.Comments.OrderByDescending(c => c.CreatedOn))
             {
                 <div class="media mb-4">
                     @if (comment.Author.ProfilePictureUrl == null)
@@ -111,38 +111,83 @@
                             <h5 class="mt-0"><a asp-controller="Users" asp-action="Profile" asp-route-id="@comment.Author.Id">@comment.Author.UserName</a></h5>
                             <small>@comment.CreatedOn.ToString()</small>
                         </div>
-                        <p class="mb-1">@comment.Content</p>
+                        <h6>@comment.Content</h6>
 
-                        @if (this.User.Identity.IsAuthenticated)
-                        {
-                            <a href="#" class="btn btn-primary btn-sm">Reply</a>
-                        }
+                        <div class="d-flex w-100 justify-content-between">
+                            <div>
+                                @if (this.User.Identity.IsAuthenticated)
+                                {
+                                    <button class="btn btn-success btn-sm" onclick="showReplyForm(@counter)">Reply</button>
+                                }
 
-                        @if (this.User.FindFirstValue(ClaimTypes.NameIdentifier) == comment.Author.Id
-                          || this.User.IsInRole(GlobalConstants.AdministratorRoleName))
-                        {
-                            <button class="btn btn-primary btn-sm" onclick="showEditForm(@counter)">Edit</button>
-                            <a class="btn btn-danger btn-sm" asp-controller="Comments" asp-action="Delete" asp-route-id="@comment.Id" asp-route-authorId="@comment.Author.Id" asp-route-topicId="@Model.Id">Delete</a>
-                        }
-                        else if (this.User.FindFirstValue(ClaimTypes.NameIdentifier) == Model.Author.Id)
-                        {
-                            <a class="btn btn-danger btn-sm" asp-controller="Comments" asp-action="Delete" asp-route-id="@comment.Id" asp-route-authorId="@comment.Author.Id" asp-route-topicId="@Model.Id">Delete</a>
-                        }
+                                <button class="btn btn-primary btn-sm" onclick="showAllReplies(@counter)">Show Replies</button>
 
-                    <form asp-action="Edit" class="editCommentForm" id="editCommentForm @counter" style="display: none;">
-                        <br />
-                        <div class="form-group">
-                            <h6>Edit:</h6>
-                            <textarea asp-for="@comment.Content" name="CommentContent" class="form-control" rows="4"></textarea>
-                            <span asp-validation-for="@comment.Content" class="text-danger"></span>
+                                @if (this.User.FindFirstValue(ClaimTypes.NameIdentifier) == comment.Author.Id
+                             || this.User.IsInRole(GlobalConstants.AdministratorRoleName))
+                                {
+                                    <button class="btn btn-primary btn-sm" onclick="showEditForm(@counter)">Edit</button>
+                                    <a class="btn btn-danger btn-sm" asp-controller="Comments" asp-action="Delete" asp-route-id="@comment.Id" asp-route-authorId="@comment.Author.Id" asp-route-topicId="@Model.Id">Delete</a>
+                                }
+                                else if (this.User.FindFirstValue(ClaimTypes.NameIdentifier) == Model.Author.Id)
+                                {
+                                    <a class="btn btn-danger btn-sm" asp-controller="Comments" asp-action="Delete" asp-route-id="@comment.Id" asp-route-authorId="@comment.Author.Id" asp-route-topicId="@Model.Id">Delete</a>
+                                }
+                            </div>
+                            <span>@comment.Replies.Count Replies</span>
                         </div>
-                        <input type="hidden" asp-for="@comment.Id" name="Id" value="@comment.Id" />
-                        <input type="hidden" asp-for="@comment.TopicId" name="TopicId" value="@Model.Id" />
-                        <div class="form-group">
-                            <input asp-controller="Comments" asp-action="Edit" type="submit" value="Save Edits" class="btn btn-primary btn-sm" />
-                        </div>
-                    </form>
 
+
+                        <form asp-action="Edit" id="editCommentForm @counter" style="display: none;">
+                            <br />
+                            <div class="form-group">
+                                <h6>Edit:</h6>
+                                <textarea asp-for="@comment.Content" name="CommentContent" class="form-control" rows="4"></textarea>
+                                <span asp-validation-for="@comment.Content" class="text-danger"></span>
+                            </div>
+                            <input type="hidden" asp-for="@comment.Id" name="Id" value="@comment.Id" />
+                            <input type="hidden" asp-for="@comment.TopicId" name="TopicId" value="@Model.Id" />
+                            <div class="form-group">
+                                <input asp-controller="Comments" asp-action="Edit" type="submit" value="Save Edits" class="btn btn-primary btn-sm" />
+                            </div>
+                        </form>
+
+                        <form asp-action="Create" id="replyCommentForm @counter" style="display: none;">
+                            <br />
+                            <div class="form-group">
+                                <h6>Reply to @comment.AuthorName:</h6>
+                                <textarea asp-for="@Model.ReplyContent" name="Content" class="form-control" rows="4"></textarea>
+                                <span asp-validation-for="@Model.ReplyContent" class="text-danger"></span>
+                            </div>
+                            <input type="hidden" name="RootCommentId" value="@comment.Id" />
+                            <input type="hidden" name="TopicId" value="@Model.Id" />
+                            <div class="form-group">
+                                <input asp-controller="Replies" asp-action="Create" type="submit" value="Reply" class="btn btn-primary btn-sm" />
+                            </div>
+                        </form>
+
+                        <div id="repliesSection @counter" style="display: none;">
+                            @foreach (var reply in comment.Replies.OrderByDescending(r => r.CreatedOn))
+                            {
+
+                                <div class="media mt-4">
+                                    @if (comment.Author.ProfilePictureUrl == null)
+                                    {
+                                        <img class="d-flex mr-3 rounded-circle comment-picture-no-resize" src="https://res.cloudinary.com/doyjshrjs/image/upload/v1584395277/Profile-PNG-Icon-715x715_smb7cf.png" alt="">
+                                    }
+                                    else
+                                    {
+                                        <img class="d-flex mr-3 rounded-circle comment-picture-no-resize" src="@reply.Author.ProfilePictureUrl" alt="">
+                                    }
+                                    <div class="media-body">
+                                        <div class="d-flex w-100 justify-content-between">
+                                            <h5 class="mt-0"><a asp-controller="Users" asp-action="Profile" asp-route-id="@reply.Author.Id">@reply.Author.UserName</a></h5>
+                                            <small>@reply.CreatedOn.ToString()</small>
+                                        </div>
+                                        <h6>@reply.Content</h6>
+                                    </div>
+                                </div>
+                            }
+                        </div>
                     </div>
                 </div>
                 { counter++; }
@@ -178,7 +223,7 @@
             @await Html.PartialAsync("_PromptingWidgetPartial")
 
             <!-- Categories Widget -->
-            @await Html.PartialAsync("_PopularCategoriesPartial", Model.Categories)
+            @await Html.PartialAsync("_PopularCategoriesPartial", Model.TopCategories)
 
 
         </div>
@@ -220,7 +265,33 @@
 
     <script>
         function showEditForm(formNum) {
-            document.getElementById("editCommentForm " + formNum).style.display = 'block';
+            var element = document.getElementById("editCommentForm " + formNum);
+            if (element.style.display === 'none') {
+                element.style.display = 'block';
+            }
+            else {
+                element.style.display = 'none';
+            }
+        }
+
+        function showReplyForm(replyFormNum) {
+            var element = document.getElementById("replyCommentForm " + replyFormNum);
+            if (element.style.display === 'none') {
+                element.style.display = 'block';
+            }
+            else {
+                element.style.display = 'none';
+            }
+        }
+
+        function showAllReplies(num) {
+            var element = document.getElementById("repliesSection " + num);
+            if (element.style.display === 'none') {
+                element.style.display = 'block';
+            }
+            else {
+                element.style.display = 'none';
+            }
         }
     </script>
 }

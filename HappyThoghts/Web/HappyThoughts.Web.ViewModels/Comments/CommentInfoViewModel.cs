@@ -13,7 +13,7 @@
     {
         public CommentInfoViewModel()
         {
-            this.SubComments = new HashSet<SubCommentInfoViewModel>();
+            this.Replies = new HashSet<SubCommentInfoViewModel>();
         }
 
         public string Id { get; set; }
@@ -36,7 +36,7 @@
 
         public ApplicationUserDetailsViewModel Author { get; set; }
 
-        public ICollection<SubCommentInfoViewModel> SubComments { get; set; }
+        public ICollection<SubCommentInfoViewModel> Replies { get; set; }
 
         public void CreateMappings(IProfileExpression configuration)
         {

@@ -91,7 +91,7 @@
                 .OrderByDescending(c => c.CreatedOn)
                 .ToList();
 
-            viewModel.Categories = await this.categoriesService
+            viewModel.TopCategories = await this.categoriesService
                 .GetAllAsync<CategoryInfoViewModel>();
 
             return this.View(viewModel);

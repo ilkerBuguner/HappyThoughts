@@ -32,7 +32,7 @@
 
         public DbSet<Setting> Settings { get; set; }
 
-        public DbSet<SubComment> SubComments { get; set; }
+        public DbSet<Reply> Replies { get; set; }
 
         public DbSet<Topic> Topics { get; set; }
 
@@ -131,15 +131,15 @@
                 .OnDelete(DeleteBehavior.Restrict);
             });
 
-            builder.Entity<SubComment>(entity =>
+            builder.Entity<Reply>(entity =>
             {
                 entity.HasOne(p => p.Topic)
-                .WithMany(c => c.SubComments)
+                .WithMany(c => c.Replies)
                 .HasForeignKey(p => p.TopicId)
                 .OnDelete(DeleteBehavior.Restrict);
 
                 entity.HasOne(c => c.RootComment)
-                .WithMany(c => c.SubComments)
+                .WithMany(c => c.Replies)
                 .HasForeignKey(c => c.RootCommentId)
                 .OnDelete(DeleteBehavior.Restrict);
             });

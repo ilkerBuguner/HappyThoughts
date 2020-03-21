@@ -17,7 +17,7 @@
             this.IsDeleted = false;
 
             this.Comments = new HashSet<Comment>();
-            this.SubComments = new HashSet<SubComment>();
+            this.Replies = new HashSet<Reply>();
         }
 
         [MaxLength(50)]
@@ -51,6 +51,6 @@
         // public ICollection<TopicCategory> Categories { get; set; }
         public virtual ICollection<Comment> Comments { get; set; }
 
-        public virtual ICollection<SubComment> SubComments { get; set; }
+        public virtual ICollection<Reply> Replies { get; set; }
     }
 }

@@ -13,7 +13,7 @@
         public Comment()
         {
             this.Id = Guid.NewGuid().ToString();
-            this.SubComments = new HashSet<SubComment>();
+            this.Replies = new HashSet<Reply>();
             this.CreatedOn = DateTime.UtcNow;
             this.IsDeleted = false;
         }
@@ -37,6 +37,6 @@
 
         public virtual Topic Topic { get; set; }
 
-        public virtual ICollection<SubComment> SubComments { get; set; }
+        public virtual ICollection<Reply> Replies { get; set; }
     }
 }
