@@ -2,6 +2,7 @@
 {
     using System.Security.Claims;
     using System.Threading.Tasks;
+    using HappyThoughts.Common;
     using HappyThoughts.Services.Data.Replies;
     using HappyThoughts.Web.ViewModels.InputModels.Replies;
     using Microsoft.AspNetCore.Authorization;
@@ -31,6 +32,30 @@
             await this.repliesService.CreateAsync(input);
 
             return this.Redirect($"/Topics/Details?topicId={input.TopicId}");
+        }
+
+        [Authorize]
+        public async Task<IActionResult> Edit(EditReplyInputModel input)
+        {
+            if (!this.ModelState.IsValid)
+            {
+                return this.Redirect($"/Topics/Details?topicId={input.TopicId}");
+            }
+
+            await this.repliesService.EditAsync(input.Id, input.Content);
+
+            return this.Redirect($"/Topics/Details?topicId={input.TopicId}");
+        }
+
+        [Authorize]
+        public async Task<IActionResult> Delete(string id, string authorId, string topicId)
+        {
+            if (this.User.IsInRole(GlobalConstants.AdministratorRoleName) || this.User.FindFirstValue(ClaimTypes.NameIdentifier) == authorId)
+            {
+                await this.repliesService.DeleteByIdAsync(id);
+            }
+
+            return this.Redirect($"/Topics/Details?topicId={topicId}");
         }
     }
 }

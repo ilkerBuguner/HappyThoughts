@@ -41,7 +41,7 @@
                 </div>
                 <hr>
             }
-            <p class="text-center"><b>Likes: @Model.Likes | Dislikes: @Model.Dislikes | Comments: @Model.CommentsCount</b></p>
+            <p class="text-center"><b>Likes: @Model.Likes | Dislikes: @Model.Dislikes</b></p>
             <hr />
             <!-- Post Content -->
             @Html.Raw(Model.SanitizedContent)
@@ -77,7 +77,7 @@
                             <input type="hidden" id="AuthorId" name="AuthorId" value="@this.User.FindFirstValue(ClaimTypes.NameIdentifier)" />
                             <input type="hidden" id="TopicId" name="TopicId" value="@Model.Id" />
                             <div class="form-group">
-                                <input asp-controller="Comments" asp-action="Create" type="submit" value="Create" class="btn btn-primary" />
+                                <input asp-controller="Comments" asp-action="Create" type="submit" value="Comment" class="btn btn-primary" />
                             </div>
                         </form>
                     </div>
@@ -93,6 +93,12 @@
                     </p>
                 </div>
             }
+
+            <div class="d-flex w-100 justify-content-between">
+                <h5>Comments: @Model.CommentsCount</h5>
+                <h5>Replies: @Model.Comments.Sum(c => c.Replies.Count())</h5>
+            </div>
+            <br />
 
             @{ int counter = 0;}
             @foreach (var comment in Model.Comments.OrderByDescending(c => c.CreatedOn))
@@ -117,15 +123,13 @@
                             <div>
                                 @if (this.User.Identity.IsAuthenticated)
                                 {
-                                    <button class="btn btn-success btn-sm" onclick="showReplyForm(@counter)">Reply</button>
+                                    <button class="btn btn-primary btn-sm" onclick="showBlock('replyCommentForm ',@counter)">Reply</button>
                                 }
 
-                                <button class="btn btn-primary btn-sm" onclick="showAllReplies(@counter)">Show Replies</button>
-
                                 @if (this.User.FindFirstValue(ClaimTypes.NameIdentifier) == comment.Author.Id
-                             || this.User.IsInRole(GlobalConstants.AdministratorRoleName))
+|| this.User.IsInRole(GlobalConstants.AdministratorRoleName))
                                 {
-                                    <button class="btn btn-primary btn-sm" onclick="showEditForm(@counter)">Edit</button>
+                                    <button class="btn btn-primary btn-sm" onclick="showBlock('editCommentForm ', @counter)">Edit</button>
                                     <a class="btn btn-danger btn-sm" asp-controller="Comments" asp-action="Delete" asp-route-id="@comment.Id" asp-route-authorId="@comment.Author.Id" asp-route-topicId="@Model.Id">Delete</a>
                                 }
                                 else if (this.User.FindFirstValue(ClaimTypes.NameIdentifier) == Model.Author.Id)
@@ -133,7 +137,15 @@
                                     <a class="btn btn-danger btn-sm" asp-controller="Comments" asp-action="Delete" asp-route-id="@comment.Id" asp-route-authorId="@comment.Author.Id" asp-route-topicId="@Model.Id">Delete</a>
                                 }
                             </div>
-                            <span>@comment.Replies.Count Replies</span>
+
+                            @if (comment.Replies.Count == 1)
+                            {
+                                <a class="btn bg-info text-white btn-sm" onclick="showBlock('repliesSection ',@counter)">@comment.Replies.Count Reply</a>
+                            }
+                            else if (comment.Replies.Count > 1)
+                            {
+                                <a class="btn bg-info text-white btn-sm" onclick="showBlock('repliesSection ',@counter)">@comment.Replies.Count Replies</a>
+                            }
                         </div>
 
 
@@ -148,6 +160,7 @@
                             <input type="hidden" asp-for="@comment.TopicId" name="TopicId" value="@Model.Id" />
                             <div class="form-group">
                                 <input asp-controller="Comments" asp-action="Edit" type="submit" value="Save Edits" class="btn btn-primary btn-sm" />
+                                <a class="btn btn-light btn-sm" onclick="showBlock('editCommentForm ', @counter)">Hide</a>
                             </div>
                         </form>
 
@@ -161,10 +174,12 @@
                             <input type="hidden" name="RootCommentId" value="@comment.Id" />
                             <input type="hidden" name="TopicId" value="@Model.Id" />
                             <div class="form-group">
-                                <input asp-controller="Replies" asp-action="Create" type="submit" value="Reply" class="btn btn-primary btn-sm" />
+                                <input asp-controller="Replies" asp-action="Create" type="submit" value="Send Reply" class="btn btn-success btn-sm" />
+                                <a class="btn btn-light btn-sm" onclick="showBlock('replyCommentForm ',@counter)">Hide</a>
                             </div>
                         </form>
 
+                        @{ int replyFormIdentifier = 0;}
                         <div id="repliesSection @counter" style="display: none;">
                             @foreach (var reply in comment.Replies.OrderByDescending(r => r.CreatedOn))
                             {
@@ -184,33 +199,37 @@
                                             <small>@reply.CreatedOn.ToString()</small>
                                         </div>
                                         <h6>@reply.Content</h6>
+
+                                        @if (this.User.FindFirstValue(ClaimTypes.NameIdentifier) == reply.Author.Id
+                                             || this.User.IsInRole(GlobalConstants.AdministratorRoleName))
+                                        {
+                                            <button class="btn btn-primary btn-sm" onclick="showBlock('editReplyForm ' ,@replyFormIdentifier)">Edit</button>
+                                            <a class="btn btn-danger btn-sm" asp-controller="Replies" asp-action="Delete" asp-route-id="@reply.Id" asp-route-authorId="@reply.Author.Id" asp-route-topicId="@Model.Id">Delete</a>
+                                        }
                                     </div>
                                 </div>
+                                <form asp-action="Edit" id="editReplyForm @replyFormIdentifier" style="display: none;">
+                                    <br />
+                                    <div class="form-group">
+                                        <h6>Edit Reply:</h6>
+                                        <textarea asp-for="@reply.Content" name="Content" class="form-control" rows="4"></textarea>
+                                        <span asp-validation-for="@reply.Content" class="text-danger"></span>
+                                    </div>
+                                    <input type="hidden" asp-for="@reply.Id" name="Id" value="@reply.Id" />
+                                    <input type="hidden" asp-for="@reply.TopicId" name="TopicId" value="@Model.Id" />
+                                    <div class="form-group">
+                                        <input asp-controller="Replies" asp-action="Edit" type="submit" value="Save Edits" class="btn btn-primary btn-sm" />
+                                        <a class="btn btn-light btn-sm" onclick="showBlock('editReplyForm ' ,@replyFormIdentifier)">Hide</a>
+                                    </div>
+                                </form>
+                                { replyFormIdentifier++; }
                             }
                         </div>
                     </div>
                 </div>
                 { counter++; }
             }
-
-            <!-- Comment with nested comments -->
-            <div class="media mb-4">
-                <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
-                <div class="media-body">
-                    <h5 class="mt-0">Commenter Name</h5>
-                    Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
-
-                    <div class="media mt-4">
-                        <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
-                        <div class="media-body">
-                            <h5 class="mt-0">Commenter Name</h5>
-                            Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-
+            <br />
         </div>
 
         <!-- Sidebar Widgets Column -->
@@ -264,28 +283,8 @@
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 
     <script>
-        function showEditForm(formNum) {
-            var element = document.getElementById("editCommentForm " + formNum);
-            if (element.style.display === 'none') {
-                element.style.display = 'block';
-            }
-            else {
-                element.style.display = 'none';
-            }
-        }
-
-        function showReplyForm(replyFormNum) {
-            var element = document.getElementById("replyCommentForm " + replyFormNum);
-            if (element.style.display === 'none') {
-                element.style.display = 'block';
-            }
-            else {
-                element.style.display = 'none';
-            }
-        }
-
-        function showAllReplies(num) {
-            var element = document.getElementById("repliesSection " + num);
+        function showBlock(formName, formNum) {
+            var element = document.getElementById(formName + formNum);
             if (element.style.display === 'none') {
                 element.style.display = 'block';
             }

@@ -1,4 +1,4 @@
-﻿namespace HappyThoughts.Web.ViewModels.SubComments
+﻿namespace HappyThoughts.Web.ViewModels.Replies
 {
     using System;
 
@@ -6,8 +6,10 @@
     using HappyThoughts.Services.Mapping;
     using HappyThoughts.Web.ViewModels.Users;
 
-    public class SubCommentInfoViewModel : IMapFrom<Reply>
+    public class ReplyInfoViewModel : IMapFrom<Reply>
     {
+        public string Id { get; set; }
+
         public string Content { get; set; }
 
         public DateTime CreatedOn { get; set; }

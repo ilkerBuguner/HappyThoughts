@@ -6,14 +6,15 @@
     using AutoMapper;
     using HappyThoughts.Data.Models;
     using HappyThoughts.Services.Mapping;
-    using HappyThoughts.Web.ViewModels.SubComments;
+    using HappyThoughts.Web.ViewModels.InputModels.Replies;
+    using HappyThoughts.Web.ViewModels.Replies;
     using HappyThoughts.Web.ViewModels.Users;
 
     public class CommentInfoViewModel : IMapFrom<Comment>, IHaveCustomMappings
     {
         public CommentInfoViewModel()
         {
-            this.Replies = new HashSet<SubCommentInfoViewModel>();
+            this.Replies = new HashSet<ReplyInfoViewModel>();
         }
 
         public string Id { get; set; }
@@ -36,7 +37,9 @@
 
         public ApplicationUserDetailsViewModel Author { get; set; }
 
-        public ICollection<SubCommentInfoViewModel> Replies { get; set; }
+        public ICollection<ReplyInfoViewModel> Replies { get; set; }
+
+        public EditReplyInputModel ReplyEditInputModel { get; set; }
 
         public void CreateMappings(IProfileExpression configuration)
         {
