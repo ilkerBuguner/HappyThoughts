@@ -41,18 +41,15 @@
                 </div>
                 <hr>
             }
-            <p class="text-center"><b>Likes: @Model.Likes | Dislikes: @Model.Dislikes</b></p>
-            <hr />
             <!-- Post Content -->
             @Html.Raw(Model.SanitizedContent)
             <br />
             <hr />
             <div class="text-center">
                 <div class="form-group">
-                    <button class="btn btn-outline-primary" id="like"><i class="far fa-thumbs-up"></i> Like</button>
-                    <button hidden class="btn btn-outline-primary" id="likeClicked"><i class="fas fa-thumbs-up"></i> Liked</button>
-                    <button class="btn btn-outline-primary" id="dislike"><i class="far fa-thumbs-down"></i> Dislike</button>
-                    <button hidden class="btn btn-outline-primary" id="dislikeClicked"><i class="fas fa-thumbs-down"></i> Disliked</button>
+                    <form id="topicVotesForm" method="post" hidden></form>
+                    <button class="btn btn-outline-primary" id="like"><i class="far fa-thumbs-up"></i> <span id="likesCount">@Model.Likes </span></button>
+                    <button class="btn btn-outline-danger" id="dislike"><i class="far fa-thumbs-down"></i> <span id="dislikesCount">@Model.Dislikes </span></button>
                     @if (this.User.FindFirstValue(ClaimTypes.NameIdentifier) == Model.Author.Id || this.User.IsInRole(GlobalConstants.AdministratorRoleName))
                     {
                         <a asp-controller="Topics" asp-action="Edit" asp-route-topicId="@Model.Id" asp-route-categoryName="@Model.Category.Name" asp-route-authorId="@Model.Author.Id" class="btn btn-outline-primary"><i class="far fa-edit"></i> Edit</a>
@@ -86,7 +83,7 @@
             else
             {
                 <div class="alert alert-info text-center" role="alert">
-                    <h5>You have to be logged in to post a comment!</h5>
+                    <h5>You have to be logged in to post a comment or to vote the topic!</h5>
                     <p>
                         <a class="text-dark" asp-area="Identity" asp-page="/Account/Login"><i class="fas fa-sign-in-alt"></i> Login</a> &nbsp; | &nbsp;
                         <a class="text-dark" asp-area="Identity" asp-page="/Account/Register"><i class="fas fa-user-plus"></i> Register</a>
@@ -100,7 +97,9 @@
             </div>
             <br />
 
-            @{ int counter = 0;}
+            <!--Comments Section-->
+            @{ int commentFormIdentifier = 0;}
+            @{ int replyFormIdentifier = 0;}
             @foreach (var comment in Model.Comments.OrderByDescending(c => c.CreatedOn))
             {
                 <div class="media mb-4">
@@ -123,13 +122,13 @@
                             <div>
                                 @if (this.User.Identity.IsAuthenticated)
                                 {
-                                    <button class="btn btn-primary btn-sm" onclick="showBlock('replyCommentForm ',@counter)">Reply</button>
+                                    <button class="btn btn-primary btn-sm" onclick="showBlock('replyCommentForm ',@commentFormIdentifier)">Reply</button>
                                 }
 
                                 @if (this.User.FindFirstValue(ClaimTypes.NameIdentifier) == comment.Author.Id
-|| this.User.IsInRole(GlobalConstants.AdministratorRoleName))
+                           || this.User.IsInRole(GlobalConstants.AdministratorRoleName))
                                 {
-                                    <button class="btn btn-primary btn-sm" onclick="showBlock('editCommentForm ', @counter)">Edit</button>
+                                    <button class="btn btn-primary btn-sm" onclick="showBlock('editCommentForm ', @commentFormIdentifier)">Edit</button>
                                     <a class="btn btn-danger btn-sm" asp-controller="Comments" asp-action="Delete" asp-route-id="@comment.Id" asp-route-authorId="@comment.Author.Id" asp-route-topicId="@Model.Id">Delete</a>
                                 }
                                 else if (this.User.FindFirstValue(ClaimTypes.NameIdentifier) == Model.Author.Id)
@@ -140,16 +139,16 @@
 
                             @if (comment.Replies.Count == 1)
                             {
-                                <a class="btn bg-info text-white btn-sm" onclick="showBlock('repliesSection ',@counter)">@comment.Replies.Count Reply</a>
+                                <a class="btn bg-info text-white btn-sm" onclick="showBlock('repliesSection ',@commentFormIdentifier)">@comment.Replies.Count Reply</a>
                             }
                             else if (comment.Replies.Count > 1)
                             {
-                                <a class="btn bg-info text-white btn-sm" onclick="showBlock('repliesSection ',@counter)">@comment.Replies.Count Replies</a>
+                                <a class="btn bg-info text-white btn-sm" onclick="showBlock('repliesSection ',@commentFormIdentifier)">@comment.Replies.Count Replies</a>
                             }
                         </div>
 
 
-                        <form asp-action="Edit" id="editCommentForm @counter" style="display: none;">
+                        <form asp-action="Edit" id="editCommentForm @commentFormIdentifier" style="display: none;">
                             <br />
                             <div class="form-group">
                                 <h6>Edit:</h6>
@@ -160,11 +159,11 @@
                             <input type="hidden" asp-for="@comment.TopicId" name="TopicId" value="@Model.Id" />
                             <div class="form-group">
                                 <input asp-controller="Comments" asp-action="Edit" type="submit" value="Save Edits" class="btn btn-primary btn-sm" />
-                                <a class="btn btn-light btn-sm" onclick="showBlock('editCommentForm ', @counter)">Hide</a>
+                                <a class="btn btn-light btn-sm" onclick="showBlock('editCommentForm ', @commentFormIdentifier)">Hide</a>
                             </div>
                         </form>
 
-                        <form asp-action="Create" id="replyCommentForm @counter" style="display: none;">
+                        <form asp-action="Create" id="replyCommentForm @commentFormIdentifier" style="display: none;">
                             <br />
                             <div class="form-group">
                                 <h6>Reply to @comment.AuthorName:</h6>
@@ -175,12 +174,12 @@
                             <input type="hidden" name="TopicId" value="@Model.Id" />
                             <div class="form-group">
                                 <input asp-controller="Replies" asp-action="Create" type="submit" value="Send Reply" class="btn btn-success btn-sm" />
-                                <a class="btn btn-light btn-sm" onclick="showBlock('replyCommentForm ',@counter)">Hide</a>
+                                <a class="btn btn-light btn-sm" onclick="showBlock('replyCommentForm ',@commentFormIdentifier)">Hide</a>
                             </div>
                         </form>
 
-                        @{ int replyFormIdentifier = 0;}
-                        <div id="repliesSection @counter" style="display: none;">
+                        <!-- Replies -->
+                        <div id="repliesSection @commentFormIdentifier" style="display: none;">
                             @foreach (var reply in comment.Replies.OrderByDescending(r => r.CreatedOn))
                             {
 
@@ -201,9 +200,9 @@
                                         <h6>@reply.Content</h6>
 
                                         @if (this.User.FindFirstValue(ClaimTypes.NameIdentifier) == reply.Author.Id
-                                             || this.User.IsInRole(GlobalConstants.AdministratorRoleName))
+                                    || this.User.IsInRole(GlobalConstants.AdministratorRoleName))
                                         {
-                                            <button class="btn btn-primary btn-sm" onclick="showBlock('editReplyForm ' ,@replyFormIdentifier)">Edit</button>
+                                            <button class="btn btn-primary btn-sm" onclick="showBlock('editReplyForm ', @replyFormIdentifier)">Edit</button>
                                             <a class="btn btn-danger btn-sm" asp-controller="Replies" asp-action="Delete" asp-route-id="@reply.Id" asp-route-authorId="@reply.Author.Id" asp-route-topicId="@Model.Id">Delete</a>
                                         }
                                     </div>
@@ -219,7 +218,7 @@
                                     <input type="hidden" asp-for="@reply.TopicId" name="TopicId" value="@Model.Id" />
                                     <div class="form-group">
                                         <input asp-controller="Replies" asp-action="Edit" type="submit" value="Save Edits" class="btn btn-primary btn-sm" />
-                                        <a class="btn btn-light btn-sm" onclick="showBlock('editReplyForm ' ,@replyFormIdentifier)">Hide</a>
+                                        <a class="btn btn-light btn-sm" onclick="showBlock('editReplyForm ', @replyFormIdentifier)">Hide</a>
                                     </div>
                                 </form>
                                 { replyFormIdentifier++; }
@@ -227,7 +226,7 @@
                         </div>
                     </div>
                 </div>
-                { counter++; }
+                { commentFormIdentifier++; }
             }
             <br />
         </div>
@@ -280,7 +279,7 @@
 <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
 
     <script>
         function showBlock(formName, formNum) {
@@ -313,7 +312,57 @@
     });
 </script>
 
-<!-- Ajax request for like function -->
+<script>
+    $(document).ready(function () {
+        $("#like").click(function () {
+            var token = $("#topicVotesForm input[name=__RequestVerificationToken]").val();
+            $.ajax('/Votes/TopicVote', {
+                type: 'POST',  // http method
+                data: { topicId: '@Model.Id', IsLike: 'true' },  // data to submit
+                headers: { 'X-CSRF-TOKEN': token },
+                success: function (data) {
+                    $("#likesCount").html(data.likesCount);
+                }
+            });
+        });
+    });
+
+    $(document).ready(function () {
+        $("#dislike").click(function () {
+            var token = $("#topicVotesForm input[name=__RequestVerificationToken]").val();
+            $.ajax('/Votes/TopicVote', {
+                type: 'POST',  // http method
+                data: { topicId: '@Model.Id', IsLike: 'false' },  // data to submit
+                headers: { 'X-CSRF-TOKEN': token },
+                success: function (data) {
+                     $("#dislikesCount").html(data.dislikesCount);
+                }
+            });
+        });
+    });
+</script>
+
+
+<!--
+<script>
+    function sendVote(topicId, isUpVote) {
+        var token = $("#topicVotesForm input[name=__RequestVerificationToken]").val();
+        var json = { topicId: topicId, isUpVote: isUpVote };
+        $.ajax({
+            url: "/Votes/TopicVote",
+            type: "GET",
+            data: JSON.stringify(json),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            headers: { 'X-CSRF-TOKEN': token },
+            success: function (data) {
+                $("#votesCount").html(data.votesCount);
+            }
+        });
+    }
+</script>
+    -->
+<!-- Ajax request for like function
 <script>
     $(document).ready(function () {
         $("#like").click(function () {
@@ -331,8 +380,6 @@
         });
     });
 </script>
-<!-- Ajax request for like function -->
-<!-- Ajax request for dislike function -->
 <script>
     $(document).ready(function () {
         $("#dislike").click(function () {

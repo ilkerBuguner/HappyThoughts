@@ -121,22 +121,6 @@
             return this.View(viewModel);
         }
 
-        [HttpPost]
-        public async Task<IActionResult> LikeTopic(string topicId)
-        {
-            await this.topicsService.LikeTopicAsync(topicId);
-
-            return this.Json("succeed");
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> DislikeTopic(string topicId)
-        {
-            await this.topicsService.DislikeTopicAsync(topicId);
-
-            return this.Json("succeed");
-        }
-
         public async Task<IActionResult> Edit(string topicId, string categoryName, string authorId)
         {
             if (this.User.IsInRole(GlobalConstants.AdministratorRoleName) || this.User.FindFirstValue(ClaimTypes.NameIdentifier) == authorId)

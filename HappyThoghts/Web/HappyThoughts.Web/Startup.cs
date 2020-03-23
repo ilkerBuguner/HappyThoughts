@@ -17,12 +17,14 @@
     using HappyThoughts.Services.Data.TopicReports;
     using HappyThoughts.Services.Data.Topics;
     using HappyThoughts.Services.Data.Users;
+    using HappyThoughts.Services.Data.Votes;
     using HappyThoughts.Services.Mapping;
     using HappyThoughts.Services.Messaging;
     using HappyThoughts.Web.ViewModels;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Http;
+    using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
@@ -62,7 +64,14 @@
                         options.MinimumSameSitePolicy = SameSiteMode.None;
                     });
 
-            services.AddControllersWithViews();
+            services.AddControllersWithViews(options =>
+            {
+                options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute()); // CSRF
+            });
+            services.AddAntiforgery(options =>
+            {
+                options.HeaderName = "X-CSRF-TOKEN";
+            });
             services.AddRazorPages();
 
             services.AddSingleton(this.configuration);
@@ -82,6 +91,7 @@
             services.AddTransient<ITopicReportsService, TopicReportsService>();
             services.AddTransient<IUsersService, UsersService>();
             services.AddTransient<IRepliesService, RepliesService>();
+            services.AddTransient<IVotesService, VotesService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

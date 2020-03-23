@@ -38,8 +38,12 @@
 
         int GetTotalTopicsCount();
 
-        Task LikeTopicAsync(string topicId);
+        Task VoteTopic(string topicId, bool isLike);
 
-        Task DislikeTopicAsync(string topicId);
+        Task CancelVote(string topicId, bool isLike);
+
+        int GetTopicTotalLikes(string topicId);
+
+        int GetTopicTotalDislikes(string topicId);
     }
 }

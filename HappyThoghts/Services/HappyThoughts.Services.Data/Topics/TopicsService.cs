@@ -234,26 +234,52 @@
             return topics;
         }
 
-        public async Task LikeTopicAsync(string topicId)
+        public async Task VoteTopic(string topicId, bool isLike)
         {
-            var topicFromDb = await this.topicRepository
-                .GetByIdWithDeletedAsync(topicId);
+            var topicFromDb = await this.topicRepository.GetByIdWithDeletedAsync(topicId);
 
-            topicFromDb.Likes += 1;
+            if (isLike)
+            {
+                topicFromDb.Likes++;
+            }
+            else
+            {
+                topicFromDb.Dislikes++;
+            }
 
             this.topicRepository.Update(topicFromDb);
             await this.topicRepository.SaveChangesAsync();
         }
 
-        public async Task DislikeTopicAsync(string topicId)
+        public async Task CancelVote(string topicId, bool isLike)
         {
-            var topicFromDb = await this.topicRepository
-                .GetByIdWithDeletedAsync(topicId);
+            var topicFromDb = await this.topicRepository.GetByIdWithDeletedAsync(topicId);
 
-            topicFromDb.Dislikes += 1;
+            if (isLike)
+            {
+                topicFromDb.Likes--;
+            }
+            else
+            {
+                topicFromDb.Dislikes--;
+            }
 
             this.topicRepository.Update(topicFromDb);
             await this.topicRepository.SaveChangesAsync();
+        }
+
+        public int GetTopicTotalLikes(string topicId)
+        {
+            var topicFromDb = this.topicRepository.All().FirstOrDefault(t => t.Id == topicId);
+
+            return topicFromDb.Likes;
+        }
+
+        public int GetTopicTotalDislikes(string topicId)
+        {
+            var topicFromDb = this.topicRepository.All().FirstOrDefault(t => t.Id == topicId);
+
+            return topicFromDb.Dislikes;
         }
 
         private static void Shuffle(List<TopicInfoViewModel> topics)

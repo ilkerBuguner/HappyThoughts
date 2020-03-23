@@ -38,6 +38,8 @@
 
         public DbSet<TopicReport> TopicReports { get; set; }
 
+        public DbSet<TopicVote> TopicVotes { get; set; }
+
         public override int SaveChanges() => this.SaveChanges(true);
 
         public override int SaveChanges(bool acceptAllChangesOnSuccess)

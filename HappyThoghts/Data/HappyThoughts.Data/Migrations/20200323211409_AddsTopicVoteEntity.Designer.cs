@@ -4,14 +4,16 @@ using HappyThoughts.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace HappyThoughts.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200323211409_AddsTopicVoteEntity")]
+    partial class AddsTopicVoteEntity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -484,8 +486,10 @@ namespace HappyThoughts.Data.Migrations
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("TopicId")
-                        .IsRequired()
+                    b.Property<int>("TopicId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("TopicId1")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("Type")
@@ -497,7 +501,7 @@ namespace HappyThoughts.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("TopicId");
+                    b.HasIndex("TopicId1");
 
                     b.HasIndex("UserId");
 
@@ -691,9 +695,7 @@ namespace HappyThoughts.Data.Migrations
                 {
                     b.HasOne("HappyThoughts.Data.Models.Topic", "Topic")
                         .WithMany()
-                        .HasForeignKey("TopicId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .HasForeignKey("TopicId1");
 
                     b.HasOne("HappyThoughts.Data.Models.ApplicationUser", "User")
                         .WithMany()

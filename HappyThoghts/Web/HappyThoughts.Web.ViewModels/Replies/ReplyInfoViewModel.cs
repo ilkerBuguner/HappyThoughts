@@ -1,7 +1,7 @@
 ﻿namespace HappyThoughts.Web.ViewModels.Replies
 {
     using System;
-
+    using System.ComponentModel.DataAnnotations;
     using HappyThoughts.Data.Models;
     using HappyThoughts.Services.Mapping;
     using HappyThoughts.Web.ViewModels.Users;
@@ -10,6 +10,8 @@
     {
         public string Id { get; set; }
 
+        [Required]
+        [MinLength(2)]
         public string Content { get; set; }
 
         public DateTime CreatedOn { get; set; }
