@@ -38,9 +38,9 @@
 
         int GetTotalTopicsCount();
 
-        Task VoteTopic(string topicId, bool isLike);
+        Task VoteTopicAsync(string topicId, bool isLike);
 
-        Task CancelVote(string topicId, bool isLike);
+        Task CancelVoteAsync(string topicId, bool isLike);
 
         int GetTopicTotalLikes(string topicId);
 

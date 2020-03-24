@@ -1,12 +1,13 @@
-﻿using HappyThoughts.Data.Common.Repositories;
-using HappyThoughts.Data.Models;
-using HappyThoughts.Data.Models.Enumerations;
-using HappyThoughts.Services.Data.Topics;
-using Microsoft.EntityFrameworkCore;
-using System.Threading.Tasks;
-
-namespace HappyThoughts.Services.Data.Votes
+﻿namespace HappyThoughts.Services.Data.Votes
 {
+    using System.Threading.Tasks;
+
+    using HappyThoughts.Data.Common.Repositories;
+    using HappyThoughts.Data.Models;
+    using HappyThoughts.Data.Models.Enumerations;
+    using HappyThoughts.Services.Data.Topics;
+    using Microsoft.EntityFrameworkCore;
+
     public class VotesService : IVotesService
     {
         private readonly IRepository<TopicVote> topicVoteRepository;
@@ -16,11 +17,6 @@ namespace HappyThoughts.Services.Data.Votes
         {
             this.topicVoteRepository = topicVoteRepository;
             this.topicsService = topicsService;
-        }
-
-        public int GetLikes(string topicId)
-        {
-            throw new System.NotImplementedException();
         }
 
         public async Task<int> VoteTopicAsync(string topicId, string userId, bool isLike)
@@ -40,29 +36,18 @@ namespace HappyThoughts.Services.Data.Votes
 
                 if (isLike)
                 {
-                    await this.topicsService.VoteTopic(topicId, true);
+                    await this.topicsService.VoteTopicAsync(topicId, true);
                 }
                 else
                 {
-                    await this.topicsService.VoteTopic(topicId, false);
+                    await this.topicsService.VoteTopicAsync(topicId, false);
                 }
 
                 await this.topicVoteRepository.AddAsync(topicVote);
             }
             else
             {
-                if (topicVote.Type == VoteType.Like && isLike == false)
-                {
-                    await this.topicsService.CancelVote(topicId, true);
-                    await this.topicsService.VoteTopic(topicId, false);
-                }
-                else if (topicVote.Type == VoteType.Dislike && isLike == true)
-                {
-                    await this.topicsService.CancelVote(topicId, false);
-                    await this.topicsService.VoteTopic(topicId, true);
-                }
-
-                topicVote.Type = isLike ? VoteType.Like : VoteType.Dislike;
+                await this.ManageVoteStatusAsync(topicId, isLike, topicVote);
             }
 
             await this.topicVoteRepository.SaveChangesAsync();
@@ -74,6 +59,46 @@ namespace HappyThoughts.Services.Data.Votes
             else
             {
                 return this.topicsService.GetTopicTotalDislikes(topicId);
+            }
+        }
+
+        private async Task ManageVoteStatusAsync(string topicId, bool isLike, TopicVote topicVote)
+        {
+            if (topicVote.Type == VoteType.Like && isLike == false)
+            {
+                await this.topicsService.CancelVoteAsync(topicId, true);
+                await this.topicsService.VoteTopicAsync(topicId, false);
+
+                topicVote.Type = VoteType.Dislike;
+            }
+            else if (topicVote.Type == VoteType.Like && isLike == true)
+            {
+                await this.topicsService.CancelVoteAsync(topicId, true);
+
+                topicVote.Type = VoteType.Neutral;
+            }
+            else if (topicVote.Type == VoteType.Dislike && isLike == true)
+            {
+                await this.topicsService.CancelVoteAsync(topicId, false);
+                await this.topicsService.VoteTopicAsync(topicId, true);
+
+                topicVote.Type = VoteType.Like;
+            }
+            else if (topicVote.Type == VoteType.Dislike && isLike == false)
+            {
+                await this.topicsService.CancelVoteAsync(topicId, false);
+
+                topicVote.Type = VoteType.Neutral;
+            }
+            else if (topicVote.Type == VoteType.Neutral && isLike == true)
+            {
+                await this.topicsService.VoteTopicAsync(topicId, true);
+                topicVote.Type = VoteType.Like;
+            }
+            else if (topicVote.Type == VoteType.Neutral && isLike == false)
+            {
+                await this.topicsService.VoteTopicAsync(topicId, false);
+                topicVote.Type = VoteType.Dislike;
             }
         }
     }

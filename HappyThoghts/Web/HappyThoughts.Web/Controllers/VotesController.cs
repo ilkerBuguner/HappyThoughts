@@ -2,6 +2,7 @@
 {
     using System.Security.Claims;
     using System.Threading.Tasks;
+
     using HappyThoughts.Services.Data.Votes;
     using HappyThoughts.Web.ViewModels.InputModels.Votes;
     using HappyThoughts.Web.ViewModels.Votes;

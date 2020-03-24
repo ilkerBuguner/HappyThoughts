@@ -234,7 +234,7 @@
             return topics;
         }
 
-        public async Task VoteTopic(string topicId, bool isLike)
+        public async Task VoteTopicAsync(string topicId, bool isLike)
         {
             var topicFromDb = await this.topicRepository.GetByIdWithDeletedAsync(topicId);
 
@@ -251,7 +251,7 @@
             await this.topicRepository.SaveChangesAsync();
         }
 
-        public async Task CancelVote(string topicId, bool isLike)
+        public async Task CancelVoteAsync(string topicId, bool isLike)
         {
             var topicFromDb = await this.topicRepository.GetByIdWithDeletedAsync(topicId);
 

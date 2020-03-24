@@ -4,5 +4,6 @@
     {
         Like = 0,
         Dislike = 1,
+        Neutral = 2,
     }
 }
