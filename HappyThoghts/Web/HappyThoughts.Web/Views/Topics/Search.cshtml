@@ -64,13 +64,13 @@
                 <br />
                 @if (!Model.Topics.IsPreviousPageDisabled)
                 {
-                    <a href="/Topics/Search?searchTerm=@Model.SearchTerm&page=1" class="float-left btn btn-primary"><i class="fas fa-fast-backward"></i></a>
-                    <a href="/Topics/Search?searchTerm=@Model.SearchTerm&page=@Model.Topics.PreviousPage" class="float-left btn btn-primary">Prev</a>
+                    <a href="/Topics/Search?searchTerm=@Model.SearchTerm&page=1" class="float-left btn btn-primary btn-sm"><i class="fas fa-fast-backward"></i></a>
+                    <a href="/Topics/Search?searchTerm=@Model.SearchTerm&page=@Model.Topics.PreviousPage" class="float-left btn btn-primary btn-sm">Prev</a>
                 }
                 @if (!Model.Topics.IsNextPageDisabled)
                 {
-                    <a href="/Topics/Search?searchTerm=@Model.SearchTerm&page=@Model.Topics.MaxPages" class="float-right btn btn-primary"><i class="fas fa-fast-forward"></i></a>
-                    <a href="/Topics/Search?searchTerm=@Model.SearchTerm&page=@Model.Topics.NextPage" class="float-right btn btn-primary">Next</a>
+                    <a href="/Topics/Search?searchTerm=@Model.SearchTerm&page=@Model.Topics.MaxPages" class="float-right btn btn-primary btn-sm"><i class="fas fa-fast-forward"></i></a>
+                    <a href="/Topics/Search?searchTerm=@Model.SearchTerm&page=@Model.Topics.NextPage" class="float-right btn btn-primary btn-sm">Next</a>
                 }
             }
         </div>
