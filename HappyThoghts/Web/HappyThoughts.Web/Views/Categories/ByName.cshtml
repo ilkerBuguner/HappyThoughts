@@ -36,7 +36,7 @@
                             }
                             else
                             {
-                                <img class="align-self-center mr-3 img-thumbnail" src="@topic.PictureUrl"  width="120" height="120" alt="@topic.Title">
+                                <img class="align-self-center mr-3 img-thumbnail" src="@topic.PictureUrl" width="120" height="120" alt="@topic.Title">
                             }
                             <div class="media-body">
                                 <div class="d-flex w-100 justify-content-between">
@@ -63,16 +63,19 @@
 
                 <br />
 
-                @if (!Model.CategoryTopics.IsPreviousPageDisabled)
-                {
-                    <a href="/Categories/ByName?name=@Model.CategoryName&page=1" class="float-left btn btn-primary"><i class="fas fa-fast-backward"></i></a>
-                    <a href="/Categories/ByName?name=@Model.CategoryName&page=@Model.CategoryTopics.PreviousPage" class="float-left btn btn-primary">Prev</a>
-                }
-                @if (!Model.CategoryTopics.IsNextPageDisabled)
-                {
-                    <a href="/Categories/ByName?name=@Model.CategoryName&page=@Model.CategoryTopics.MaxPages" class="float-right btn btn-primary"><i class="fas fa-fast-forward"></i></a>
-                    <a href="/Categories/ByName?name=@Model.CategoryName&page=@Model.CategoryTopics.NextPage" class="float-right btn btn-primary">Next</a>
-                }
+                <ul class="pagination justify-content-center">
+                    @if (!Model.CategoryTopics.IsPreviousPageDisabled)
+                    {
+                        <li class="page-item"><a class="page-link" href="/Categories/ByName?name=@Model.CategoryName&page=1"><i class="fas fa-fast-backward"></i></a></li>
+                        <li class="page-item"><a class="page-link" href="/Categories/ByName?name=@Model.CategoryName&page=@Model.CategoryTopics.PreviousPage">@Model.CategoryTopics.PreviousPage</a></li>
+                    }
+                    <li class="page-item active"><a class="page-link" href="/Categories/ByName?name=@Model.CategoryName&page=@Model.CategoryTopics.CurrentPage">@Model.CategoryTopics.CurrentPage</a></li>
+                    @if (!Model.CategoryTopics.IsNextPageDisabled)
+                    {
+                        <li class="page-item"><a class="page-link" href="/Categories/ByName?name=@Model.CategoryName&page=@Model.CategoryTopics.NextPage">@Model.CategoryTopics.NextPage</a></li>
+                        <li class="page-item"><a class="page-link" href="/Categories/ByName?name=@Model.CategoryName&page=@Model.CategoryTopics.MaxPages"><i class="fas fa-fast-forward"></i></a></li>
+                    }
+                </ul>
             }
         </div>
     </div>
