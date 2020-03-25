@@ -126,14 +126,14 @@
                                 }
 
                                 @if (this.User.FindFirstValue(ClaimTypes.NameIdentifier) == comment.Author.Id
-                           || this.User.IsInRole(GlobalConstants.AdministratorRoleName))
+                         || this.User.IsInRole(GlobalConstants.AdministratorRoleName))
                                 {
                                     <button class="btn btn-primary btn-sm" onclick="showBlock('editCommentForm ', @commentFormIdentifier)">Edit</button>
-                                    <a class="btn btn-danger btn-sm" asp-controller="Comments" asp-action="Delete" asp-route-id="@comment.Id" asp-route-authorId="@comment.Author.Id" asp-route-topicId="@Model.Id">Delete</a>
+                                    <a class="btn btn-danger btn-sm" asp-controller="Comments" asp-action="Delete" asp-route-id="@comment.Id" asp-route-authorId="@comment.Author.Id" asp-route-topicId="@Model.Id" asp-route-topicAuthorId="@Model.Author.Id">Delete</a>
                                 }
                                 else if (this.User.FindFirstValue(ClaimTypes.NameIdentifier) == Model.Author.Id)
                                 {
-                                    <a class="btn btn-danger btn-sm" asp-controller="Comments" asp-action="Delete" asp-route-id="@comment.Id" asp-route-authorId="@comment.Author.Id" asp-route-topicId="@Model.Id">Delete</a>
+                                    <a class="btn btn-danger btn-sm" asp-controller="Comments" asp-action="Delete" asp-route-id="@comment.Id" asp-route-authorId="@comment.Author.Id" asp-route-topicId="@Model.Id" asp-route-topicAuthorId="@Model.Author.Id">Delete</a>
                                 }
                             </div>
 
@@ -192,20 +192,24 @@
                                     {
                                         <img class="d-flex mr-3 rounded-circle comment-picture-no-resize" src="@reply.Author.ProfilePictureUrl" alt="">
                                     }
-                                    <div class="media-body">
-                                        <div class="d-flex w-100 justify-content-between">
-                                            <h5 class="mt-0"><a asp-controller="Users" asp-action="Profile" asp-route-id="@reply.Author.Id">@reply.Author.UserName</a></h5>
-                                            <small>@reply.CreatedOn.ToString()</small>
-                                        </div>
-                                        <h6>@reply.Content</h6>
-
-                                        @if (this.User.FindFirstValue(ClaimTypes.NameIdentifier) == reply.Author.Id
-                                    || this.User.IsInRole(GlobalConstants.AdministratorRoleName))
-                                        {
-                                            <button class="btn btn-primary btn-sm" onclick="showBlock('editReplyForm ', @replyFormIdentifier)">Edit</button>
-                                            <a class="btn btn-danger btn-sm" asp-controller="Replies" asp-action="Delete" asp-route-id="@reply.Id" asp-route-authorId="@reply.Author.Id" asp-route-topicId="@Model.Id">Delete</a>
-                                        }
+                                <div class="media-body">
+                                    <div class="d-flex w-100 justify-content-between">
+                                        <h5 class="mt-0"><a asp-controller="Users" asp-action="Profile" asp-route-id="@reply.Author.Id">@reply.Author.UserName</a></h5>
+                                        <small>@reply.CreatedOn.ToString()</small>
                                     </div>
+                                    <h6>@reply.Content</h6>
+
+                                    @if (this.User.FindFirstValue(ClaimTypes.NameIdentifier) == reply.Author.Id
+                               || this.User.IsInRole(GlobalConstants.AdministratorRoleName))
+                                    {
+                                        <button class="btn btn-primary btn-sm" onclick="showBlock('editReplyForm ', @replyFormIdentifier)">Edit</button>
+                                        <a class="btn btn-danger btn-sm" asp-controller="Replies" asp-action="Delete" asp-route-id="@reply.Id" asp-route-authorId="@reply.Author.Id" asp-route-topicId="@Model.Id" asp-route-topicAuthorId="@Model.Author.Id">Delete</a>
+                                    }
+                                    else if (this.User.FindFirstValue(ClaimTypes.NameIdentifier) == Model.Author.Id)
+                                    {
+                                        <a class="btn btn-danger btn-sm" asp-controller="Replies" asp-action="Delete" asp-route-id="@reply.Id" asp-route-authorId="@reply.Author.Id" asp-route-topicId="@Model.Id" asp-route-topicAuthorId="@Model.Author.Id">Delete</a>
+                                    }
+                                </div>
                                 </div>
                                 <form asp-action="Edit" id="editReplyForm @replyFormIdentifier" style="display: none;">
                                     <br />
@@ -235,15 +239,16 @@
         <div class="col-md-4">
 
             <!--Profile Info Widget-->
-            @await Html.PartialAsync("_ProfileInfoSideWidget", Model.Author)
+            @await Html.PartialAsync("_ProfileInfoWidgetPartial", Model.Author)
 
             <!-- Side Widget -->
             @await Html.PartialAsync("_PromptingWidgetPartial")
 
             <!-- Categories Widget -->
-            @await Html.PartialAsync("_PopularCategoriesPartial", Model.TopCategories)
+            @await Html.PartialAsync("_PopularCategoriesWidgetPartial", Model.TopCategories)
 
-
+            <!-- Rules Widget-->
+            @await Html.PartialAsync("_ForumRulesWidgetPartial")
         </div>
 
     </div>
@@ -325,9 +330,7 @@
                 }
             });
         });
-    });
 
-    $(document).ready(function () {
         $("#dislike").click(function () {
             var token = $("#topicVotesForm input[name=__RequestVerificationToken]").val();
             $.ajax('/Votes/TopicVote', {
@@ -340,4 +343,5 @@
             });
         });
     });
+
 </script>

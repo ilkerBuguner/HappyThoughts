@@ -85,7 +85,10 @@
         @await Html.PartialAsync("_PromptingWidgetPartial")
 
         <!-- Categories Widget -->
-        @await Html.PartialAsync("_PopularCategoriesPartial", Model.Topics.Categories)
+        @await Html.PartialAsync("_PopularCategoriesWidgetPartial", Model.Topics.Categories)
+
+        <!-- Rules Widget-->
+        @await Html.PartialAsync("_ForumRulesWidgetPartial")
     </div>
 
 </div>

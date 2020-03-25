@@ -48,9 +48,10 @@
         }
 
         [Authorize]
-        public async Task<IActionResult> Delete(string id, string authorId, string topicId)
+        public async Task<IActionResult> Delete(string id, string authorId, string topicId, string topicAuthorId)
         {
-            if (this.User.IsInRole(GlobalConstants.AdministratorRoleName) || this.User.FindFirstValue(ClaimTypes.NameIdentifier) == authorId)
+            var currentUserId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (this.User.IsInRole(GlobalConstants.AdministratorRoleName) || currentUserId == authorId || currentUserId == topicAuthorId)
             {
                 await this.repliesService.DeleteByIdAsync(id);
             }
