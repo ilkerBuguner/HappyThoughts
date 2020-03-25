@@ -24,6 +24,7 @@
 
         public string AuthorId { get; set; }
 
+        [Required]
         public string CategoryName { get; set; }
 
         public string CategoryId { get; set; }
