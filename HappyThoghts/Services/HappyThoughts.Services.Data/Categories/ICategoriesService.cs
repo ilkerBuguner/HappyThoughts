@@ -12,8 +12,6 @@
 
         Task<T[]> GetAllAsync<T>();
 
-        IQueryable<T> GetAllAsQueryable<T>();
-
         string GetIdByName(string name);
 
         string GetNameById(string id);

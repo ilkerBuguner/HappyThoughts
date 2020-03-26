@@ -86,10 +86,7 @@
             var viewModel = await this.topicsService
                 .GetByIdAsViewModelAsync(topicId);
 
-            viewModel.Comments = this.commentsService.GetAllAsQueryable<CommentInfoViewModel>()
-                .Where(c => c.TopicId == topicId)
-                .OrderByDescending(c => c.CreatedOn)
-                .ToList();
+            viewModel.Comments = this.commentsService.GetAllCommentsOfTopic(topicId);
 
             viewModel.TopCategories = await this.categoriesService
                 .GetAllAsync<CategoryInfoViewModel>();

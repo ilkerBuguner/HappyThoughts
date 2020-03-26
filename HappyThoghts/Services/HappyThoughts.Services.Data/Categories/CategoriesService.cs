@@ -67,13 +67,6 @@
             await this.categoryRepository.SaveChangesAsync();
         }
 
-        public IQueryable<T> GetAllAsQueryable<T>()
-        {
-            return this.categoryRepository
-                .AllAsNoTracking()
-                .To<T>();
-        }
-
         public async Task<T[]> GetAllAsync<T>()
         {
             return await this.categoryRepository

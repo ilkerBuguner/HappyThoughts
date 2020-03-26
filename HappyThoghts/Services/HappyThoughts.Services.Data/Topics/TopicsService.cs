@@ -159,7 +159,14 @@
 
         public string GetIdByTitle(string title)
         {
-            return this.topicRepository.All().FirstOrDefault(t => t.Title == title).Id;
+            var topic = this.topicRepository.All().FirstOrDefault(t => t.Title == title);
+
+            if (topic == null)
+            {
+                throw new InvalidOperationException();
+            }
+
+            return topic.Id;
         }
 
         public IEnumerable<TopicInfoViewModel> GetLatestTopics(int page = GlobalConstants.DefaultPageNumber)

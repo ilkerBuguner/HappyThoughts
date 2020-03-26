@@ -1,12 +1,14 @@
 ﻿namespace HappyThoughts.Services.Data.Comments
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
 
     using HappyThoughts.Data.Common.Repositories;
     using HappyThoughts.Data.Models;
     using HappyThoughts.Services.Mapping;
+    using HappyThoughts.Web.ViewModels.Comments;
     using HappyThoughts.Web.ViewModels.InputModels.Comments;
     using Microsoft.EntityFrameworkCore;
 
@@ -56,21 +58,6 @@
             await this.commentRepository.SaveChangesAsync();
         }
 
-        public async Task<T[]> GetAllAsync<T>()
-        {
-            return await this.commentRepository
-                .All()
-                .To<T>()
-                .ToArrayAsync();
-        }
-
-        public IQueryable<T> GetAllAsQueryable<T>()
-        {
-            return this.commentRepository
-                .All()
-                .To<T>();
-        }
-
         public async Task DeleteByIdAsync(string commentId)
         {
             var comment = await this.commentRepository.GetByIdWithDeletedAsync(commentId);
@@ -85,5 +72,16 @@
             await this.commentRepository.SaveChangesAsync();
         }
 
+        public IEnumerable<CommentInfoViewModel> GetAllCommentsOfTopic(string topicId)
+        {
+            var comments = this.commentRepository
+                .All()
+                .To<CommentInfoViewModel>()
+                .Where(c => c.TopicId == topicId)
+                .OrderByDescending(c => c.CreatedOn)
+                .ToList();
+
+            return comments;
+        }
     }
 }

@@ -1,11 +1,12 @@
-﻿using HappyThoughts.Data.Common.Repositories;
-using HappyThoughts.Data.Models;
-using HappyThoughts.Web.ViewModels.InputModels.Replies;
-using System;
-using System.Threading.Tasks;
-
-namespace HappyThoughts.Services.Data.Replies
+﻿namespace HappyThoughts.Services.Data.Replies
 {
+    using System;
+    using System.Threading.Tasks;
+
+    using HappyThoughts.Data.Common.Repositories;
+    using HappyThoughts.Data.Models;
+    using HappyThoughts.Web.ViewModels.InputModels.Replies;
+
     public class RepliesService : IRepliesService
     {
         private const string InvalidReplyIdErrorMessage = "Reply with ID: {0} does not exist.";
