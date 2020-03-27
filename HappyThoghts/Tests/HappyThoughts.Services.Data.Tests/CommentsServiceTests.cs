@@ -39,9 +39,10 @@
             // Act
             var expectedCommentsCount = 1;
             await commentsService.CreateAsync(inputModel);
-            var actualResult = commentRepository.All().Count();
+            var actualCommentsCount = commentRepository.All().Count();
+
             // Assert
-            Assert.Equal(expectedCommentsCount, actualResult);
+            Assert.Equal(expectedCommentsCount, actualCommentsCount);
         }
 
         [Fact]
@@ -65,11 +66,11 @@
             // Act
             var expectedCommentContent = "Edited_TestContent";
             await commentsService.EditAsync(comment.Id, expectedCommentContent);
-            var actualCommentsCount = comment.Content;
+            var actualCommentsContent = comment.Content;
 
             // Assert
             comment = await commentRepository.GetByIdWithDeletedAsync(comment.Id);
-            Assert.Equal(expectedCommentContent, actualCommentsCount);
+            Assert.Equal(expectedCommentContent, actualCommentsContent);
         }
 
         [Fact]

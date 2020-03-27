@@ -16,6 +16,7 @@
     public class CategoriesService : ICategoriesService
     {
         private const string InvalidCategoryIdErrorMessage = "Category with ID: {0} does not exist.";
+        private const string InvalidCategoryNameErrorMessage = "Category with Name: {0} does not exist.";
 
         private readonly IDeletableEntityRepository<Category> categoryRepository;
 
@@ -79,22 +80,48 @@
         {
             var category = this.categoryRepository.All().To<CategoryInfoViewModel>().FirstOrDefaultAsync(c => c.Id == id);
 
+            if (category == null)
+            {
+                throw new ArgumentException(InvalidCategoryIdErrorMessage, id);
+            }
+
             return category;
         }
 
         public CategoryInfoViewModel GetCategoryByName(string name)
         {
-            return this.categoryRepository.All().To<CategoryInfoViewModel>().FirstOrDefault(c => c.Name == name);
+            var category = this.categoryRepository.All().To<CategoryInfoViewModel>().FirstOrDefault(c => c.Name == name);
+
+            if (category == null)
+            {
+                throw new ArgumentException(InvalidCategoryNameErrorMessage, name);
+            }
+
+            return category;
         }
 
         public string GetIdByName(string name)
         {
-            return this.categoryRepository.All().FirstOrDefault(c => c.Name == name).Id;
+            var category = this.categoryRepository.All().FirstOrDefault(c => c.Name == name);
+
+            if (category == null)
+            {
+                throw new ArgumentException(InvalidCategoryNameErrorMessage, name);
+            }
+
+            return category.Id;
         }
 
         public string GetNameById(string id)
         {
-            return this.categoryRepository.All().FirstOrDefault(c => c.Id == id).Name;
+            var category = this.categoryRepository.All().FirstOrDefault(c => c.Id == id);
+
+            if (category == null)
+            {
+                throw new ArgumentNullException(InvalidCategoryIdErrorMessage, id);
+            }
+
+            return category.Name;
         }
     }
 }
