@@ -117,7 +117,7 @@
             await topicsService.EditAsync(editInputModel);
 
             // Assert
-            topic = topicRepository.All().FirstOrDefault(t => t.Id == editInputModel.Id);
+            topic = await topicRepository.GetByIdWithDeletedAsync(editInputModel.Id);
             Assert.Equal(expectedTopicTitle, topic.Title);
             Assert.Equal(expectedTopicContent, topic.Content);
         }
