@@ -279,12 +279,22 @@
         {
             var topicFromDb = this.topicRepository.All().FirstOrDefault(t => t.Id == topicId);
 
+            if (topicFromDb == null)
+            {
+                throw new ArgumentException(InvalidTopicIdErrorMessage, topicId);
+            }
+
             return topicFromDb.Likes;
         }
 
         public int GetTopicTotalDislikes(string topicId)
         {
             var topicFromDb = this.topicRepository.All().FirstOrDefault(t => t.Id == topicId);
+
+            if (topicFromDb == null)
+            {
+                throw new ArgumentException(InvalidTopicIdErrorMessage, topicId);
+            }
 
             return topicFromDb.Dislikes;
         }

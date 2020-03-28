@@ -147,6 +147,37 @@
             });
         }
 
+        //[Fact]
+        //public async Task GetAllAsync_ShouldReturnCorrectResult()
+        //{
+        //    // Arrange
+        //    var context = ApplicationDbContextInMemoryFactory.InitializeContext();
+        //    var topicRepository = new EfDeletableEntityRepository<Topic>(context);
+        //    var topicsService = new TopicsService(topicRepository);
+
+        //    for (int i = 0; i < 5; i++)
+        //    {
+        //        var inputModel = new CreateTopicInputModel()
+        //        {
+        //            Title = $"TestTitle{i}",
+        //            Content = $"TestContent{i}_TestContent_TestContent_TestContent_TestContent_TestContent",
+        //        };
+
+        //        await topicsService.CreateAsync(inputModel);
+        //    }
+
+        //    // Act
+        //    var expectedResultDataType = typeof(TopicInfoViewModel);
+        //    var expectedTopicsCount = 5;
+        //    var topics = await topicsService.GetAllAsync<TopicInfoViewModel>();
+        //    var actualTopicsCount = topics.Count();
+        //    var firstTopic = topics[0];
+
+        //    // Assert
+        //    Assert.True(expectedResultDataType == firstTopic.GetType());
+        //    Assert.Equal(expectedTopicsCount, actualTopicsCount);
+        //}
+
         [Fact]
         public async Task IncreaseViewsAsync_ShouldIncreaseTopicViews()
         {
@@ -257,14 +288,13 @@
         //        });
         //    }
 
-        //    var topics = topicRepository.All();
-        //    foreach (var topic in topics)
-        //    {
-        //        topic.Category = category;
-        //        topicRepository.Update(topic);
-        //        await topicRepository.SaveChangesAsync();
-        //    }
-
+        //    //var topics = topicRepository.All();
+        //    //foreach (var topic in topics)
+        //    //{
+        //    //    topic.Category = category;
+        //    //    topicRepository.Update(topic);
+        //    //    await topicRepository.SaveChangesAsync();
+        //    //}
 
         //    await topicsService.CreateAsync(new CreateTopicInputModel()
         //    {
@@ -279,33 +309,231 @@
         //    Assert.Equal(expectedTopicsCount, actualTopicsCount);
         //}
 
-        private List<Topic> GetDummyData()
+        [Fact]
+        public async Task VoteTopicAsync_WithIsLikeTrue_ShouldSuccessfullyIncreaseTopicLikesWithOne()
         {
-            return new List<Topic>()
+            // Arrange
+            var context = ApplicationDbContextInMemoryFactory.InitializeContext();
+            var topicRepository = new EfDeletableEntityRepository<Topic>(context);
+            var topicsService = new TopicsService(topicRepository);
+
+            var inputModel = new CreateTopicInputModel()
             {
-                new Topic()
-                {
-                    Id = Guid.NewGuid().ToString(),
-                    Title = "TestTitle",
-                    Content = "TestContent_TestContent_TestContent_TestContent_TestContent_TestContent",
-                    AuthorId = Guid.NewGuid().ToString(),
-                    CategoryId = Guid.NewGuid().ToString(),
-                },
-                new Topic()
-                {
-                    Id = Guid.NewGuid().ToString(),
-                    Title = "SecondTestTitle",
-                    Content = "SecondTestContent_TestContent_TestContent_TestContent_TestContent_TestContent",
-                    AuthorId = Guid.NewGuid().ToString(),
-                    CategoryId = Guid.NewGuid().ToString(),
-                },
+                Title = "TestTitle",
+                Content = "TestContent_TestContent_TestContent_TestContent_TestContent_TestContent",
             };
+
+            await topicsService.CreateAsync(inputModel);
+            var topic = topicRepository.All().FirstOrDefault(t => t.Title == "TestTitle");
+
+            // Act
+            var expectedTopicLikes = 1;
+            await topicsService.VoteTopicAsync(topic.Id, true);
+            var actualTopicLikes = topicRepository.All().FirstOrDefault(t => t.Title == "TestTitle").Likes;
+
+            // Assert
+            Assert.Equal(expectedTopicLikes, actualTopicLikes);
         }
 
-        private async Task SeedDataAsync(ApplicationDbContext context)
+        [Fact]
+        public async Task VoteTopicAsync_WithIsLikeFalse_ShouldSuccessfullyIncreaseTopicDislikesWithOne()
         {
-            context.AddRange(this.GetDummyData());
-            await context.SaveChangesAsync();
+            // Arrange
+            var context = ApplicationDbContextInMemoryFactory.InitializeContext();
+            var topicRepository = new EfDeletableEntityRepository<Topic>(context);
+            var topicsService = new TopicsService(topicRepository);
+
+            var inputModel = new CreateTopicInputModel()
+            {
+                Title = "TestTitle",
+                Content = "TestContent_TestContent_TestContent_TestContent_TestContent_TestContent",
+            };
+
+            await topicsService.CreateAsync(inputModel);
+            var topic = topicRepository.All().FirstOrDefault(t => t.Title == "TestTitle");
+
+            // Act
+            var expectedTopicDislikes = 1;
+            await topicsService.VoteTopicAsync(topic.Id, false);
+            var actualTopicDislikes = topicRepository.All().FirstOrDefault(t => t.Title == "TestTitle").Dislikes;
+
+            // Assert
+            Assert.Equal(expectedTopicDislikes, actualTopicDislikes);
         }
+
+        [Fact]
+        public async Task CancelVoteAsync_WithIsLikeTrue_ShouldSuccessfullyDecreaseTopicLikesWithOne()
+        {
+            // Arrange
+            var context = ApplicationDbContextInMemoryFactory.InitializeContext();
+            var topicRepository = new EfDeletableEntityRepository<Topic>(context);
+            var topicsService = new TopicsService(topicRepository);
+
+            var inputModel = new CreateTopicInputModel()
+            {
+                Title = "TestTitle",
+                Content = "TestContent_TestContent_TestContent_TestContent_TestContent_TestContent",
+            };
+
+            await topicsService.CreateAsync(inputModel);
+            var topic = topicRepository.All().FirstOrDefault(t => t.Title == "TestTitle");
+            await topicsService.VoteTopicAsync(topic.Id, true);
+
+            // Act
+            var expectedTopicLikes = 0;
+            await topicsService.CancelVoteAsync(topic.Id, true);
+            var actualTopicLikes = topicRepository.All().FirstOrDefault(t => t.Title == "TestTitle").Likes;
+
+            // Assert
+            Assert.Equal(expectedTopicLikes, actualTopicLikes);
+        }
+
+        [Fact]
+        public async Task CancelVoteAsync_WithIsLikeFalse_ShouldSuccessfullyDecreaseTopicDislikesWithOne()
+        {
+            // Arrange
+            var context = ApplicationDbContextInMemoryFactory.InitializeContext();
+            var topicRepository = new EfDeletableEntityRepository<Topic>(context);
+            var topicsService = new TopicsService(topicRepository);
+
+            var inputModel = new CreateTopicInputModel()
+            {
+                Title = "TestTitle",
+                Content = "TestContent_TestContent_TestContent_TestContent_TestContent_TestContent",
+            };
+
+            await topicsService.CreateAsync(inputModel);
+            var topic = topicRepository.All().FirstOrDefault(t => t.Title == "TestTitle");
+            await topicsService.VoteTopicAsync(topic.Id, false);
+
+            // Act
+            var expectedTopicDislikes = 0;
+            await topicsService.CancelVoteAsync(topic.Id, false);
+            var actualTopicDislikes = topicRepository.All().FirstOrDefault(t => t.Title == "TestTitle").Dislikes;
+
+            // Assert
+            Assert.Equal(expectedTopicDislikes, actualTopicDislikes);
+        }
+
+        [Fact]
+        public async Task GetTopicTotalLikes_WithCorrectTopicId_ShouldReturnCorrectTotalLikes()
+        {
+            // Arrange
+            var context = ApplicationDbContextInMemoryFactory.InitializeContext();
+            var topicRepository = new EfDeletableEntityRepository<Topic>(context);
+            var topicsService = new TopicsService(topicRepository);
+
+            var inputModel = new CreateTopicInputModel()
+            {
+                Title = "TestTitle",
+                Content = "TestContent_TestContent_TestContent_TestContent_TestContent_TestContent",
+            };
+
+            await topicsService.CreateAsync(inputModel);
+            var topic = topicRepository.All().FirstOrDefault(t => t.Title == "TestTitle");
+
+            topic.Likes = 15;
+            topicRepository.Update(topic);
+            await topicRepository.SaveChangesAsync();
+
+            // Act
+            var expectedTotalTopicLikes = 15;
+            var actualTotalTopicLikes = topicsService.GetTopicTotalLikes(topic.Id);
+
+            // Assert
+            Assert.Equal(expectedTotalTopicLikes, actualTotalTopicLikes);
+        }
+
+        [Fact]
+        public async Task GetTopicTotalLikes_WithIncorrectTopicId_ShouldThrowArgumentException()
+        {
+            // Arrange
+            var context = ApplicationDbContextInMemoryFactory.InitializeContext();
+            var topicRepository = new EfDeletableEntityRepository<Topic>(context);
+            var topicsService = new TopicsService(topicRepository);
+
+            // Act
+
+            // Assert
+            await Assert.ThrowsAsync<ArgumentException>(async () =>
+            {
+                topicsService.GetTopicTotalLikes("InvalidId");
+            });
+        }
+
+        [Fact]
+        public async Task GetTopicTotalDisikes_WithCorrectTopicId_ShouldReturnCorrectTotalLikes()
+        {
+            // Arrange
+            var context = ApplicationDbContextInMemoryFactory.InitializeContext();
+            var topicRepository = new EfDeletableEntityRepository<Topic>(context);
+            var topicsService = new TopicsService(topicRepository);
+
+            var inputModel = new CreateTopicInputModel()
+            {
+                Title = "TestTitle",
+                Content = "TestContent_TestContent_TestContent_TestContent_TestContent_TestContent",
+            };
+
+            await topicsService.CreateAsync(inputModel);
+            var topic = topicRepository.All().FirstOrDefault(t => t.Title == "TestTitle");
+
+            topic.Dislikes = 15;
+            topicRepository.Update(topic);
+            await topicRepository.SaveChangesAsync();
+
+            // Act
+            var expectedTotalTopicDislikes = 15;
+            var actualTotalTopicDislikes = topicsService.GetTopicTotalDislikes(topic.Id);
+
+            // Assert
+            Assert.Equal(expectedTotalTopicDislikes, actualTotalTopicDislikes);
+        }
+
+        [Fact]
+        public async Task GetTopicTotalDislikes_WithIncorrectTopicId_ShouldThrowArgumentException()
+        {
+            // Arrange
+            var context = ApplicationDbContextInMemoryFactory.InitializeContext();
+            var topicRepository = new EfDeletableEntityRepository<Topic>(context);
+            var topicsService = new TopicsService(topicRepository);
+
+            // Act
+
+            // Assert
+            await Assert.ThrowsAsync<ArgumentException>(async () =>
+            {
+                topicsService.GetTopicTotalDislikes("InvalidId");
+            });
+        }
+
+        //private List<Topic> GetDummyData()
+        //{
+        //    return new List<Topic>()
+        //    {
+        //        new Topic()
+        //        {
+        //            Id = Guid.NewGuid().ToString(),
+        //            Title = "TestTitle",
+        //            Content = "TestContent_TestContent_TestContent_TestContent_TestContent_TestContent",
+        //            AuthorId = Guid.NewGuid().ToString(),
+        //            CategoryId = Guid.NewGuid().ToString(),
+        //        },
+        //        new Topic()
+        //        {
+        //            Id = Guid.NewGuid().ToString(),
+        //            Title = "SecondTestTitle",
+        //            Content = "SecondTestContent_TestContent_TestContent_TestContent_TestContent_TestContent",
+        //            AuthorId = Guid.NewGuid().ToString(),
+        //            CategoryId = Guid.NewGuid().ToString(),
+        //        },
+        //    };
+        //}
+
+        //private async Task SeedDataAsync(ApplicationDbContext context)
+        //{
+        //    context.AddRange(this.GetDummyData());
+        //    await context.SaveChangesAsync();
+        //}
     }
 }
