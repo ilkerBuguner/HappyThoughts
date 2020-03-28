@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Text;
     using System.Threading.Tasks;
 
@@ -13,6 +14,8 @@
 
     public class UsersService : IUsersService
     {
+        private const string InvalidUserIdErrorMessage = "User with ID: {0} does not exist.";
+
         private readonly IDeletableEntityRepository<ApplicationUser> userRepository;
 
         public UsersService(IDeletableEntityRepository<ApplicationUser> userRepository)
@@ -29,6 +32,18 @@
                 .FirstOrDefaultAsync(u => u.Id == id);
 
             return user;
+        }
+
+        public string GetUsernameById(string id)
+        {
+            var user = this.userRepository.All().FirstOrDefault(u => u.Id == id);
+
+            if (user == null)
+            {
+                throw new ArgumentException(InvalidUserIdErrorMessage, id);
+            }
+
+            return user.UserName;
         }
 
         public async Task<int> GetUsersCount()

@@ -16,6 +16,7 @@
     using HappyThoughts.Services.Data.Replies;
     using HappyThoughts.Services.Data.TopicReports;
     using HappyThoughts.Services.Data.Topics;
+    using HappyThoughts.Services.Data.UserReports;
     using HappyThoughts.Services.Data.Users;
     using HappyThoughts.Services.Data.Votes;
     using HappyThoughts.Services.Mapping;
@@ -92,6 +93,7 @@
             services.AddTransient<IUsersService, UsersService>();
             services.AddTransient<IRepliesService, RepliesService>();
             services.AddTransient<IVotesService, VotesService>();
+            services.AddTransient<IUserReportsService, UserReportsService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

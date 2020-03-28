@@ -1,0 +1,119 @@
+﻿@model HappyThoughts.Web.ViewModels.Reports.ReportsListingViewModel
+
+@{
+    ViewData["Title"] = "All Reports";
+}
+
+<div class="row">
+    <div class="col-12">
+        <ul class="nav nav-tabs mb-4" id="myTab" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" id="basicInfo-tab" data-toggle="tab" href="#basicInfo" role="tab" aria-controls="basicInfo" aria-selected="true">Topic Reports</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="connectedServices-tab" data-toggle="tab" href="#connectedServices" role="tab" aria-controls="connectedServices" aria-selected="false">User Reports</a>
+            </li>
+        </ul>
+        <div class="tab-content ml-1" id="myTabContent">
+            <div class="tab-pane fade show active" id="basicInfo" role="tabpanel" aria-labelledby="basicInfo-tab">
+
+                <table class="table">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th>
+                                Title
+                            </th>
+                            <th>
+                                Description
+                            </th>
+                            <th>
+                                Sender
+                            </th>
+                            <th>
+                                Topic
+                            </th>
+                            <th>
+                                SendOn
+                            </th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.TopicReports)
+                        {
+                            <tr>
+                                <td width="200">
+                                    @item.Title
+                                </td>
+                                <td width="600">
+                                    @item.Description
+                                </td>
+                                <td>
+                                    <a asp-area="" asp-controller="Users" asp-action="Profile" asp-route-id="@item.SenderId">Sender Details</a>
+                                </td>
+                                <td>
+                                    <a asp-area="" asp-controller="Topics" asp-action="Details" asp-route-topicId="@item.TopicId">Topic Details</a>
+                                </td>
+                                <td>
+                                    @item.SendOn
+                                </td>
+                                <td>
+                                    <a class="btn btn-primary" asp-action="Delete" asp-route-topicReportId="@item.Id">Delete</a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <div class="tab-pane fade" id="connectedServices" role="tabpanel" aria-labelledby="ConnectedServices-tab">
+                <table class="table">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th>
+                                Title
+                            </th>
+                            <th>
+                                Description
+                            </th>
+                            <th>
+                                Sender
+                            </th>
+                            <th>
+                                Reported
+                            </th>
+                            <th>
+                                SendOn
+                            </th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.UserReports)
+                        {
+                            <tr>
+                                <td width="200">
+                                    @item.Title
+                                </td>
+                                <td width="600">
+                                    @item.Description
+                                </td>
+                                <td>
+                                    <a asp-area="" asp-controller="Users" asp-action="Profile" asp-route-id="@item.SenderId">Sender Details</a>
+                                </td>
+                                <td>
+                                    <a asp-area="" asp-controller="Users" asp-action="Profile" asp-route-id="@item.ReportedUserId">Reported User Details</a>
+                                </td>
+                                <td>
+                                    @item.SendOn
+                                </td>
+                                <td>
+                                    <a class="btn btn-primary" asp-action="Delete" asp-route-userReportId="@item.Id">Delete</a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

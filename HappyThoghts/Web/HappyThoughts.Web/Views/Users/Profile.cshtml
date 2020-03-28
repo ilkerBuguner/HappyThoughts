@@ -43,6 +43,9 @@
                             <div class="ml-auto">
                                 <input type="button" class="btn btn-primary d-none" id="btnDiscard" value="Discard Changes" />
                             </div>
+                            <div>
+                                <a asp-controller="Reports" asp-action="ReportUser" asp-route-userId="@Model.Id" class="btn btn-outline-secondary"><i class="far fa-flag"></i> Report</a>
+                            </div>
                         </div>
                     </div>
 

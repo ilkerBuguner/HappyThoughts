@@ -4,14 +4,16 @@ using HappyThoughts.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace HappyThoughts.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200328142433_AddsUserReportEntityFixed")]
+    partial class AddsUserReportEntityFixed
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -748,14 +750,14 @@ namespace HappyThoughts.Data.Migrations
 
             modelBuilder.Entity("HappyThoughts.Data.Models.UserReport", b =>
                 {
-                    b.HasOne("HappyThoughts.Data.Models.ApplicationUser", "ReportedUser")
-                        .WithMany("ReceivedReports")
+                    b.HasOne("HappyThoughts.Data.Models.Topic", "ReportedUser")
+                        .WithMany()
                         .HasForeignKey("ReportedUserId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("HappyThoughts.Data.Models.ApplicationUser", "Sender")
-                        .WithMany("ReportsSent")
+                        .WithMany()
                         .HasForeignKey("SenderId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();

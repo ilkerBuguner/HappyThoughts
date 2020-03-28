@@ -40,6 +40,8 @@
 
         public DbSet<TopicVote> TopicVotes { get; set; }
 
+        public DbSet<UserReport> UserReports { get; set; }
+
         public override int SaveChanges() => this.SaveChanges(true);
 
         public override int SaveChanges(bool acceptAllChangesOnSuccess)
@@ -122,6 +124,19 @@
                 entity.HasOne(s => s.Receiver)
                 .WithMany(u => u.MessagesReceived)
                 .HasForeignKey(s => s.ReceiverId)
+                .OnDelete(DeleteBehavior.Restrict);
+            });
+
+            builder.Entity<UserReport>(entity =>
+            {
+                entity.HasOne(s => s.Sender)
+                .WithMany(u => u.ReportsSent)
+                .HasForeignKey(s => s.SenderId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+                entity.HasOne(s => s.ReportedUser)
+                .WithMany(u => u.ReceivedReports)
+                .HasForeignKey(s => s.ReportedUserId)
                 .OnDelete(DeleteBehavior.Restrict);
             });
 

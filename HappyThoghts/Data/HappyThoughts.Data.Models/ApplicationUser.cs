@@ -77,5 +77,9 @@ namespace HappyThoughts.Data.Models
         public virtual ICollection<Message> MessagesReceived { get; set; }
 
         public virtual ICollection<Reply> Replies { get; set; }
+
+        public virtual ICollection<UserReport> ReportsSent { get; set; }
+
+        public virtual ICollection<UserReport> ReceivedReports { get; set; }
     }
 }

@@ -1,0 +1,51 @@
+﻿@model HappyThoughts.Web.ViewModels.InputModels.UserReports.CreateUserReportInputModel
+
+@{
+    ViewData["Title"] = "Send";
+}
+
+<div class="container contact">
+    <div class="row">
+        <div class="col-md-3" id="sendReportForm">
+            <div class="contact-info">
+                <img src="https://image.ibb.co/kUASdV/contact-image.png" alt="image" />
+                <h2>Send Report</h2>
+                <hr />
+                <h4>We appreciate you are helping us!</h4>
+            </div>
+        </div>
+        <div class="col-md-9">
+            <form class="contact-form" asp-action="ReportUser">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group disabled">
+                    <fieldset disabled>
+                        <label class="control-label col-sm-2">Report User</label>
+                        <div class="col-sm-10">
+                            <input class="form-control" placeholder="@this.ViewData["Username"]">
+                        </div>
+                    </fieldset>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-2 control-label" asp-for="Title">Subject</label>
+                    <div class="col-sm-10">
+                        <input asp-for="Title" class="form-control" type="text" placeholder="Short info about the report subject">
+                        <span asp-validation-for="Title" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-2 control-label" asp-for="Description">Description:</label>
+                    <div class="col-sm-10">
+                        <textarea asp-for="Description" class="form-control" rows="5" placeholder="Description.."></textarea>
+                        <span asp-validation-for="Description" class="text-danger"></span>
+                    </div>
+                </div>
+                <input type="hidden" id="ReportedUserId" name="ReportedUserId" value="@this.ViewData["UserId"]" />
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <button asp-controller="Reports" asp-action="ReportUser" type="submit" class="btn btn-default">Send</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

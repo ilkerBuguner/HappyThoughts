@@ -44,16 +44,16 @@
 
         public async Task DeleteByIdAsync(string id)
         {
-            var categoryFromDb = await this.topicReportRepository
+            var topicReportFromDb = await this.topicReportRepository
                 .GetByIdWithDeletedAsync(id);
 
-            if (categoryFromDb == null)
+            if (topicReportFromDb == null)
             {
                 throw new ArgumentNullException(
                     string.Format(InvalidTopicReportIdErrorMessage, id));
             }
 
-            this.topicReportRepository.Delete(categoryFromDb);
+            this.topicReportRepository.Delete(topicReportFromDb);
             await this.topicReportRepository.SaveChangesAsync();
         }
     }
