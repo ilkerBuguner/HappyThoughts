@@ -63,11 +63,12 @@ namespace HappyThoughts.Services.Data.Tests
             Assert.Equal(expectedTopicReportsCount, actualCommentsCount);
         }
 
-        [Fact]
-        public async Task DeleteByIdAsync_WithIncorrectData_ShouldThrowArgumentNullException()
+        [InlineData("")]
+        [InlineData(null)]
+        [InlineData("IncorrectId")]
+        [Theory]
+        public async Task DeleteByIdAsync_WithIncorrectData_ShouldThrowArgumentNullException(string incorrectId)
         {
-            var incorrectId = Guid.NewGuid().ToString();
-
             // Arrange
             var context = ApplicationDbContextInMemoryFactory.InitializeContext();
             var topicReportRepository = new EfDeletableEntityRepository<TopicReport>(context);
@@ -76,7 +77,7 @@ namespace HappyThoughts.Services.Data.Tests
             // Act
 
             // Assert
-            await Assert.ThrowsAsync<ArgumentNullException>(async () =>
+            await Assert.ThrowsAsync<ArgumentException>(async () =>
             {
                 await topicReportsService.DeleteByIdAsync(incorrectId);
             });

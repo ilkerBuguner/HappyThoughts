@@ -49,7 +49,7 @@
 
             if (topicReportFromDb == null)
             {
-                throw new ArgumentNullException(
+                throw new ArgumentException(
                     string.Format(InvalidTopicReportIdErrorMessage, id));
             }
 

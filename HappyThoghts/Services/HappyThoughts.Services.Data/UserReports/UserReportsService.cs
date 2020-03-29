@@ -50,7 +50,7 @@
 
             if (userReportFromDb == null)
             {
-                throw new ArgumentNullException(
+                throw new ArgumentException(
                     string.Format(InvalidUserReportIdErrorMessage, id));
             }
 
