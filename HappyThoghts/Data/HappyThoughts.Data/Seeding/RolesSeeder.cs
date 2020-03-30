@@ -18,6 +18,7 @@
 
             await SeedRoleAsync(roleManager, GlobalConstants.AdministratorRoleName);
             await SeedRoleAsync(roleManager, GlobalConstants.BannedRoleName);
+            await SeedRoleAsync(roleManager, GlobalConstants.ModeratorRoleName);
         }
 
         private static async Task SeedRoleAsync(RoleManager<ApplicationRole> roleManager, string roleName)

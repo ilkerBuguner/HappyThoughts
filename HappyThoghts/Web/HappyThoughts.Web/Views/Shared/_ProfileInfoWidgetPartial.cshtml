@@ -14,6 +14,18 @@
         </div>
         <div class="card-body">
             <div class="text-center">
+                @if (Model.IsBanned)
+                {
+                    <span class="badge badge-pill badge-danger">Banned</span>
+                }
+                @if (Model.IsAdmin)
+                {
+                    <span class="badge badge-pill badge-success">Admin</span>
+                }
+                @if (Model.IsModerator)
+                {
+                    <span class="badge badge-pill badge-info">Moderator</span>
+                }
                 <h4 class="card-title">@Model.UserName</h4>
                 <h6>@Model.Topics.Count Created Topics</h6>
                 <p class="card-text">@Model.Biography</p>

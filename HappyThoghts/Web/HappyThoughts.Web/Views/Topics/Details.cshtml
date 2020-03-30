@@ -50,7 +50,7 @@
                     <form id="topicVotesForm" method="post" hidden></form>
                     <button class="btn btn-outline-primary" id="like"><i class="far fa-thumbs-up"></i> <span id="likesCount">@Model.Likes </span></button>
                     <button class="btn btn-outline-danger" id="dislike"><i class="far fa-thumbs-down"></i> <span id="dislikesCount">@Model.Dislikes </span></button>
-                    @if (this.User.FindFirstValue(ClaimTypes.NameIdentifier) == Model.Author.Id || this.User.IsInRole(GlobalConstants.AdministratorRoleName))
+                    @if (this.User.FindFirstValue(ClaimTypes.NameIdentifier) == Model.Author.Id || this.User.IsInRole(GlobalConstants.AdministratorRoleName) || this.User.IsInRole(GlobalConstants.ModeratorRoleName))
                     {
                         <a asp-controller="Topics" asp-action="Edit" asp-route-topicId="@Model.Id" asp-route-categoryName="@Model.Category.Name" asp-route-authorId="@Model.Author.Id" class="btn btn-outline-primary"><i class="far fa-edit"></i> Edit</a>
                         <a class="btn btn-outline-danger" id="delete"><i class="far fa-trash-alt"></i> Delete</a>
@@ -126,7 +126,8 @@
                                 }
 
                                 @if (this.User.FindFirstValue(ClaimTypes.NameIdentifier) == comment.Author.Id
-                         || this.User.IsInRole(GlobalConstants.AdministratorRoleName))
+                         || this.User.IsInRole(GlobalConstants.AdministratorRoleName)
+                         || this.User.IsInRole(GlobalConstants.ModeratorRoleName))
                                 {
                                     <button class="btn btn-primary btn-sm" onclick="showBlock('editCommentForm ', @commentFormIdentifier)">Edit</button>
                                     <a class="btn btn-danger btn-sm" asp-controller="Comments" asp-action="Delete" asp-route-id="@comment.Id" asp-route-authorId="@comment.Author.Id" asp-route-topicId="@Model.Id" asp-route-topicAuthorId="@Model.Author.Id">Delete</a>
@@ -200,7 +201,8 @@
                                     <h6>@reply.Content</h6>
 
                                     @if (this.User.FindFirstValue(ClaimTypes.NameIdentifier) == reply.Author.Id
-                               || this.User.IsInRole(GlobalConstants.AdministratorRoleName))
+                               || this.User.IsInRole(GlobalConstants.AdministratorRoleName)
+                               || this.User.IsInRole(GlobalConstants.ModeratorRoleName))
                                     {
                                         <button class="btn btn-primary btn-sm" onclick="showBlock('editReplyForm ', @replyFormIdentifier)">Edit</button>
                                         <a class="btn btn-danger btn-sm" asp-controller="Replies" asp-action="Delete" asp-route-id="@reply.Id" asp-route-authorId="@reply.Author.Id" asp-route-topicId="@Model.Id" asp-route-topicAuthorId="@Model.Author.Id">Delete</a>

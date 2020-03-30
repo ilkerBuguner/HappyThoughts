@@ -16,6 +16,12 @@
 
         Task UnbanAsync(string userId);
 
+        Task PromoteAsync(string userId);
+
+        Task Demote(string userId);
+
+        Task<bool> IsPromotedAsync(string userId);
+
         Task<bool> IsBannedAsync(string userId);
 
         Task<bool> IsAdminAsync(string userId);

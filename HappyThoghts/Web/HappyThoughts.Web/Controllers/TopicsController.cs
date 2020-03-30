@@ -11,6 +11,7 @@
     using HappyThoughts.Services.Data.Categories;
     using HappyThoughts.Services.Data.Comments;
     using HappyThoughts.Services.Data.Topics;
+    using HappyThoughts.Services.Data.Users;
     using HappyThoughts.Web.ViewModels.Categories;
     using HappyThoughts.Web.ViewModels.Comments;
     using HappyThoughts.Web.ViewModels.InputModels;
@@ -24,17 +25,20 @@
         private readonly ICategoriesService categoriesService;
         private readonly ICloudinaryService cloudinaryService;
         private readonly ICommentsService commentsService;
+        private readonly IUsersService usersService;
 
         public TopicsController(
             ITopicsService topicsService,
             ICategoriesService categoriesService,
             ICloudinaryService cloudinaryService,
-            ICommentsService commentsService)
+            ICommentsService commentsService,
+            IUsersService usersService)
         {
             this.topicsService = topicsService;
             this.categoriesService = categoriesService;
             this.cloudinaryService = cloudinaryService;
             this.commentsService = commentsService;
+            this.usersService = usersService;
         }
 
         [Authorize]
@@ -98,6 +102,27 @@
 
             viewModel.Comments = this.commentsService.GetAllCommentsOfTopic(topicId);
 
+            var topicAuthorId = viewModel.Author.Id;
+
+            var isUserBanned = await this.usersService.IsBannedAsync(topicAuthorId);
+            var isUserAdmin = await this.usersService.IsAdminAsync(topicAuthorId);
+            var isUserModerator = await this.usersService.IsPromotedAsync(topicAuthorId);
+
+            if (isUserBanned)
+            {
+                viewModel.Author.IsBanned = true;
+            }
+
+            if (isUserAdmin)
+            {
+                viewModel.Author.IsAdmin = true;
+            }
+
+            if (isUserModerator)
+            {
+                viewModel.Author.IsModerator = true;
+            }
+
             viewModel.TopCategories = await this.categoriesService
                 .GetAllAsync<CategoryInfoViewModel>();
 
@@ -128,9 +153,12 @@
             return this.View(viewModel);
         }
 
+        [Authorize]
         public async Task<IActionResult> Edit(string topicId, string categoryName, string authorId)
         {
-            if (this.User.IsInRole(GlobalConstants.AdministratorRoleName) || this.User.FindFirstValue(ClaimTypes.NameIdentifier) == authorId)
+            if (this.User.IsInRole(GlobalConstants.AdministratorRoleName) ||
+                this.User.IsInRole(GlobalConstants.ModeratorRoleName) ||
+                this.User.FindFirstValue(ClaimTypes.NameIdentifier) == authorId)
             {
                 var model = await this.topicsService.GetByIdAsViewModelAsync(topicId);
                 var viewModel = new TopicEditViewModel()
@@ -149,6 +177,7 @@
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> Edit(TopicEditViewModel input)
         {
             if (!this.ModelState.IsValid)
@@ -156,7 +185,9 @@
                 return this.Redirect($"/Topics/Edit?topicId={input.Id}&categoryName={input.CategoryName}");
             }
 
-            if (this.User.IsInRole(GlobalConstants.AdministratorRoleName) || this.User.FindFirstValue(ClaimTypes.NameIdentifier) == input.AuthorId)
+            if (this.User.IsInRole(GlobalConstants.AdministratorRoleName) ||
+                this.User.IsInRole(GlobalConstants.ModeratorRoleName) ||
+                this.User.FindFirstValue(ClaimTypes.NameIdentifier) == input.AuthorId)
             {
                 await this.topicsService.EditAsync(input);
             }
@@ -166,7 +197,9 @@
 
         public async Task<IActionResult> Delete(string id, string authorId)
         {
-            if (this.User.IsInRole(GlobalConstants.AdministratorRoleName) || this.User.FindFirstValue(ClaimTypes.NameIdentifier) == authorId)
+            if (this.User.IsInRole(GlobalConstants.AdministratorRoleName) ||
+                this.User.IsInRole(GlobalConstants.ModeratorRoleName) ||
+                this.User.FindFirstValue(ClaimTypes.NameIdentifier) == authorId)
             {
                 await this.topicsService.DeleteByIdAsync(id);
             }

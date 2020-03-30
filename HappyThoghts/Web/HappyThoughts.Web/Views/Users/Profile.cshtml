@@ -11,20 +11,20 @@
     this.ViewData["Title"] = Model.UserName;
 }
 
-@if (this.TempData["BanInfo"] != null)
+@if (this.TempData["SuccessInfo"] != null)
 {
     <div class="alert alert-success alert-dismissible fade show" role="alert">
-        @this.TempData["BanInfo"]
+        @this.TempData["SuccessInfo"]
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
 }
 
-@if (this.TempData["CannotBanInfo"] != null)
+@if (this.TempData["UnsuccessInfo"] != null)
 {
-    <div class="alert alert-warning alert-dismissible fade show" role="alert">
-        @this.TempData["CannotBanInfo"]
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        @this.TempData["UnsuccessInfo"]
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button>
@@ -54,20 +54,24 @@
                                     </div>
                                 </div>
                             }
-                        <div class="userData ml-3">
-                            @if (Model.IsBanned)
-                            {
-                                <span class="badge badge-pill badge-danger">Banned</span>
-                            }
-                            @if (Model.IsAdmin)
-                            {
-                                <span class="badge badge-pill badge-success">Admin</span>
-                            }
-                            <h2 class="d-block" style="font-size: 1.5rem; font-weight: bold"><a href="javascript:void(0);">@Model.UserName</a></h2>
-                            <h6 class="d-block"><a href="javascript:void(0)">@Model.Topics.Count()</a> Topics Created</h6>
-                            <h6 class="d-block">@Model.Biography</h6>
-                            <!--<h6 class="d-block"><a href="javascript:void(0)">300</a> Blog Posts</h6>-->
-                        </div>
+                            <div class="userData ml-3">
+                                @if (Model.IsBanned)
+                                {
+                                    <span class="badge badge-pill badge-danger">Banned</span>
+                                }
+                                @if (Model.IsAdmin)
+                                {
+                                    <span class="badge badge-pill badge-success">Admin</span>
+                                }
+                                @if (Model.IsModerator)
+                                {
+                                    <span class="badge badge-pill badge-info">Moderator</span>
+                                }
+                                <h2 class="d-block" style="font-size: 1.5rem; font-weight: bold"><a href="javascript:void(0);">@Model.UserName</a></h2>
+                                <h6 class="d-block"><a href="javascript:void(0)">@Model.Topics.Count()</a> Topics Created</h6>
+                                <h6 class="d-block">@Model.Biography</h6>
+                                <!--<h6 class="d-block"><a href="javascript:void(0)">300</a> Blog Posts</h6>-->
+                            </div>
                             <div class="ml-auto">
                                 <input type="button" class="btn btn-primary d-none" id="btnDiscard" value="Discard Changes" />
                             </div>
@@ -79,13 +83,27 @@
                             <br />
                             @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName) || this.User.IsInRole(GlobalConstants.ModeratorRoleName))
                             {
+                                if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
+                                {
+                                    if (Model.IsModerator)
+                                    {
+                                        <a asp-controller="Users" asp-action="Demote" asp-route-userId="@Model.Id" class="btn btn-outline-danger btn-sm"><i class="fas fa-angle-double-down"></i> Demote</a>
+                                    }
+                                    else if (Model.IsModerator == false && this.User.FindFirstValue(ClaimTypes.NameIdentifier) != Model.Id)
+                                    {
+                                        <a asp-controller="Users" asp-action="Promote" asp-route-userId="@Model.Id" class="btn btn-outline-primary btn-sm"><i class="fas fa-angle-double-up"></i> Promote</a>
+                                    }
+                                }
                                 if (Model.IsBanned)
                                 {
                                     <a asp-controller="Users" asp-action="Unban" asp-route-userId="@Model.Id" class="btn btn-outline-success btn-sm"><i class="fas fa-unlock"></i> Unban</a>
                                 }
                                 else if (Model.IsBanned == false)
                                 {
-                                    <a asp-controller="Users" asp-action="Ban" asp-route-userId="@Model.Id" class="btn btn-outline-danger btn-sm"><i class="fas fa-lock"></i> Ban</a>
+                                    if (this.User.FindFirstValue(ClaimTypes.NameIdentifier) != Model.Id)
+                                    {
+                                        <a asp-controller="Users" asp-action="Ban" asp-route-userId="@Model.Id" class="btn btn-outline-danger btn-sm"><i class="fas fa-lock"></i> Ban</a>
+                                    }
                                 }
                             }
                         </div>

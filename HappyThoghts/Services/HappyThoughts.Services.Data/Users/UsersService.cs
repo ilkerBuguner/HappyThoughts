@@ -67,7 +67,12 @@
                 throw new ArgumentException(InvalidUserIdErrorMessage, userId);
             }
 
-            if (!await this.userManager.IsInRoleAsync(userFromDb, GlobalConstants.BannedRoleName))
+            if (await this.userManager.IsInRoleAsync(userFromDb, GlobalConstants.ModeratorRoleName))
+            {
+                await this.userManager.RemoveFromRoleAsync(userFromDb, GlobalConstants.ModeratorRoleName);
+                await this.userManager.AddToRoleAsync(userFromDb, GlobalConstants.BannedRoleName);
+            }
+            else if (!await this.userManager.IsInRoleAsync(userFromDb, GlobalConstants.BannedRoleName))
             {
                 await this.userManager.AddToRoleAsync(userFromDb, GlobalConstants.BannedRoleName);
             }
@@ -85,6 +90,57 @@
             if (await this.userManager.IsInRoleAsync(userFromDb, GlobalConstants.BannedRoleName))
             {
                 await this.userManager.RemoveFromRoleAsync(userFromDb, GlobalConstants.BannedRoleName);
+            }
+        }
+
+        public async Task PromoteAsync(string userId)
+        {
+            var userFromDb = await this.userRepository.GetByIdWithDeletedAsync(userId);
+
+            if (userFromDb == null)
+            {
+                throw new ArgumentException(InvalidUserIdErrorMessage, userId);
+            }
+
+            if (await this.userManager.IsInRoleAsync(userFromDb, GlobalConstants.BannedRoleName))
+            {
+                await this.userManager.RemoveFromRoleAsync(userFromDb, GlobalConstants.BannedRoleName);
+                await this.userManager.AddToRoleAsync(userFromDb, GlobalConstants.ModeratorRoleName);
+            }
+            else if (!await this.userManager.IsInRoleAsync(userFromDb, GlobalConstants.AdministratorRoleName))
+            {
+                await this.userManager.AddToRoleAsync(userFromDb, GlobalConstants.ModeratorRoleName);
+            }
+        }
+
+        public async Task Demote(string userId)
+        {
+            var userFromDb = await this.userRepository.GetByIdWithDeletedAsync(userId);
+
+            if (userFromDb == null)
+            {
+                throw new ArgumentException(InvalidUserIdErrorMessage, userId);
+            }
+
+            await this.userManager.RemoveFromRoleAsync(userFromDb, GlobalConstants.ModeratorRoleName);
+        }
+
+        public async Task<bool> IsPromotedAsync(string userId)
+        {
+            var userFromDb = await this.userRepository.GetByIdWithDeletedAsync(userId);
+
+            if (userFromDb == null)
+            {
+                throw new ArgumentException(InvalidUserIdErrorMessage, userId);
+            }
+
+            if (await this.userManager.IsInRoleAsync(userFromDb, GlobalConstants.ModeratorRoleName))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
             }
         }
 
