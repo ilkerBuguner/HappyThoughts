@@ -33,6 +33,10 @@
 
         public string ProfilePictureUrl { get; set; }
 
+        public bool IsBanned { get; set; }
+
+        public bool IsAdmin { get; set; }
+
         public virtual ICollection<TopicInfoViewModel> Topics { get; set; }
 
         public void CreateMappings(IProfileExpression configuration)

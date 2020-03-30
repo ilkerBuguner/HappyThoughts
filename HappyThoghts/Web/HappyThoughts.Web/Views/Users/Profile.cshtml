@@ -11,6 +11,26 @@
     this.ViewData["Title"] = Model.UserName;
 }
 
+@if (this.TempData["BanInfo"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        @this.TempData["BanInfo"]
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+}
+
+@if (this.TempData["CannotBanInfo"] != null)
+{
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        @this.TempData["CannotBanInfo"]
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+}
+
 <div class="container">
     <div class="row">
         <div class="col-12">
@@ -34,18 +54,40 @@
                                     </div>
                                 </div>
                             }
-                            <div class="userData ml-3">
-                                <h2 class="d-block" style="font-size: 1.5rem; font-weight: bold"><a href="javascript:void(0);">@Model.UserName</a></h2>
-                                <h6 class="d-block"><a href="javascript:void(0)">@Model.Topics.Count()</a> Topics Created</h6>
-                                <h6 class="d-block">@Model.Biography</h6>
-                                <!--<h6 class="d-block"><a href="javascript:void(0)">300</a> Blog Posts</h6>-->
-                            </div>
+                        <div class="userData ml-3">
+                            @if (Model.IsBanned)
+                            {
+                                <span class="badge badge-pill badge-danger">Banned</span>
+                            }
+                            @if (Model.IsAdmin)
+                            {
+                                <span class="badge badge-pill badge-success">Admin</span>
+                            }
+                            <h2 class="d-block" style="font-size: 1.5rem; font-weight: bold"><a href="javascript:void(0);">@Model.UserName</a></h2>
+                            <h6 class="d-block"><a href="javascript:void(0)">@Model.Topics.Count()</a> Topics Created</h6>
+                            <h6 class="d-block">@Model.Biography</h6>
+                            <!--<h6 class="d-block"><a href="javascript:void(0)">300</a> Blog Posts</h6>-->
+                        </div>
                             <div class="ml-auto">
                                 <input type="button" class="btn btn-primary d-none" id="btnDiscard" value="Discard Changes" />
                             </div>
                             <div>
-                                <a asp-controller="Reports" asp-action="ReportUser" asp-route-userId="@Model.Id" class="btn btn-outline-secondary"><i class="far fa-flag"></i> Report</a>
+                                <a asp-controller="Reports" asp-action="ReportUser" asp-route-userId="@Model.Id" class="btn btn-outline-secondary btn-sm"><i class="far fa-flag"></i> Report</a>
                             </div>
+                        </div>
+                        <div class="text-center">
+                            <br />
+                            @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName) || this.User.IsInRole(GlobalConstants.ModeratorRoleName))
+                            {
+                                if (Model.IsBanned)
+                                {
+                                    <a asp-controller="Users" asp-action="Unban" asp-route-userId="@Model.Id" class="btn btn-outline-success btn-sm"><i class="fas fa-unlock"></i> Unban</a>
+                                }
+                                else if (Model.IsBanned == false)
+                                {
+                                    <a asp-controller="Users" asp-action="Ban" asp-route-userId="@Model.Id" class="btn btn-outline-danger btn-sm"><i class="fas fa-lock"></i> Ban</a>
+                                }
+                            }
                         </div>
                     </div>
 

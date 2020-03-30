@@ -42,6 +42,11 @@
         {
             var categories = await this.categoriesService.GetAllAsync<CategoryInfoViewModel>();
 
+            if (this.User.IsInRole(GlobalConstants.BannedRoleName))
+            {
+                return this.View("Banned");
+            }
+
             var viewModel = new CreateTopicInputModel()
             {
                 Categories = categories,
@@ -53,6 +58,11 @@
         [Authorize]
         public async Task<IActionResult> Create(CreateTopicInputModel input)
         {
+            if (this.User.IsInRole(GlobalConstants.BannedRoleName))
+            {
+                return this.RedirectToAction(nameof(this.Create));
+            }
+
             if (!this.ModelState.IsValid)
             {
                 input.Categories = await this.categoriesService.GetAllAsync<CategoryInfoViewModel>();

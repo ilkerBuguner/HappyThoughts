@@ -8,8 +8,16 @@
     {
         Task<ApplicationUserDetailsViewModel> GetUserAsViewModelByIdAsync(string id);
 
-        Task<int> GetUsersCount();
+        Task<int> GetUsersCountAsync();
 
         string GetUsernameById(string id);
+
+        Task BanAsync(string userId);
+
+        Task UnbanAsync(string userId);
+
+        Task<bool> IsBannedAsync(string userId);
+
+        Task<bool> IsAdminAsync(string userId);
     }
 }

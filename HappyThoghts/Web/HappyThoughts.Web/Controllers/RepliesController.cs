@@ -20,6 +20,11 @@
         [Authorize]
         public async Task<IActionResult> Create(CreateReplyInputModel input)
         {
+            if (this.User.IsInRole(GlobalConstants.BannedRoleName))
+            {
+                return this.View("Banned");
+            }
+
             if (!this.ModelState.IsValid)
             {
                 return this.Redirect($"/Topics/Details?topicId={input.TopicId}");

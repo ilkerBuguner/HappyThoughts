@@ -102,7 +102,7 @@
                     await this.emailSender.SendEmailAsync(this.Input.Email, "Confirm your email",
                         $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
 
-                    if (await this.usersService.GetUsersCount() <= 1)
+                    if (await this.usersService.GetUsersCountAsync() <= 1)
                     {
                         this.userManager.AddToRoleAsync(user, GlobalConstants.AdministratorRoleName).GetAwaiter().GetResult();
                     }
