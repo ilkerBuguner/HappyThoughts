@@ -4,6 +4,7 @@
 
     using HappyThoughts.Common;
     using HappyThoughts.Services.Data.Users;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
 
     public class UsersController : BaseController
@@ -41,73 +42,64 @@
             return this.View(viewModel);
         }
 
+        [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
         public async Task<IActionResult> Promote(string userId)
         {
-            if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
+            var isUserAlreadyPromoted = await this.usersService.IsPromotedAsync(userId);
+            if (isUserAlreadyPromoted)
             {
-                var isUserAlreadyPromoted = await this.usersService.IsPromotedAsync(userId);
-                if (isUserAlreadyPromoted)
-                {
-                    this.TempData["UnsuccessInfo"] = "This user is already a Moderator!";
-                }
-                else
-                {
-                    await this.usersService.PromoteAsync(userId);
-                    this.TempData["SuccessInfo"] = "The user is a Moderator now!";
-                }
+                this.TempData["UnsuccessInfo"] = "This user is already a Moderator!";
+            }
+            else
+            {
+                await this.usersService.PromoteAsync(userId);
+                this.TempData["SuccessInfo"] = "The user is a Moderator now!";
             }
 
             return this.RedirectToAction(nameof(this.Profile), new { id = userId });
         }
 
+        [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
         public async Task<IActionResult> Demote(string userId)
         {
-            if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
+            var isUserPromoted = await this.usersService.IsPromotedAsync(userId);
+            if (isUserPromoted)
             {
-                var isUserPromoted = await this.usersService.IsPromotedAsync(userId);
-                if (isUserPromoted)
-                {
-                    await this.usersService.Demote(userId);
-                    this.TempData["SuccessInfo"] = "The user is not a Moderator now!";
-                }
-                else
-                {
-                    this.TempData["UnsuccessInfo"] = "The user cannot be demoted because he is not in a role above user!";
-                }
+                await this.usersService.Demote(userId);
+                this.TempData["SuccessInfo"] = "The user is not a Moderator now!";
+            }
+            else
+            {
+                this.TempData["UnsuccessInfo"] = "The user cannot be demoted because he is not in a role above user!";
             }
 
             return this.RedirectToAction(nameof(this.Profile), new { id = userId });
         }
 
+        [Authorize(Roles = GlobalConstants.AdministratorRoleName + "," + GlobalConstants.ModeratorRoleName)]
         public async Task<IActionResult> Ban(string userId)
         {
-            if (this.User.IsInRole(GlobalConstants.AdministratorRoleName) || this.User.IsInRole(GlobalConstants.ModeratorRoleName))
+            var isBannedUserAdmin = await this.usersService.IsAdminAsync(userId);
+            if (!isBannedUserAdmin)
             {
-                var isBannedUserAdmin = await this.usersService.IsAdminAsync(userId);
-                if (!isBannedUserAdmin)
-                {
-                    await this.usersService.BanAsync(userId);
+                await this.usersService.BanAsync(userId);
 
-                    this.TempData["SuccessInfo"] = "The user is banned successfully!";
-                }
-                else
-                {
-                    this.TempData["UnsuccessInfo"] = "The user cannot be banned because he is Admin!";
-                }
-
+                this.TempData["SuccessInfo"] = "The user is banned successfully!";
+            }
+            else
+            {
+                this.TempData["UnsuccessInfo"] = "The user cannot be banned because he is Admin!";
             }
 
             return this.RedirectToAction(nameof(this.Profile), new { id = userId });
         }
 
+        [Authorize(Roles = GlobalConstants.AdministratorRoleName + "," + GlobalConstants.ModeratorRoleName)]
         public async Task<IActionResult> Unban(string userId)
         {
-            if (this.User.IsInRole(GlobalConstants.AdministratorRoleName) || this.User.IsInRole(GlobalConstants.ModeratorRoleName))
-            {
-                await this.usersService.UnbanAsync(userId);
+            await this.usersService.UnbanAsync(userId);
 
-                this.TempData["SuccessInfo"] = "The user is unbanned successfully!";
-            }
+            this.TempData["SuccessInfo"] = "The user is unbanned successfully!";
 
             return this.RedirectToAction(nameof(this.Profile), new { id = userId });
         }
