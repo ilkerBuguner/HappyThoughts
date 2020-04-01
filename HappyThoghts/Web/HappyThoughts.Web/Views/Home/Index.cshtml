@@ -33,7 +33,7 @@
                             <div class="media-body">
                                 <div class="d-flex w-100 justify-content-between">
                                     <h5 class="mb-1">@topic.Title</h5>
-                                    <small>@topic.CreatedOn</small>
+                                    <small><time datetime="@topic.CreatedOn.ToString("O")"></time></small>
                                 </div>
                                 <p class="mb-1">@topic.CleanContent</p>
 
@@ -58,14 +58,14 @@
             <ul class="pagination justify-content-center">
                 @if (!Model.IsPreviousPageDisabled)
                 {
-                    <li class="page-item"><a class="page-link" href="@ViewData["Controller/Action"]?page=1"><i class="fas fa-fast-backward"></i></a></li>
+                    <li class="page-item"><a class="page-link" href="@ViewData["Controller/Action"]?page=1"><i class="fas fa-angle-double-left"></i></a></li>
                     <li class="page-item"><a class="page-link" href="@ViewData["Controller/Action"]?page=@Model.PreviousPage">@Model.PreviousPage</a></li>
                 }
                 <li class="page-item active"><a class="page-link" href="@ViewData["Controller/Action"]?page=@(Model.CurrentPage)">@(Model.CurrentPage)</a></li>
                 @if (!Model.IsNextPageDisabled)
                 {
                     <li class="page-item"><a class="page-link" href="@ViewData["Controller/Action"]?page=@Model.NextPage">@Model.NextPage</a></li>
-                    <li class="page-item"><a class="page-link" href="@ViewData["Controller/Action"]?page=@Model.MaxPages"><i class="fas fa-fast-forward"></i></a></li>
+                    <li class="page-item"><a class="page-link" href="@ViewData["Controller/Action"]?page=@Model.MaxPages"><i class="fas fa-angle-double-right"></i></a></li>
                 }
             </ul>
         </div>

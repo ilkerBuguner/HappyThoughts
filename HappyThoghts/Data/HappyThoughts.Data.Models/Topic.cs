@@ -13,7 +13,7 @@
         public Topic()
         {
             this.Id = Guid.NewGuid().ToString();
-            this.CreatedOn = DateTime.Now;
+            this.CreatedOn = DateTime.UtcNow;
             this.IsDeleted = false;
 
             this.Comments = new HashSet<Comment>();

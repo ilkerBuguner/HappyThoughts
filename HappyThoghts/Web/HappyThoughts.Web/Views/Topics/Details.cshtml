@@ -24,7 +24,7 @@
             </p>
             <hr>
             <!-- Date/Time -->
-            <p class="text-center"><b>Posted On: @Model.CreatedOn | Category: <a href="/Categories/ByName?name=@Model.Category.Name">@Model.Category.Name</a> | Views: @Model.Views</b></p>
+            <p class="text-center"><b>Posted On: <time datetime="@Model.CreatedOn.ToString("O")"></time> | Category: <a href="/Categories/ByName?name=@Model.Category.Name">@Model.Category.Name</a> | Views: @Model.Views</b></p>
             <hr>
             <!-- Preview Image -->
             @if (!String.IsNullOrEmpty(Model.PictureUrl))
@@ -55,7 +55,7 @@
                         <a asp-controller="Topics" asp-action="Edit" asp-route-topicId="@Model.Id" asp-route-categoryName="@Model.Category.Name" asp-route-authorId="@Model.Author.Id" class="btn btn-outline-primary"><i class="far fa-edit"></i> Edit</a>
                         <a class="btn btn-outline-danger" id="delete"><i class="far fa-trash-alt"></i> Delete</a>
                     }
-                    <a asp-controller="Reports" asp-action="Send" asp-route-topicId="@Model.Id" class="btn btn-outline-secondary"><i class="far fa-flag"></i> Report</a>
+                    <a asp-controller="Reports" asp-action="ReportTopic" asp-route-topicId="@Model.Id" class="btn btn-outline-secondary"><i class="far fa-flag"></i> Report</a>
                 </div>
             </div>
             <hr>
@@ -114,7 +114,7 @@
                     <div class="media-body">
                         <div class="d-flex w-100 justify-content-between">
                             <h5 class="mt-0"><a asp-controller="Users" asp-action="Profile" asp-route-id="@comment.Author.Id">@comment.Author.UserName</a></h5>
-                            <small>@comment.CreatedOn.ToString()</small>
+                            <small><time datetime="@comment.CreatedOn.ToString("O")"></time></small>
                         </div>
                         <h6>@comment.Content</h6>
 
@@ -196,7 +196,7 @@
                                 <div class="media-body">
                                     <div class="d-flex w-100 justify-content-between">
                                         <h5 class="mt-0"><a asp-controller="Users" asp-action="Profile" asp-route-id="@reply.Author.Id">@reply.Author.UserName</a></h5>
-                                        <small>@reply.CreatedOn.ToString()</small>
+                                        <small><time datetime="@reply.CreatedOn.ToString("O")"></time></small>
                                     </div>
                                     <h6>@reply.Content</h6>
 

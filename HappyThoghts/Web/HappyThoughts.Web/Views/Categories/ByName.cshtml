@@ -41,7 +41,7 @@
                             <div class="media-body">
                                 <div class="d-flex w-100 justify-content-between">
                                     <h5 class="mb-1">@topic.Title</h5>
-                                    <small>@topic.CreatedOn</small>
+                                    <small><time datetime="@topic.CreatedOn.ToString("O")"></time></small>
                                 </div>
                                 <p class="mb-1">@topic.CleanContent</p>
 
@@ -66,14 +66,14 @@
                 <ul class="pagination justify-content-center">
                     @if (!Model.CategoryTopics.IsPreviousPageDisabled)
                     {
-                        <li class="page-item"><a class="page-link" href="/Categories/ByName?name=@Model.CategoryName&page=1"><i class="fas fa-fast-backward"></i></a></li>
+                        <li class="page-item"><a class="page-link" href="/Categories/ByName?name=@Model.CategoryName&page=1"><i class="fas fa-angle-double-left"></i></a></li>
                         <li class="page-item"><a class="page-link" href="/Categories/ByName?name=@Model.CategoryName&page=@Model.CategoryTopics.PreviousPage">@Model.CategoryTopics.PreviousPage</a></li>
                     }
                     <li class="page-item active"><a class="page-link" href="/Categories/ByName?name=@Model.CategoryName&page=@Model.CategoryTopics.CurrentPage">@Model.CategoryTopics.CurrentPage</a></li>
                     @if (!Model.CategoryTopics.IsNextPageDisabled)
                     {
                         <li class="page-item"><a class="page-link" href="/Categories/ByName?name=@Model.CategoryName&page=@Model.CategoryTopics.NextPage">@Model.CategoryTopics.NextPage</a></li>
-                        <li class="page-item"><a class="page-link" href="/Categories/ByName?name=@Model.CategoryName&page=@Model.CategoryTopics.MaxPages"><i class="fas fa-fast-forward"></i></a></li>
+                        <li class="page-item"><a class="page-link" href="/Categories/ByName?name=@Model.CategoryName&page=@Model.CategoryTopics.MaxPages"><i class="fas fa-angle-double-right"></i></a></li>
                     }
                 </ul>
             }

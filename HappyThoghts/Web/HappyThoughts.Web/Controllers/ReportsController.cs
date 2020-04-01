@@ -35,7 +35,7 @@
         }
 
         [Authorize]
-        public async Task<IActionResult> Send(string topicId)
+        public async Task<IActionResult> ReportTopic(string topicId)
         {
             var topic = await this.topicsService.GetByIdAsViewModelAsync(topicId);
             this.ViewData["TopicId"] = topic.Id;
@@ -46,11 +46,11 @@
 
         [Authorize]
         [HttpPost]
-        public async Task<IActionResult> Send(CreateTopicReportInputModel input)
+        public async Task<IActionResult> ReportTopic(CreateTopicReportInputModel input)
         {
             if (!this.ModelState.IsValid)
             {
-                return this.Redirect($"/Reports/Send?topicId={input.TopicId}");
+                return this.Redirect($"/Reports/ReportTopic?topicId={input.TopicId}");
             }
 
             var senderId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
