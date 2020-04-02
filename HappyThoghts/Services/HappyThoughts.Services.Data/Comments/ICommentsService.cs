@@ -1,8 +1,8 @@
 ﻿namespace HappyThoughts.Services.Data.Comments
 {
     using System.Collections.Generic;
-    using System.Linq;
     using System.Threading.Tasks;
+
     using HappyThoughts.Web.ViewModels.Comments;
     using HappyThoughts.Web.ViewModels.InputModels.Comments;
 

@@ -299,6 +299,32 @@
             return topicFromDb.Dislikes;
         }
 
+        public int GetRemainingMinutesToCreateTopic(string userId)
+        {
+            var usersLatestTopicCreationTime = this.topicRepository
+                .All()
+                .OrderByDescending(t => t.CreatedOn)
+                .Select(t => t.CreatedOn)
+                .FirstOrDefault();
+
+            if (usersLatestTopicCreationTime == null)
+            {
+                return GlobalConstants.MinutesAllowingTopicCreation;
+            }
+
+            var canTopicBeCreated = DateTime.UtcNow - usersLatestTopicCreationTime > new TimeSpan(0, GlobalConstants.MinutesBetweenTwoTopicsCreations, 0);
+            var remainingTime = GlobalConstants.MinutesBetweenTwoTopicsCreations - (int)(DateTime.UtcNow - usersLatestTopicCreationTime).TotalMinutes;
+
+            if (canTopicBeCreated == true)
+            {
+                return GlobalConstants.MinutesAllowingTopicCreation;
+            }
+            else
+            {
+                return remainingTime;
+            }
+        }
+
         private static void Shuffle(List<TopicInfoViewModel> topics)
         {
             var random = new Random();

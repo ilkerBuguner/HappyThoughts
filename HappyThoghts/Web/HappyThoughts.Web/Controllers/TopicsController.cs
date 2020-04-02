@@ -74,6 +74,16 @@
             }
 
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            var remainingMinutesToCreateTopic = this.topicsService.GetRemainingMinutesToCreateTopic(userId);
+
+            if (remainingMinutesToCreateTopic != GlobalConstants.MinutesAllowingTopicCreation)
+            {
+                this.TempData["Danger"] = $"You cannot create a new topic before {GlobalConstants.MinutesBetweenTwoTopicsCreations} minutes have elapsed after the last topic creation! Remaining time: {remainingMinutesToCreateTopic} minutes.";
+                input.Categories = await this.categoriesService.GetAllAsync<CategoryInfoViewModel>();
+                return this.View(input);
+            }
+
             input.AuthorId = userId;
             input.CategoryId = this.categoriesService.GetIdByName(input.CategoryName);
 
@@ -204,7 +214,7 @@
                 await this.topicsService.DeleteByIdAsync(id);
             }
 
-            return this.Redirect("/Home/Index");
+            return this.Redirect("/");
         }
     }
 }

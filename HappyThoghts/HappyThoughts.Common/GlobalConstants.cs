@@ -13,5 +13,9 @@
         public const int DefaultPageSize = 10;
 
         public const int DefaultPageNumber = 1;
+
+        public const int MinutesBetweenTwoTopicsCreations = 30;
+
+        public const int MinutesAllowingTopicCreation = 31;
     }
 }
