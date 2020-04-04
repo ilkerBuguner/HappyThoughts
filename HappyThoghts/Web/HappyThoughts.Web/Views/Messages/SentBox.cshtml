@@ -1,0 +1,53 @@
+﻿@model IEnumerable<HappyThoughts.Web.ViewModels.Messages.MessageInfoViewModel>
+
+
+<div class="text-center">
+    <h1>SentBox</h1>
+</div>
+<br />
+<div class="card text-center">
+    <div class="card-header">
+        <ul class="nav nav-tabs card-header-tabs">
+            <li class="nav-item">
+                <a class="nav-link" href="/Messages/Inbox">Inbox</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" href="#">Sent Box</a>
+            </li>
+        </ul>
+        <div class="card-body">
+            <table class="table">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>
+                            User
+                        </th>
+                        <th>
+                            Last Message
+                        </th>
+                        <th>
+                            SendOn
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var message in Model)
+                        {
+                            <tr>
+                                <td width="200">
+                                    <a asp-controller="Users" asp-action="Profile" asp-route-id="@message.ReceiverId">@message.Receiver.UserName</a>
+</td>
+                                <td width="600">
+                                    <a asp-controller="Messages" asp-action="Chat" asp-route-receiverId="@message.ReceiverId">@message.ShortContent</a>
+                                </td>
+                                <td>
+                                    @message.SentOn
+                                </td>
+                            </tr>
+                        }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

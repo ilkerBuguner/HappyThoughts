@@ -1,6 +1,7 @@
 ﻿namespace HappyThoughts.Services.Data.Users
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
 
@@ -8,6 +9,7 @@
     using HappyThoughts.Data.Common.Repositories;
     using HappyThoughts.Data.Models;
     using HappyThoughts.Services.Mapping;
+    using HappyThoughts.Web.ViewModels.Messages;
     using HappyThoughts.Web.ViewModels.Users;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.EntityFrameworkCore;

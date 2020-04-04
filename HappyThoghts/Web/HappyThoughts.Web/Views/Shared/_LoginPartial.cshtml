@@ -16,6 +16,7 @@
             </a>
             <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                 <a class="dropdown-item" asp-area="" asp-controller="Users" asp-action="Profile" asp-route-id="@this.User.FindFirstValue(ClaimTypes.NameIdentifier)"><i class="far fa-address-card"></i> Profile</a>
+                <a class="dropdown-item" asp-area="" asp-controller="Messages" asp-action="Inbox"><i class="fas fa-envelope"></i> Messages</a>
                 @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName) || this.User.IsInRole(GlobalConstants.ModeratorRoleName))
                 {
                     <a class="dropdown-item" asp-area="Administration" asp-controller="Reports" asp-action="All"><i class="fas fa-paperclip"></i> Pending Reports</a>

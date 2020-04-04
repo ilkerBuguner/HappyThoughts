@@ -100,7 +100,7 @@
 
     <footer class="border-top footer text-muted">
         <div class="container" style="margin-bottom:10px">
-            <a href="/">@GlobalConstants.SystemName</a> v1.0.0 &copy; 2020 - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a> - <a href="https://github.com/ilkerBuguner/HappyThoughts" target="_blank">Open source system</a>
+            <a href="/">@GlobalConstants.SystemName</a> v1.0.0 &copy; @DateTime.Now.Year - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a> - <a href="https://github.com/ilkerBuguner/HappyThoughts" target="_blank">Open source system</a>
         </div>
     </footer>
 
@@ -110,6 +110,7 @@
         <script src="~/lib/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive.js" asp-append-version="true"></script>
         <script src="~/lib/bootstrap/dist/js/bootstrap.js" asp-append-version="true"></script>
         <script src="~/lib/moment/min/moment-with-locales.min.js" asp-append-version="true"></script>
+        <script src="~/lib/signalr/dist/browser/signalr.min.js"></script>
         <script src="~/js/site.js" asp-append-version="true"></script>
     </environment>
     <environment names="Staging,Production">
@@ -117,6 +118,7 @@
         <script src="~/lib/jquery-validation/dist/jquery.validate.min.js" asp-append-version="true"></script>
         <script src="~/lib/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive.js" asp-append-version="true"></script>
         <script src="~/lib/bootstrap/dist/js/bootstrap.min.js" asp-append-version="true"></script>
+        <script src="~/lib/signalr/dist/browser/signalr.min.js"></script>
         <script src="~/lib/moment/min/moment-with-locales.min.js" asp-append-version="true"></script>
         <script src="~/js/site.min.js" asp-append-version="true"></script>
     </environment>

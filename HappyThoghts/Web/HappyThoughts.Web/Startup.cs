@@ -13,6 +13,7 @@
     using HappyThoughts.Services.Data;
     using HappyThoughts.Services.Data.Categories;
     using HappyThoughts.Services.Data.Comments;
+    using HappyThoughts.Services.Data.Messages;
     using HappyThoughts.Services.Data.Replies;
     using HappyThoughts.Services.Data.TopicReports;
     using HappyThoughts.Services.Data.Topics;
@@ -21,6 +22,7 @@
     using HappyThoughts.Services.Data.Votes;
     using HappyThoughts.Services.Mapping;
     using HappyThoughts.Services.Messaging;
+    using HappyThoughts.Web.Hubs;
     using HappyThoughts.Web.ViewModels;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
@@ -65,6 +67,7 @@
                         options.MinimumSameSitePolicy = SameSiteMode.None;
                     });
 
+            services.AddSignalR();
             services.AddControllersWithViews(options =>
             {
                 options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute()); // CSRF
@@ -94,6 +97,7 @@
             services.AddTransient<IRepliesService, RepliesService>();
             services.AddTransient<IVotesService, VotesService>();
             services.AddTransient<IUserReportsService, UserReportsService>();
+            services.AddTransient<IMessagesService, MessagesService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -138,6 +142,7 @@
             app.UseEndpoints(
                 endpoints =>
                     {
+                        endpoints.MapHub<ChatHub>("/chat");
                         endpoints.MapControllerRoute("areaRoute", "{area:exists}/{controller=Home}/{action=Index}/{id?}");
                         endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
                         endpoints.MapRazorPages();
