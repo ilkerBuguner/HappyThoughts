@@ -1,5 +1,8 @@
 ﻿@model IEnumerable<HappyThoughts.Web.ViewModels.Messages.MessageInfoViewModel>
 
+@{
+    this.ViewBag.Title = "SentBox";
+}
 
 <div class="text-center">
     <h1>SentBox</h1>
@@ -33,19 +36,19 @@
                 </thead>
                 <tbody>
                     @foreach (var message in Model)
-                        {
-                            <tr>
-                                <td width="200">
-                                    <a asp-controller="Users" asp-action="Profile" asp-route-id="@message.ReceiverId">@message.Receiver.UserName</a>
-</td>
-                                <td width="600">
-                                    <a asp-controller="Messages" asp-action="Chat" asp-route-receiverId="@message.ReceiverId">@message.ShortContent</a>
-                                </td>
-                                <td>
-                                    @message.SentOn
-                                </td>
-                            </tr>
-                        }
+                    {
+                        <tr>
+                            <td width="200">
+                                <a asp-controller="Users" asp-action="Profile" asp-route-id="@message.ReceiverId">@message.Receiver.UserName</a>
+                            </td>
+                            <td width="600">
+                                <a asp-controller="Messages" asp-action="Chat" asp-route-receiverId="@message.ReceiverId">@message.ShortContent</a>
+                            </td>
+                            <td>
+                                <time datetime="@message.SentOn.ToString("O")"></time>
+                            </td>
+                        </tr>
+                    }
                 </tbody>
             </table>
         </div>

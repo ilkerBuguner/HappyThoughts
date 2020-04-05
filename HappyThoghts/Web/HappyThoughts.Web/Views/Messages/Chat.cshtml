@@ -4,10 +4,15 @@
     this.ViewBag.Title = "Chat";
 }
 
-<h1 class="text-center">@this.ViewBag.Title with <a asp-controller="Users" asp-action="Profile" asp-route-id="@this.ViewData["ReceiverId"]">@this.ViewData["ReceiverName"]</a></h1>
+<h1 class="text-center">@this.ViewBag.Title with <a asp-controller="Users" asp-action="Profile" asp-route-id="@Model.ReceiverId">@this.ViewData["ReceiverName"]</a></h1>
 
 
-
+@if (Model.Messages.Count() == 0)
+{
+    <br />
+    <h2 class="text-center">No messages yet! Start a new conversation!</h2>
+    <br />
+}
 
 <div id="messagesContainer">
     @foreach (var message in Model.Messages)
@@ -60,8 +65,8 @@
 <div class="container">
     <div id="message-holder" class="mt-3 d-flex justify-content-start">
         <h4>Message</h4>
-        <input class="w-75 ml-4 pl-3" type="text" id="messageInput" placeholder="Message..." />
-        <button id="sendButton" class="ml-4 btn btn-dark btn-lg">Send</button>
+        <textarea class="w-75 ml-4 pl-3" type="text" id="messageInput" placeholder="Message..."></textarea>
+        <button id="sendButton" class="ml-4 btn btn-outline-primary btn-lg">Send</button>
     </div>
     <hr style="height: 5px;" class="bg-dark" />
     <div id="messagesContainer" style="font-size: 28px;">
@@ -77,34 +82,58 @@
 
         connection.on("NewMessage",
             function (message) {
-                var chatInfo = `<div>[${message.user}] ${escapeHtml(message.text)}</div>`;
-                chatInfo = `<div class="row">
+                var chatInfo = ``;
+                if (message.isCurrentUserMessage) {
+                    chatInfo = `<div class="row">
                                 <div class="offset-1 col-10">
                                     <p>
-			                            <div class="row">
+                                        <div class="row">
                                             <div class="offset-1 col-2">
-                                                 Me
+                                                Me
                                             </div>
                                             <div class="offset-6 col-3">
-                                             2020-11-31
+                                                ${message.sentOn}
                                             </div>
                                         </div>
                                         <div class="row">
                                             <div class="offset-1 col-11 card bg-warning">
                                                 <div class="card-body">
-                                                    ${escapeHtml(message.text)}
+                                                     ${escapeHtml(message.text)}
                                                 </div>
+                                            </div>
+                                        </div>
+                                    </p>
+                                </div>
+                             </div>`
+                }
+                else {
+                chatInfo = `<div class="row">
+                                <div class="offset-1 col-10">
+                                    <p>
+			                            <div class="row">
+                                            <div class="col-2">
+                                                ${message.senderName}
+                                            </div>
+                                            <div class="offset-6 col-3">
+                                                 ${message.sentOn}
+                                            </div>
+                                        </div>
+                                        <div class="card bg-info col-11">
+                                            <div class="card-body text-white">
+                                                ${escapeHtml(message.text)}
                                             </div>
                                         </div>
 		                            </p>
                                 </div>
                              </div>`
+                }
                 $("#messagesContainer").append(chatInfo);
             });
 
         $("#sendButton").click(function () {
             var message = $("#messageInput").val();
-            connection.invoke("Send", message);
+            var receiverId = '@Model.ReceiverId'
+            connection.invoke("Send", message, receiverId);
         });
 
         connection.start().catch(function (err) {
@@ -118,5 +147,13 @@
                 .replace(/>/g, "&gt;")
                 .replace(/"/g, "&quot;")
                 .replace(/'/g, "&#039;");
-        }</script>
+        }
+
+        $(document).ready(function () {
+            $([document.documentElement, document.body]).animate({
+            scrollTop: $("#sendButton").offset().top
+             }, 0);
+        });
+    </script>
+
 }

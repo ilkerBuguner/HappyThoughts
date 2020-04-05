@@ -2,13 +2,17 @@
 {
     using System.Collections.Generic;
     using System.Threading.Tasks;
-
+    using HappyThoughts.Data.Models;
     using HappyThoughts.Web.ViewModels.InputModels.Messages;
     using HappyThoughts.Web.ViewModels.Messages;
 
     public interface IMessagesService
     {
-        Task CreateAsync(CreateMessageInputModel input);
+        Task<string> CreateAsync(string senderId, string receiverId, string content);
+
+        Task DeleteById(string messageId);
+
+        MessageInfoViewModel GetByIdAsViewModel(string messageId);
 
         IEnumerable<MessageInfoViewModel> GetLastInboxMessagesOfUser(string userId);
 

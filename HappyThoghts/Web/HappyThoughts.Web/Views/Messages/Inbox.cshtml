@@ -1,5 +1,8 @@
 ﻿@model IEnumerable<HappyThoughts.Web.ViewModels.Messages.MessageInfoViewModel>
 
+@{
+    this.ViewBag.Title = "Inbox";
+}
 
 <div class="text-center">
     <h1>Inbox</h1>
@@ -42,7 +45,7 @@
                                 <a asp-controller="Messages" asp-action="Chat" asp-route-receiverId="@message.SenderId">@message.ShortContent</a>
                             </td>
                             <td>
-                                @message.SentOn
+                                <time datetime="@message.SentOn.ToString("O")"></time>
                             </td>
                         </tr>
                     }

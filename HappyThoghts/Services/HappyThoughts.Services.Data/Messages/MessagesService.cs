@@ -13,6 +13,8 @@
 
     public class MessagesService : IMessagesService
     {
+        private const string InvalidMessageIdErrorMessage = "Message with ID: {0} does not exist.";
+
         private readonly IDeletableEntityRepository<Message> messageRepository;
 
         public MessagesService(IDeletableEntityRepository<Message> messageRepository)
@@ -20,16 +22,32 @@
             this.messageRepository = messageRepository;
         }
 
-        public async Task CreateAsync(CreateMessageInputModel input)
+        public async Task<string> CreateAsync(string senderId, string receiverId, string content)
         {
             var message = new Message()
             {
-                SenderId = input.SenderId,
-                ReceiverId = input.ReceiverId,
-                Content = input.Content,
+                SenderId = senderId,
+                ReceiverId = receiverId,
+                Content = content,
             };
 
             await this.messageRepository.AddAsync(message);
+            await this.messageRepository.SaveChangesAsync();
+
+            return message.Id;
+        }
+
+        public async Task DeleteById(string messageId)
+        {
+            var message = await this.messageRepository.GetByIdWithDeletedAsync(messageId);
+
+            if (message == null)
+            {
+                throw new ArgumentNullException(
+                    string.Format(InvalidMessageIdErrorMessage, messageId));
+            }
+
+            this.messageRepository.Delete(message);
             await this.messageRepository.SaveChangesAsync();
         }
 
@@ -39,7 +57,17 @@
                 .All()
                 .Where(x => (x.SenderId == senderId && x.ReceiverId == receiverId) || (x.SenderId == receiverId && x.ReceiverId == senderId))
                 .To<MessageInfoViewModel>()
+                .OrderBy(m => m.SentOn)
                 .ToList();
+        }
+
+        public MessageInfoViewModel GetByIdAsViewModel(string messageId)
+        {
+            return this.messageRepository
+                .All()
+                .Where(m => m.Id == messageId)
+                .To<MessageInfoViewModel>()
+                .FirstOrDefault();
         }
 
         public IEnumerable<MessageInfoViewModel> GetLastInboxMessagesOfUser(string userId)

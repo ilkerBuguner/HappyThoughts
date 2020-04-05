@@ -81,6 +81,10 @@
                         </div>
                         <div class="text-center">
                             <br />
+                            @if (this.User.FindFirstValue(ClaimTypes.NameIdentifier) != Model.Id)
+                            {
+                                <a asp-controller="Messages" asp-action="Chat" asp-route-receiverId="@Model.Id" class="btn btn-outline-success btn-sm"><i class="fas fa-share-square"></i> Message</a>
+                            }
                             @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName) || this.User.IsInRole(GlobalConstants.ModeratorRoleName))
                             {
                                 if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
@@ -196,7 +200,7 @@
                                                     <div class="media-body">
                                                         <div class="d-flex w-100 justify-content-between">
                                                             <h5 class="mb-1">@topic.Title</h5>
-                                                            <small>@topic.CreatedOn</small>
+                                                            <small><time datetime="@topic.CreatedOn.ToString("O")"></time></small>
                                                         </div>
                                                         <p class="mb-1">@topic.CleanContent</p>
 
@@ -233,7 +237,7 @@
                                                     <div class="media-body">
                                                         <div class="d-flex w-100 justify-content-between">
                                                             <h5 class="mb-1">@topic.Title</h5>
-                                                            <small>@topic.CreatedOn</small>
+                                                            <small><time datetime="@topic.CreatedOn.ToString("O")"></time></small>
                                                         </div>
                                                         <p class="mb-1">@topic.CleanContent</p>
 
@@ -270,7 +274,7 @@
                                                     <div class="media-body">
                                                         <div class="d-flex w-100 justify-content-between">
                                                             <h5 class="mb-1">@topic.Title</h5>
-                                                            <small>@topic.CreatedOn</small>
+                                                            <small><time datetime="@topic.CreatedOn.ToString("O")"></time></small>
                                                         </div>
                                                         <p class="mb-1">@topic.CleanContent</p>
 
