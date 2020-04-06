@@ -31,9 +31,14 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="offset-1 col-11 card bg-warning">
-                                <div class="card-body">
-                                    @message.Content
+                            <div class="offset-1 col-11 card bg-light">
+                                <div class="card-body d-flex w-100 justify-content-between">
+                                    <div>
+                                        @message.Content
+                                    </div>
+                                    <div>
+                                        <a class="btn btn-danger btn-sm" asp-controller="Messages" asp-action="Delete" asp-route-messageId="@message.Id" asp-route-receiverId="@Model.ReceiverId" asp-route-senderId="@Model.SenderId">Delete</a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -48,7 +53,7 @@
                                 @message.SentOn
                             </div>
                         </div>
-                        <div class="card bg-info col-11">
+                        <div class="card bg-primary col-11">
                             <div class="card-body text-white">
                                 @message.Content
                             </div>
@@ -96,7 +101,7 @@
                                             </div>
                                         </div>
                                         <div class="row">
-                                            <div class="offset-1 col-11 card bg-warning">
+                                            <div class="offset-1 col-11 card bg-light">
                                                 <div class="card-body">
                                                      ${escapeHtml(message.text)}
                                                 </div>
@@ -118,7 +123,7 @@
                                                  ${message.sentOn}
                                             </div>
                                         </div>
-                                        <div class="card bg-info col-11">
+                                        <div class="card bg-primary col-11">
                                             <div class="card-body text-white">
                                                 ${escapeHtml(message.text)}
                                             </div>

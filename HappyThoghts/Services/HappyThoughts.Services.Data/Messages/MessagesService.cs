@@ -37,7 +37,7 @@
             return message.Id;
         }
 
-        public async Task DeleteById(string messageId)
+        public async Task DeleteByIdAsync(string messageId)
         {
             var message = await this.messageRepository.GetByIdWithDeletedAsync(messageId);
 

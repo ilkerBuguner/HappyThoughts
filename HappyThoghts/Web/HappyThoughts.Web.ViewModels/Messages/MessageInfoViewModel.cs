@@ -10,6 +10,8 @@
 
     public class MessageInfoViewModel : IMapFrom<Message>, IHaveCustomMappings
     {
+        public string Id { get; set; }
+
         public string Content { get; set; }
 
         public string ShortContent

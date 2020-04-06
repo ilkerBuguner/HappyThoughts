@@ -55,5 +55,16 @@
 
             return this.View(viewModel);
         }
+
+        public async Task<IActionResult> Delete(string messageId, string receiverId, string senderId)
+        {
+            var currentUserId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (currentUserId == senderId)
+            {
+                await this.messagesService.DeleteByIdAsync(messageId);
+            }
+
+            return this.RedirectToAction(nameof(this.Chat), new { receiverId = receiverId });
+        }
     }
 }

@@ -10,7 +10,7 @@
     {
         Task<string> CreateAsync(string senderId, string receiverId, string content);
 
-        Task DeleteById(string messageId);
+        Task DeleteByIdAsync(string messageId);
 
         MessageInfoViewModel GetByIdAsViewModel(string messageId);
 
