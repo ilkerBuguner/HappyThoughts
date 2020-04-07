@@ -6,4 +6,4 @@ ASP.NET Core MVC,
 EF Core 3.1.1, 
 SignalR, 
 CloudinaryDotNet, 
-Moq, 
+Moq.
