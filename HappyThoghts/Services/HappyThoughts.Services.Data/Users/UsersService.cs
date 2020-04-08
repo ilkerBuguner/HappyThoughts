@@ -34,6 +34,8 @@
             var user = await this.userRepository
                 .All()
                 .Include(u => u.Topics)
+                .Include(u => u.Followers).ThenInclude(x => x.FollowingUser)
+                .Include(u => u.Following).ThenInclude(x => x.FollowedUser)
                 .To<ApplicationUserDetailsViewModel>()
                 .FirstOrDefaultAsync(u => u.Id == id);
 

@@ -25,6 +25,8 @@ namespace HappyThoughts.Data.Models
             this.MessagesSent = new HashSet<Message>();
             this.MessagesReceived = new HashSet<Message>();
             this.Replies = new HashSet<Reply>();
+            this.Followers = new HashSet<UserFollower>();
+            this.Following = new HashSet<UserFollower>();
         }
 
         // Audit info
@@ -81,5 +83,9 @@ namespace HappyThoughts.Data.Models
         public virtual ICollection<UserReport> ReportsSent { get; set; }
 
         public virtual ICollection<UserReport> ReceivedReports { get; set; }
+
+        public virtual ICollection<UserFollower> Followers { get; set; }
+
+        public virtual ICollection<UserFollower> Following { get; set; }
     }
 }

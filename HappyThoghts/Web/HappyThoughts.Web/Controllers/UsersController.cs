@@ -1,25 +1,31 @@
 ﻿namespace HappyThoughts.Web.Controllers
 {
+    using System.Security.Claims;
     using System.Threading.Tasks;
 
     using HappyThoughts.Common;
     using HappyThoughts.Services.Data.Users;
+    using HappyThoughts.Services.Data.UsersFollowers;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
 
     public class UsersController : BaseController
     {
         private readonly IUsersService usersService;
+        private readonly IUsersFollowersService usersFollowersService;
 
-        public UsersController(IUsersService usersService)
+        public UsersController(IUsersService usersService, IUsersFollowersService usersFollowersService)
         {
             this.usersService = usersService;
+            this.usersFollowersService = usersFollowersService;
         }
 
         public async Task<IActionResult> Profile(string id)
         {
             var viewModel = await this.usersService.GetUserAsViewModelByIdAsync(id);
 
+            var currentUserId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var isFollowing = this.usersFollowersService.IsFollowing(currentUserId, id);
             var isUserBanned = await this.usersService.IsBannedAsync(id);
             var isUserModerator = await this.usersService.IsPromotedAsync(id);
             var isUserAdmin = await this.usersService.IsAdminAsync(id);
@@ -39,7 +45,35 @@
                 viewModel.IsModerator = true;
             }
 
+            if (isFollowing)
+            {
+                viewModel.IsFollowing = true;
+            }
+
             return this.View(viewModel);
+        }
+
+        [Authorize]
+        public async Task<IActionResult> Follow(string followedUserId)
+        {
+            string followingUserId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            await this.usersFollowersService.FollowAsync(followingUserId, followedUserId);
+
+            this.TempData["SuccessInfo"] = "You successfully followed this user!";
+
+            return this.RedirectToAction(nameof(this.Profile), new { id = followedUserId });
+        }
+
+        public async Task<IActionResult> Unfollow(string unfollowedUserId)
+        {
+            string unfollowingUserId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            await this.usersFollowersService.Unfollow(unfollowingUserId, unfollowedUserId);
+
+            this.TempData["SuccessInfo"] = "You successfully unfollowed this user!";
+
+            return this.RedirectToAction(nameof(this.Profile), new { id = unfollowedUserId });
         }
 
         [Authorize(Roles = GlobalConstants.AdministratorRoleName)]

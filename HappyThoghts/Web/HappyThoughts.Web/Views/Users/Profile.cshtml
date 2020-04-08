@@ -68,9 +68,8 @@
                                     <span class="badge badge-pill badge-info">Moderator</span>
                                 }
                                 <h2 class="d-block" style="font-size: 1.5rem; font-weight: bold"><a href="javascript:void(0);">@Model.UserName</a></h2>
-                                <h6 class="d-block"><a href="javascript:void(0)">@Model.Topics.Count()</a> Topics Created</h6>
+                                <h6 class="d-block">@Model.Topics.Count() Topics Created | @Model.FollowersCount Followers | @Model.FollowingUsersCouint Following</h6>
                                 <h6 class="d-block">@Model.Biography</h6>
-                                <!--<h6 class="d-block"><a href="javascript:void(0)">300</a> Blog Posts</h6>-->
                             </div>
                             <div class="ml-auto">
                                 <input type="button" class="btn btn-primary d-none" id="btnDiscard" value="Discard Changes" />
@@ -83,7 +82,16 @@
                             <br />
                             @if (this.User.FindFirstValue(ClaimTypes.NameIdentifier) != Model.Id)
                             {
+                                if (Model.IsFollowing == false)
+                                {
+                                    <a asp-controller="Users" asp-action="Follow" asp-route-followedUserId="@Model.Id" class="btn btn-outline-primary btn-sm"><i class="fas fa-bell"></i> Follow</a>
+                                }
+                                else
+                                {
+                                    <a asp-controller="Users" asp-action="Unfollow" asp-route-unfollowedUserId="@Model.Id" class="btn btn-outline-danger btn-sm"><i class="fas fa-bell-slash"></i> Unfollow</a>
+                                }
                                 <a asp-controller="Messages" asp-action="Chat" asp-route-receiverId="@Model.Id" class="btn btn-outline-success btn-sm"><i class="fas fa-share-square"></i> Message</a>
+
                             }
                             @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName) || this.User.IsInRole(GlobalConstants.ModeratorRoleName))
                             {

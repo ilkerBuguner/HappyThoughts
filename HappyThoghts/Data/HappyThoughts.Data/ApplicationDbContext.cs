@@ -42,6 +42,8 @@
 
         public DbSet<UserReport> UserReports { get; set; }
 
+        public DbSet<UserFollower> UsersFollowers { get; set; }
+
         public override int SaveChanges() => this.SaveChanges(true);
 
         public override int SaveChanges(bool acceptAllChangesOnSuccess)
@@ -158,6 +160,21 @@
                 entity.HasOne(c => c.RootComment)
                 .WithMany(c => c.Replies)
                 .HasForeignKey(c => c.RootCommentId)
+                .OnDelete(DeleteBehavior.Restrict);
+            });
+
+            builder.Entity<UserFollower>(entity =>
+            {
+                entity.HasKey(k => new { k.FollowedUserId, k.FollowingUserId });
+
+                entity.HasOne(f => f.FollowedUser)
+                .WithMany(u => u.Followers)
+                .HasForeignKey(f => f.FollowedUserId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+                entity.HasOne(f => f.FollowingUser)
+                .WithMany(u => u.Following)
+                .HasForeignKey(f => f.FollowingUserId)
                 .OnDelete(DeleteBehavior.Restrict);
             });
         }

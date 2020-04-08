@@ -4,7 +4,7 @@
 
 <!-- Page Content -->
 <div class="container">
-    <div class="row col-lg-9 text-center">
+    @*<div class="row col-lg-9 text-center">
         <div class="btn-group btn-group-toggle col-lg-11">
             <a class="btn btn-primary" asp-controller="Home" asp-action="Index">Today</a>
             <a class="btn btn-primary" asp-controller="Home" asp-action="Trend">Trend</a>
@@ -12,11 +12,19 @@
         </div>
     </div>
 
-    <br />
+    <br />*@
 
     <div class="row">
         <!-- Post Content Column -->
         <div class="col-lg-8">
+            <div class="col-lg-12 text-center">
+                <div class="btn-group btn-group-toggle col-lg-12">
+                    <a class="btn btn-primary" asp-controller="Home" asp-action="Index">Today</a>
+                    <a class="btn btn-primary" asp-controller="Home" asp-action="Trend">Trend</a>
+                    <a class="btn btn-primary" asp-controller="Home" asp-action="Random">Random</a>
+                </div>
+            </div>
+            <br />
             <div class="list-group-horizontal-sm">
                 @foreach (var topic in Model.Topics)
                 {
