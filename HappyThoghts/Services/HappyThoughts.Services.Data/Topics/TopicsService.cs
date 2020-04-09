@@ -24,10 +24,12 @@
         private const int ContentMinLength = 10;
 
         private readonly IDeletableEntityRepository<Topic> topicRepository;
+        private readonly IDeletableEntityRepository<ApplicationUser> userRepository;
 
-        public TopicsService(IDeletableEntityRepository<Topic> topicRepository)
+        public TopicsService(IDeletableEntityRepository<Topic> topicRepository, IDeletableEntityRepository<ApplicationUser> userRepository)
         {
             this.topicRepository = topicRepository;
+            this.userRepository = userRepository;
         }
 
         public async Task CreateAsync(CreateTopicInputModel input)
@@ -232,6 +234,31 @@
             var topicsServiceModel = new TopicServiceModel()
             {
                 TotalTopicsCount = topics.Count,
+                Topics = topicsForPage,
+            };
+
+            return topicsServiceModel;
+        }
+
+        public async Task<TopicServiceModel> GetTopicsOfFollowedUsers(string userId, int page)
+        {
+            var topics = this.userRepository
+                .All()
+                .Where(x => x.Id == userId)
+                .SelectMany(x => x.Following.SelectMany(x => x.FollowedUser.Topics))
+                .OrderByDescending(x => x.CreatedOn)
+                .AsQueryable()
+                .To<TopicInfoViewModel>()
+                .ToList();
+
+
+            var topicsForPage = topics
+                .Skip((page - 1) * GlobalConstants.DefaultPageSize)
+                .Take(GlobalConstants.DefaultPageSize);
+
+            var topicsServiceModel = new TopicServiceModel()
+            {
+                TotalTopicsCount = topics.Count(),
                 Topics = topicsForPage,
             };
 

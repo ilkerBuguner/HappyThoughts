@@ -2,18 +2,9 @@
 
 @using HappyThoughts.Common
 
+
 <!-- Page Content -->
 <div class="container">
-    @*<div class="row col-lg-9 text-center">
-        <div class="btn-group btn-group-toggle col-lg-11">
-            <a class="btn btn-primary" asp-controller="Home" asp-action="Index">Today</a>
-            <a class="btn btn-primary" asp-controller="Home" asp-action="Trend">Trend</a>
-            <a class="btn btn-primary" asp-controller="Home" asp-action="Random">Random</a>
-        </div>
-    </div>
-
-    <br />*@
-
     <div class="row">
         <!-- Post Content Column -->
         <div class="col-lg-8">
@@ -21,10 +12,17 @@
                 <div class="btn-group btn-group-toggle col-lg-12">
                     <a class="btn btn-primary" asp-controller="Home" asp-action="Index">Today</a>
                     <a class="btn btn-primary" asp-controller="Home" asp-action="Trend">Trend</a>
+                    <a class="btn btn-primary" asp-controller="Home" asp-action="Following">Following</a>
                     <a class="btn btn-primary" asp-controller="Home" asp-action="Random">Random</a>
                 </div>
             </div>
             <br />
+            <div class="text-center">
+                @if (Model.Topics.Count() == 0 && this.ViewData["Controller/Action"] == "/Home/Followed")
+                {
+                    <h2>You are not following any user yet!</h2>
+                }
+            </div>
             <div class="list-group-horizontal-sm">
                 @foreach (var topic in Model.Topics)
                 {

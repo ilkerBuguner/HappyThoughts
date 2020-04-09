@@ -82,6 +82,27 @@
             return this.View("Index", viewModel);
         }
 
+        public async Task<IActionResult> Following(int page = GlobalConstants.DefaultPageNumber)
+        {
+            var currentUserId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            var serviceModel = await this.topicsService.GetTopicsOfFollowedUsers(currentUserId, page);
+
+            // var topicsList = topics.ToList().Where(t => t.CreatedOn > DateTime.Now.AddDays(-1)).OrderByDescending(t => t.CreatedOn);
+            var viewModel = new TopicsListingViewModel()
+            {
+                TotalTopicsCount = serviceModel.TotalTopicsCount,
+                CurrentPage = page,
+                Topics = serviceModel.Topics,
+                Categories = await this.categoriesService.GetAllAsync<CategoryInfoViewModel>(),
+            };
+
+            this.ViewData["Title"] = "Followed Users Topics";
+            this.ViewData["Controller/Action"] = "/Home/Following";
+
+            return this.View("Index", viewModel);
+        }
+
         public IActionResult Privacy()
         {
             return this.View();
