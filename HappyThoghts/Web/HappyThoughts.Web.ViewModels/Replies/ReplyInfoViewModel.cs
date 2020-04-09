@@ -20,11 +20,7 @@
 
         public int Dislikes { get; set; }
 
-        public string AuthorId { get; set; }
-
-        public string AuthorName { get; set; }
-
-        public ApplicationUserDetailsViewModel Author { get; set; }
+        public ApplicationUserInfoViewModel Author { get; set; }
 
         public string TopicId { get; set; }
 

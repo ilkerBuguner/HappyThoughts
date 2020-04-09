@@ -76,8 +76,8 @@
         {
             var comments = this.commentRepository
                 .All()
-                .To<CommentInfoViewModel>()
                 .Where(c => c.TopicId == topicId)
+                .To<CommentInfoViewModel>()
                 .OrderByDescending(c => c.CreatedOn)
                 .ToList();
 

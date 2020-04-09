@@ -167,7 +167,7 @@
                         <form asp-action="Create" id="replyCommentForm @commentFormIdentifier" style="display: none;">
                             <br />
                             <div class="form-group">
-                                <h6>Reply to @comment.AuthorName:</h6>
+                                <h6>Reply to @comment.Author.UserName:</h6>
                                 <textarea asp-for="@Model.ReplyContent" name="Content" class="form-control" rows="4"></textarea>
                                 <span asp-validation-for="@Model.ReplyContent" class="text-danger"></span>
                             </div>
@@ -185,7 +185,7 @@
                             {
 
                                 <div class="media mt-4">
-                                    @if (comment.Author.ProfilePictureUrl == null)
+                                    @if (reply.Author.ProfilePictureUrl == null)
                                     {
                                         <img class="d-flex mr-3 rounded-circle comment-picture-no-resize" src="https://res.cloudinary.com/doyjshrjs/image/upload/v1584395277/Profile-PNG-Icon-715x715_smb7cf.png" alt="">
                                     }

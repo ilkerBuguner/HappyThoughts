@@ -170,7 +170,7 @@
                 this.User.IsInRole(GlobalConstants.ModeratorRoleName) ||
                 this.User.FindFirstValue(ClaimTypes.NameIdentifier) == authorId)
             {
-                var model = await this.topicsService.GetByIdAsViewModelAsync(topicId);
+                var model = await this.topicsService.GetByIdAsInfoViewModelAsync(topicId);
                 var viewModel = new TopicEditViewModel()
                 {
                     Id = topicId,

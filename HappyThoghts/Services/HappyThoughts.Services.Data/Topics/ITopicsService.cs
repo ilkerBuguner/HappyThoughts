@@ -18,6 +18,8 @@
 
         Task<TopicDetailsViewModel> GetByIdAsViewModelAsync(string id);
 
+        Task<TopicInfoViewModel> GetByIdAsInfoViewModelAsync(string id);
+
         Task IncreaseViewsAsync(string id);
 
         Task DeleteByIdAsync(string topicId);

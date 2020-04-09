@@ -103,15 +103,27 @@
         {
             var topic = await this.topicRepository
                 .All()
-                .Include(x => x.Author)
-                .Include(x => x.Category)
+                .Where(t => t.Id == id)
+                //.Include(x => x.Author)
+                //.Include(x => x.Category)
                 .To<TopicDetailsViewModel>()
-                .FirstOrDefaultAsync(t => t.Id == id);
+                .FirstOrDefaultAsync();
 
             if (topic == null)
             {
                 throw new ArgumentNullException();
             }
+
+            return topic;
+        }
+
+        public async Task<TopicInfoViewModel> GetByIdAsInfoViewModelAsync(string id)
+        {
+            var topic = await this.topicRepository
+                .All()
+                .Where(t => t.Id == id)
+                .To<TopicInfoViewModel>()
+                .FirstOrDefaultAsync();
 
             return topic;
         }

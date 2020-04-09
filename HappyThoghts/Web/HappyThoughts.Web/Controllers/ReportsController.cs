@@ -37,7 +37,7 @@
         [Authorize]
         public async Task<IActionResult> ReportTopic(string topicId)
         {
-            var topic = await this.topicsService.GetByIdAsViewModelAsync(topicId);
+            var topic = await this.topicsService.GetByIdAsInfoViewModelAsync(topicId);
             this.ViewData["TopicId"] = topic.Id;
             this.ViewData["TopicTitle"] = topic.Title;
 

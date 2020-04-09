@@ -3,14 +3,14 @@
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
-    using AutoMapper;
+
     using HappyThoughts.Data.Models;
     using HappyThoughts.Services.Mapping;
     using HappyThoughts.Web.ViewModels.InputModels.Replies;
     using HappyThoughts.Web.ViewModels.Replies;
     using HappyThoughts.Web.ViewModels.Users;
 
-    public class CommentInfoViewModel : IMapFrom<Comment>, IHaveCustomMappings
+    public class CommentInfoViewModel : IMapFrom<Comment>
     {
         public CommentInfoViewModel()
         {
@@ -18,10 +18,6 @@
         }
 
         public string Id { get; set; }
-
-        public string AuthorName { get; set; }
-
-        public string AuthorId { get; set; }
 
         public string TopicId { get; set; }
 
@@ -35,15 +31,10 @@
 
         public DateTime CreatedOn { get; set; }
 
-        public ApplicationUserDetailsViewModel Author { get; set; }
+        public ApplicationUserInfoViewModel Author { get; set; }
 
         public ICollection<ReplyInfoViewModel> Replies { get; set; }
 
         public EditReplyInputModel ReplyEditInputModel { get; set; }
-
-        public void CreateMappings(IProfileExpression configuration)
-        {
-            configuration.CreateMap<Comment, CommentInfoViewModel>().ForMember(x => x.AuthorName, t => t.MapFrom(opt => opt.Author.UserName));
-        }
     }
 }
