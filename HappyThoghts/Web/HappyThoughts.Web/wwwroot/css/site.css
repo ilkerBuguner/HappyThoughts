@@ -285,7 +285,7 @@ img.comment-picture-no-resize {
     background: #ffffff;
     display: inline-block;
     width: 100%;
-    padding: 0 0px 40px 0px;
+    padding: 0 0px 0px 0px;
     border: 1px solid #e8eef1;
 }
 
@@ -346,15 +346,15 @@ img.comment-picture-no-resize {
 
 .inbox-message .message-avatar {
     position: absolute;
-    left: 30px;
+    left: 20px;
     top: 50%;
     transform: translateY(-50%);
 }
 
 .message-avatar img {
     display: inline-block;
-    width: 54px;
-    height: 54px;
+    width: 70px;
+    height: 70px;
     border-radius: 50%;
 }
 

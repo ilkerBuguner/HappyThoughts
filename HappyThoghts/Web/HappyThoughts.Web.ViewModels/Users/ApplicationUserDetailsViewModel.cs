@@ -1,7 +1,7 @@
 ﻿namespace HappyThoughts.Web.ViewModels.Users
 {
     using System.Collections.Generic;
-
+    using System.Linq;
     using AutoMapper;
     using HappyThoughts.Data.Models;
     using HappyThoughts.Services.Mapping;
@@ -32,9 +32,9 @@
 
         public string ProfilePictureUrl { get; set; }
 
-        public int FollowersCount => this.Followers.Count;
+        public int FollowersCount => this.FollowersOfUser.Count();
 
-        public int FollowingUsersCouint => this.Following.Count;
+        public int FollowingUsersCouint => this.FollowedUsers.Count();
 
         public bool IsBanned { get; set; }
 
@@ -46,9 +46,9 @@
 
         public virtual ICollection<TopicInfoViewModel> Topics { get; set; }
 
-        public virtual ICollection<UserFollowerViewModel> Followers { get; set; }
+        public virtual IEnumerable<ApplicationUserInfoViewModel> FollowersOfUser { get; set; }
 
-        public virtual ICollection<UserFollowerViewModel> Following { get; set; }
+        public virtual IEnumerable<ApplicationUserInfoViewModel> FollowedUsers { get; set; }
 
         public void CreateMappings(IProfileExpression configuration)
         {

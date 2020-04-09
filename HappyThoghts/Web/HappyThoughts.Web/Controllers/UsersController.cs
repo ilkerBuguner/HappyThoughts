@@ -24,6 +24,9 @@
         {
             var viewModel = await this.usersService.GetUserAsViewModelByIdAsync(id);
 
+            viewModel.FollowersOfUser = this.usersService.GetCurrentUsersFollowers(id);
+            viewModel.FollowedUsers = this.usersService.GetCurrentUsersFollowingUsers(id);
+
             var currentUserId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
             var isFollowing = this.usersFollowersService.IsFollowing(currentUserId, id);
             var isUserBanned = await this.usersService.IsBannedAsync(id);

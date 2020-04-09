@@ -136,6 +136,12 @@
                                 <li class="nav-item">
                                     <a class="nav-link" id="most-viewed-topics-tab" data-toggle="tab" href="#most-viewed-topics" role="tab" aria-controls="mostViewedTopics" aria-selected="false">Most Viewed Topics</a>
                                 </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" id="followers-tab" data-toggle="tab" href="#followers" role="tab" aria-controls="followers" aria-selected="false">Followers</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" id="following-tab" data-toggle="tab" href="#following" role="tab" aria-controls="following" aria-selected="false">Following</a>
+                                </li>
                             </ul>
                             <div class="tab-content ml-1" id="myTabContent">
                                 <div class="tab-pane fade show active" id="basicInfo" role="tabpanel" aria-labelledby="basicInfo-tab">
@@ -300,6 +306,92 @@
                                                 </div>
                                             </a>
                                         }
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade" id="followers" role="tabpanel" aria-labelledby="followers-tab">
+                                    <div class="list-group-horizontal-sm">
+                                        <div class="job-box">
+                                            <div class="inbox-message">
+                                                <ul>
+                                                    @foreach (var user in Model.FollowersOfUser)
+                                                    {
+                                                        <li>
+                                                            <a asp-controller="Users" asp-action="Profile" asp-route-id="@user.Id">
+                                                                @if (user.ProfilePictureUrl == null)
+                                                                {
+                                                                    <div class="message-avatar">
+                                                                        <img src="https://res.cloudinary.com/doyjshrjs/image/upload/v1584395277/Profile-PNG-Icon-715x715_smb7cf.png" alt="">
+                                                                    </div>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <div class="message-avatar">
+                                                                        <img src="@user.ProfilePictureUrl" alt="">
+                                                                    </div>
+                                                                }
+                                                                <div class="message-body">
+                                                                    <div class="message-body-heading">
+                                                                        <h5>@user.UserName</h5>
+                                                                        <span>Registered On: <time datetime="@user.CreatedOn.ToString("O")"></time></span>
+                                                                    </div>
+                                                                    @if (string.IsNullOrEmpty(user.Biography))
+                                                                    {
+                                                                        <p>No Biography</p>
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        <p>@user.Biography</p>
+                                                                    }
+                                                                </div>
+                                                            </a>
+                                                        </li>
+                                                    }
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade" id="following" role="tabpanel" aria-labelledby="following-tab">
+                                    <div class="list-group-horizontal-sm">
+                                        <div class="job-box">
+                                            <div class="inbox-message">
+                                                <ul>
+                                                    @foreach (var user in Model.FollowedUsers)
+                                                    {
+                                                        <li>
+                                                            <a asp-controller="Users" asp-action="Profile" asp-route-id="@user.Id">
+                                                                @if (user.ProfilePictureUrl == null)
+                                                                {
+                                                                    <div class="message-avatar">
+                                                                        <img src="https://res.cloudinary.com/doyjshrjs/image/upload/v1584395277/Profile-PNG-Icon-715x715_smb7cf.png" alt="">
+                                                                    </div>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <div class="message-avatar">
+                                                                        <img src="@user.ProfilePictureUrl" alt="">
+                                                                    </div>
+                                                                }
+                                                                <div class="message-body">
+                                                                    <div class="message-body-heading">
+                                                                        <h5>@user.UserName</h5>
+                                                                        <span>Registered On: <time datetime="@user.CreatedOn.ToString("O")"></time></span>
+                                                                    </div>
+                                                                    @if (string.IsNullOrEmpty(user.Biography))
+                                                                    {
+                                                                        <p>No Biography</p>
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        <p>@user.Biography</p>
+                                                                    }
+                                                                </div>
+                                                            </a>
+                                                        </li>
+                                                    }
+                                                </ul>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

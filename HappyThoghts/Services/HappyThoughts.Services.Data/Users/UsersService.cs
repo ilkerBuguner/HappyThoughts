@@ -35,8 +35,8 @@
                 .All()
                 .Where(u => u.Id == id)
                 .Include(u => u.Topics)
-                .Include(u => u.Followers).ThenInclude(x => x.FollowingUser)
-                .Include(u => u.Following).ThenInclude(x => x.FollowedUser)
+                //.Include(u => u.Followers).ThenInclude(x => x.FollowingUser)
+                //.Include(u => u.Following).ThenInclude(x => x.FollowedUser)
                 .To<ApplicationUserDetailsViewModel>()
                 .FirstOrDefaultAsync();
 
@@ -184,6 +184,30 @@
             {
                 return false;
             }
+        }
+
+        public IEnumerable<ApplicationUserInfoViewModel> GetCurrentUsersFollowers(string userId)
+        {
+            var users = this.userRepository
+                .All()
+                .Where(u => u.Id == userId)
+                .SelectMany(x => x.Followers.Select(x => x.FollowingUser))
+                .To<ApplicationUserInfoViewModel>()
+                .ToList();
+
+            return users;
+        }
+
+        public IEnumerable<ApplicationUserInfoViewModel> GetCurrentUsersFollowingUsers(string userId)
+        {
+            var users = this.userRepository
+                .All()
+                .Where(u => u.Id == userId)
+                .SelectMany(x => x.Following.Select(x => x.FollowedUser))
+                .To<ApplicationUserInfoViewModel>()
+                .ToList();
+
+            return users;
         }
     }
 }

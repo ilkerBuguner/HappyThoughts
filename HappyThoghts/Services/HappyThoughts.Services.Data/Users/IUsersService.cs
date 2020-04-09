@@ -13,6 +13,10 @@
 
         string GetUsernameById(string id);
 
+        IEnumerable<ApplicationUserInfoViewModel> GetCurrentUsersFollowers(string userId);
+
+        IEnumerable<ApplicationUserInfoViewModel> GetCurrentUsersFollowingUsers(string userId);
+
         Task BanAsync(string userId);
 
         Task UnbanAsync(string userId);
