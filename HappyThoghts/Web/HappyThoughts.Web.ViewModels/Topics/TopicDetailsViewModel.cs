@@ -50,7 +50,7 @@
 
         public CategoryInfoViewModel Category { get; set; }
 
-        public ApplicationUserDetailsViewModel Author { get; set; }
+        public ApplicationUserInfoViewModel Author { get; set; }
 
         public IEnumerable<CommentInfoViewModel> Comments { get; set; }
 

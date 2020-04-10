@@ -112,6 +112,8 @@
 
             viewModel.Comments = this.commentsService.GetAllCommentsOfTopic(topicId);
 
+            viewModel.Author.TopicsCount = this.topicsService.GetTopicsCountOfUser(viewModel.Author.Id);
+
             var topicAuthorId = viewModel.Author.Id;
 
             var isUserBanned = await this.usersService.IsBannedAsync(topicAuthorId);

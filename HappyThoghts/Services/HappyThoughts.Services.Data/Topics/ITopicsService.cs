@@ -51,5 +51,7 @@
         int GetTopicTotalDislikes(string topicId);
 
         int GetRemainingMinutesToCreateTopic(string userId);
+
+        int GetTopicsCountOfUser(string userId);
     }
 }

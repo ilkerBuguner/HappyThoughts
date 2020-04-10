@@ -364,6 +364,16 @@
             }
         }
 
+        public int GetTopicsCountOfUser(string userId)
+        {
+            var topicsCount = this.userRepository
+                .All()
+                .Where(x => x.Id == userId)
+                .Select(x => x.Topics.Count)
+                .FirstOrDefault();
+
+            return topicsCount;
+        }
         private static void Shuffle(List<TopicInfoViewModel> topics)
         {
             var random = new Random();

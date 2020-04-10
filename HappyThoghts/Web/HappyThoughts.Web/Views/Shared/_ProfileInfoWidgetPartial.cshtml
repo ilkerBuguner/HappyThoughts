@@ -1,4 +1,4 @@
-﻿@model HappyThoughts.Web.ViewModels.Users.ApplicationUserDetailsViewModel
+﻿@model HappyThoughts.Web.ViewModels.Users.ApplicationUserInfoViewModel
 
 <div class="card mb-3" style="max-width: 540px;">
     <div class="row no-gutters">
@@ -27,7 +27,7 @@
                     <span class="badge badge-pill badge-info">Moderator</span>
                 }
                 <h4 class="card-title">@Model.UserName</h4>
-                <h6>@Model.Topics.Count Created Topics</h6>
+                <h6>@Model.TopicsCount Created Topics</h6>
                 <p class="card-text">@Model.Biography</p>
                 <a asp-controller="Users" asp-action="Profile" asp-route-id="@Model.Id" class="btn btn-primary">Profile</a>
             </div>
