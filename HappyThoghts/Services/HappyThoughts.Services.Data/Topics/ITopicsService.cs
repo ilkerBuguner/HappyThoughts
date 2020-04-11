@@ -36,7 +36,7 @@
 
         TopicServiceModel GetTrendingTopics(int page);
 
-        Task<TopicServiceModel> GetTopicsOfFollowedUsers(string userId, int page);
+        TopicServiceModel GetTopicsOfFollowedUsers(string userId, int page);
 
         IEnumerable<TopicInfoViewModel> GetRandomTopics(int page);
 

@@ -66,7 +66,7 @@
         [Authorize]
         public async Task<IActionResult> Edit(string id)
         {
-            var categoryViewModel = await this.categoriesService.GetCategoryById(id);
+            var categoryViewModel = await this.categoriesService.GetCategoryByIdAsync(id);
             return this.View(categoryViewModel);
         }
 

@@ -1,6 +1,5 @@
 ﻿namespace HappyThoughts.Services.Data.UsersFollowers
 {
-    using HappyThoughts.Web.ViewModels.Users;
     using System.Threading.Tasks;
 
     public interface IUsersFollowersService

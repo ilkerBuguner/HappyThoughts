@@ -10,7 +10,6 @@
     using HappyThoughts.Services.Mapping;
     using HappyThoughts.Web.ViewModels.Comments;
     using HappyThoughts.Web.ViewModels.InputModels.Comments;
-    using Microsoft.EntityFrameworkCore;
 
     public class CommentsService : ICommentsService
     {

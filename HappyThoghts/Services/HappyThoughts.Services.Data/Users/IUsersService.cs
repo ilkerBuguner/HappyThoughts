@@ -2,7 +2,7 @@
 {
     using System.Collections.Generic;
     using System.Threading.Tasks;
-    using HappyThoughts.Web.ViewModels.Messages;
+
     using HappyThoughts.Web.ViewModels.Users;
 
     public interface IUsersService

@@ -3,7 +3,6 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Text;
     using System.Threading.Tasks;
 
     using HappyThoughts.Common;
@@ -240,7 +239,7 @@
             return topicsServiceModel;
         }
 
-        public async Task<TopicServiceModel> GetTopicsOfFollowedUsers(string userId, int page)
+        public TopicServiceModel GetTopicsOfFollowedUsers(string userId, int page)
         {
             var topics = this.userRepository
                 .All()
@@ -250,7 +249,6 @@
                 .AsQueryable()
                 .To<TopicInfoViewModel>()
                 .ToList();
-
 
             var topicsForPage = topics
                 .Skip((page - 1) * GlobalConstants.DefaultPageSize)
@@ -374,6 +372,7 @@
 
             return topicsCount;
         }
+
         private static void Shuffle(List<TopicInfoViewModel> topics)
         {
             var random = new Random();

@@ -1,9 +1,7 @@
 ﻿namespace HappyThoughts.Services.Data.Categories
 {
     using System;
-    using System.Collections.Generic;
     using System.Linq;
-    using System.Text;
     using System.Threading.Tasks;
 
     using HappyThoughts.Data.Common.Repositories;
@@ -76,9 +74,12 @@
                 .ToArrayAsync();
         }
 
-        public Task<CategoryInfoViewModel> GetCategoryById(string id)
+        public async Task<CategoryInfoViewModel> GetCategoryByIdAsync(string id)
         {
-            var category = this.categoryRepository.All().To<CategoryInfoViewModel>().FirstOrDefaultAsync(c => c.Id == id);
+            var category = await this.categoryRepository
+                .All()
+                .To<CategoryInfoViewModel>()
+                .FirstOrDefaultAsync(c => c.Id == id);
 
             if (category == null)
             {
@@ -90,7 +91,10 @@
 
         public CategoryInfoViewModel GetCategoryByName(string name)
         {
-            var category = this.categoryRepository.All().To<CategoryInfoViewModel>().FirstOrDefault(c => c.Name == name);
+            var category = this.categoryRepository
+                .All()
+                .To<CategoryInfoViewModel>()
+                .FirstOrDefault(c => c.Name == name);
 
             if (category == null)
             {
@@ -102,7 +106,9 @@
 
         public string GetIdByName(string name)
         {
-            var category = this.categoryRepository.All().FirstOrDefault(c => c.Name == name);
+            var category = this.categoryRepository
+                .All()
+                .FirstOrDefault(c => c.Name == name);
 
             if (category == null)
             {
@@ -114,7 +120,9 @@
 
         public string GetNameById(string id)
         {
-            var category = this.categoryRepository.All().FirstOrDefault(c => c.Id == id);
+            var category = this.categoryRepository
+                .All()
+                .FirstOrDefault(c => c.Id == id);
 
             if (category == null)
             {

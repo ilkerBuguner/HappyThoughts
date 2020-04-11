@@ -1,6 +1,5 @@
 ﻿namespace HappyThoughts.Services.Data.Categories
 {
-    using System.Linq;
     using System.Threading.Tasks;
 
     using HappyThoughts.Web.ViewModels.Categories;
@@ -22,6 +21,6 @@
 
         Task DeleteByIdAsync(string id);
 
-        Task<CategoryInfoViewModel> GetCategoryById(string id);
+        Task<CategoryInfoViewModel> GetCategoryByIdAsync(string id);
     }
 }

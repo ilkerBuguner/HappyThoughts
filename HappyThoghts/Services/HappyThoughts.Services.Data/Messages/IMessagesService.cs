@@ -2,8 +2,7 @@
 {
     using System.Collections.Generic;
     using System.Threading.Tasks;
-    using HappyThoughts.Data.Models;
-    using HappyThoughts.Web.ViewModels.InputModels.Messages;
+
     using HappyThoughts.Web.ViewModels.Messages;
 
     public interface IMessagesService

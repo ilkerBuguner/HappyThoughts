@@ -86,7 +86,7 @@
         {
             var currentUserId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            var serviceModel = await this.topicsService.GetTopicsOfFollowedUsers(currentUserId, page);
+            var serviceModel = this.topicsService.GetTopicsOfFollowedUsers(currentUserId, page);
 
             // var topicsList = topics.ToList().Where(t => t.CreatedOn > DateTime.Now.AddDays(-1)).OrderByDescending(t => t.CreatedOn);
             var viewModel = new TopicsListingViewModel()

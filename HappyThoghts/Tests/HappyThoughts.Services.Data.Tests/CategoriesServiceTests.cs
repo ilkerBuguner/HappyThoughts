@@ -162,22 +162,24 @@
 
             await categoriesService.CreateAsync(inputModel);
 
+            var category = categoryRepository.All().FirstOrDefault(x => x.Name == testName);
+
             // Act
-            var expectedCategoryName = testName;
+            var expectedCategoryId = category.Id;
             var expectedReturnType = typeof(CategoryInfoViewModel);
             var actualReturnType = categoriesService.GetCategoryByName(testName).GetType();
-            var actualCategoryName = categoriesService.GetCategoryByName(testName).Name;
+            var actualCategoryId = categoriesService.GetCategoryByName(testName).Id;
 
             // Assert
             Assert.True(expectedReturnType == actualReturnType);
-            Assert.Equal(expectedCategoryName, actualCategoryName);
+            Assert.Equal(expectedCategoryId, actualCategoryId);
         }
 
         [Theory]
         [InlineData("")]
         [InlineData(null)]
-        [InlineData("InvlaidCategoryName")]
-        public async Task GetCategoryById_WithIncorrectData_ShouldThrowArgumentException(string invalidName)
+        [InlineData("InvlaidCategoryId")]
+        public async Task GetCategoryById_WithIncorrectData_ShouldThrowArgumentException(string invalidId)
         {
             // Arrange
             var context = ApplicationDbContextInMemoryFactory.InitializeContext();
@@ -189,7 +191,7 @@
             // Assert
             await Assert.ThrowsAsync<ArgumentException>(async () =>
             {
-                categoriesService.GetCategoryByName(invalidName);
+                await categoriesService.GetCategoryByIdAsync(invalidId);
             });
         }
 

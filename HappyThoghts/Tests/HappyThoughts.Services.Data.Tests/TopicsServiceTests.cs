@@ -27,7 +27,8 @@
             // Arrange
             var context = ApplicationDbContextInMemoryFactory.InitializeContext();
             var topicRepository = new EfDeletableEntityRepository<Topic>(context);
-            var topicsService = new TopicsService(topicRepository);
+            var userRepository = new EfDeletableEntityRepository<ApplicationUser>(context);
+            var topicsService = new TopicsService(topicRepository, userRepository);
 
             var inputModel = new CreateTopicInputModel()
             {
@@ -49,7 +50,8 @@
             // Arrange
             var context = ApplicationDbContextInMemoryFactory.InitializeContext();
             var topicRepository = new EfDeletableEntityRepository<Topic>(context);
-            var topicsService = new TopicsService(topicRepository);
+            var userRepository = new EfDeletableEntityRepository<ApplicationUser>(context);
+            var topicsService = new TopicsService(topicRepository, userRepository);
 
             var inputModel = new CreateTopicInputModel()
             {
@@ -76,7 +78,8 @@
 
             var context = ApplicationDbContextInMemoryFactory.InitializeContext();
             var topicRepository = new EfDeletableEntityRepository<Topic>(context);
-            var topicsService = new TopicsService(topicRepository);
+            var userRepository = new EfDeletableEntityRepository<ApplicationUser>(context);
+            var topicsService = new TopicsService(topicRepository, userRepository);
 
             // Act
 
@@ -93,7 +96,8 @@
             // Arrange
             var context = ApplicationDbContextInMemoryFactory.InitializeContext();
             var topicRepository = new EfDeletableEntityRepository<Topic>(context);
-            var topicsService = new TopicsService(topicRepository);
+            var userRepository = new EfDeletableEntityRepository<ApplicationUser>(context);
+            var topicsService = new TopicsService(topicRepository, userRepository);
 
             var createInputModel = new CreateTopicInputModel()
             {
@@ -129,7 +133,8 @@
             var incorrentInputModelId = "IncorrentId";
             var context = ApplicationDbContextInMemoryFactory.InitializeContext();
             var topicRepository = new EfDeletableEntityRepository<Topic>(context);
-            var topicsService = new TopicsService(topicRepository);
+            var userRepository = new EfDeletableEntityRepository<ApplicationUser>(context);
+            var topicsService = new TopicsService(topicRepository, userRepository);
 
             var editInputModel = new TopicEditViewModel()
             {
@@ -184,7 +189,8 @@
             // Arrange
             var context = ApplicationDbContextInMemoryFactory.InitializeContext();
             var topicRepository = new EfDeletableEntityRepository<Topic>(context);
-            var topicsService = new TopicsService(topicRepository);
+            var userRepository = new EfDeletableEntityRepository<ApplicationUser>(context);
+            var topicsService = new TopicsService(topicRepository, userRepository);
 
             var inputModel = new CreateTopicInputModel()
             {
@@ -210,7 +216,8 @@
             // Arrange
             var context = ApplicationDbContextInMemoryFactory.InitializeContext();
             var topicRepository = new EfDeletableEntityRepository<Topic>(context);
-            var topicsService = new TopicsService(topicRepository);
+            var userRepository = new EfDeletableEntityRepository<ApplicationUser>(context);
+            var topicsService = new TopicsService(topicRepository, userRepository);
 
             var inputModel = new CreateTopicInputModel()
             {
@@ -235,7 +242,8 @@
             var invalidTitle = "InvalidTitle";
             var context = ApplicationDbContextInMemoryFactory.InitializeContext();
             var topicRepository = new EfDeletableEntityRepository<Topic>(context);
-            var topicsService = new TopicsService(topicRepository);
+            var userRepository = new EfDeletableEntityRepository<ApplicationUser>(context);
+            var topicsService = new TopicsService(topicRepository, userRepository);
 
             // Act
 
@@ -252,7 +260,8 @@
             // Arrange
             var context = ApplicationDbContextInMemoryFactory.InitializeContext();
             var topicRepository = new EfDeletableEntityRepository<Topic>(context);
-            var topicsService = new TopicsService(topicRepository);
+            var userRepository = new EfDeletableEntityRepository<ApplicationUser>(context);
+            var topicsService = new TopicsService(topicRepository, userRepository);
             await topicsService.CreateAsync(new CreateTopicInputModel());
 
             // Act
@@ -315,7 +324,8 @@
             // Arrange
             var context = ApplicationDbContextInMemoryFactory.InitializeContext();
             var topicRepository = new EfDeletableEntityRepository<Topic>(context);
-            var topicsService = new TopicsService(topicRepository);
+            var userRepository = new EfDeletableEntityRepository<ApplicationUser>(context);
+            var topicsService = new TopicsService(topicRepository, userRepository);
 
             var inputModel = new CreateTopicInputModel()
             {
@@ -341,7 +351,8 @@
             // Arrange
             var context = ApplicationDbContextInMemoryFactory.InitializeContext();
             var topicRepository = new EfDeletableEntityRepository<Topic>(context);
-            var topicsService = new TopicsService(topicRepository);
+            var userRepository = new EfDeletableEntityRepository<ApplicationUser>(context);
+            var topicsService = new TopicsService(topicRepository, userRepository);
 
             var inputModel = new CreateTopicInputModel()
             {
@@ -367,7 +378,8 @@
             // Arrange
             var context = ApplicationDbContextInMemoryFactory.InitializeContext();
             var topicRepository = new EfDeletableEntityRepository<Topic>(context);
-            var topicsService = new TopicsService(topicRepository);
+            var userRepository = new EfDeletableEntityRepository<ApplicationUser>(context);
+            var topicsService = new TopicsService(topicRepository, userRepository);
 
             var inputModel = new CreateTopicInputModel()
             {
@@ -394,7 +406,8 @@
             // Arrange
             var context = ApplicationDbContextInMemoryFactory.InitializeContext();
             var topicRepository = new EfDeletableEntityRepository<Topic>(context);
-            var topicsService = new TopicsService(topicRepository);
+            var userRepository = new EfDeletableEntityRepository<ApplicationUser>(context);
+            var topicsService = new TopicsService(topicRepository, userRepository);
 
             var inputModel = new CreateTopicInputModel()
             {
@@ -421,7 +434,8 @@
             // Arrange
             var context = ApplicationDbContextInMemoryFactory.InitializeContext();
             var topicRepository = new EfDeletableEntityRepository<Topic>(context);
-            var topicsService = new TopicsService(topicRepository);
+            var userRepository = new EfDeletableEntityRepository<ApplicationUser>(context);
+            var topicsService = new TopicsService(topicRepository, userRepository);
 
             var inputModel = new CreateTopicInputModel()
             {
@@ -450,7 +464,8 @@
             // Arrange
             var context = ApplicationDbContextInMemoryFactory.InitializeContext();
             var topicRepository = new EfDeletableEntityRepository<Topic>(context);
-            var topicsService = new TopicsService(topicRepository);
+            var userRepository = new EfDeletableEntityRepository<ApplicationUser>(context);
+            var topicsService = new TopicsService(topicRepository, userRepository);
 
             // Act
 
@@ -467,7 +482,8 @@
             // Arrange
             var context = ApplicationDbContextInMemoryFactory.InitializeContext();
             var topicRepository = new EfDeletableEntityRepository<Topic>(context);
-            var topicsService = new TopicsService(topicRepository);
+            var userRepository = new EfDeletableEntityRepository<ApplicationUser>(context);
+            var topicsService = new TopicsService(topicRepository, userRepository);
 
             var inputModel = new CreateTopicInputModel()
             {
@@ -496,7 +512,8 @@
             // Arrange
             var context = ApplicationDbContextInMemoryFactory.InitializeContext();
             var topicRepository = new EfDeletableEntityRepository<Topic>(context);
-            var topicsService = new TopicsService(topicRepository);
+            var userRepository = new EfDeletableEntityRepository<ApplicationUser>(context);
+            var topicsService = new TopicsService(topicRepository, userRepository);
 
             // Act
 

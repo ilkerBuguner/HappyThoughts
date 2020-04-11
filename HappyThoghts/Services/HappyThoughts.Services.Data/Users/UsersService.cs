@@ -9,7 +9,6 @@
     using HappyThoughts.Data.Common.Repositories;
     using HappyThoughts.Data.Models;
     using HappyThoughts.Services.Mapping;
-    using HappyThoughts.Web.ViewModels.Messages;
     using HappyThoughts.Web.ViewModels.Users;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.EntityFrameworkCore;

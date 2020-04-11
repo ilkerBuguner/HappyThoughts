@@ -146,7 +146,9 @@
         //    // Arrange
         //    var context = ApplicationDbContextInMemoryFactory.InitializeContext();
         //    var topicRepository = new EfDeletableEntityRepository<Topic>(context);
-        //    var topicsService = new TopicsService(topicRepository);
+        //    var userRepository = new EfDeletableEntityRepository<ApplicationUser>(context);
+        //    var topicsService = new TopicsService(topicRepository, userRepository);
+
         //    var commentRepository = new EfDeletableEntityRepository<Comment>(context);
         //    var commentsService = new CommentsService(commentRepository);
 

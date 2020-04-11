@@ -8,7 +8,6 @@
     using HappyThoughts.Data.Common.Repositories;
     using HappyThoughts.Data.Models;
     using HappyThoughts.Services.Mapping;
-    using HappyThoughts.Web.ViewModels.InputModels.Messages;
     using HappyThoughts.Web.ViewModels.Messages;
 
     public class MessagesService : IMessagesService
