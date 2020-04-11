@@ -14,7 +14,6 @@
 
         Task DeleteByIdAsync(string commentId);
 
-
         IEnumerable<CommentInfoViewModel> GetAllCommentsOfTopic(string topicId);
     }
 }

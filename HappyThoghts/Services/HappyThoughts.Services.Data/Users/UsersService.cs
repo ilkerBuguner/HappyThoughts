@@ -67,7 +67,7 @@
 
             if (userFromDb == null)
             {
-                throw new ArgumentException(InvalidUserIdErrorMessage, userId);
+                throw new ArgumentNullException(InvalidUserIdErrorMessage, userId);
             }
 
             if (await this.userManager.IsInRoleAsync(userFromDb, GlobalConstants.ModeratorRoleName))
@@ -87,7 +87,7 @@
 
             if (userFromDb == null)
             {
-                throw new ArgumentException(InvalidUserIdErrorMessage, userId);
+                throw new ArgumentNullException(InvalidUserIdErrorMessage, userId);
             }
 
             if (await this.userManager.IsInRoleAsync(userFromDb, GlobalConstants.BannedRoleName))
@@ -102,7 +102,7 @@
 
             if (userFromDb == null)
             {
-                throw new ArgumentException(InvalidUserIdErrorMessage, userId);
+                throw new ArgumentNullException(InvalidUserIdErrorMessage, userId);
             }
 
             if (await this.userManager.IsInRoleAsync(userFromDb, GlobalConstants.BannedRoleName))
@@ -122,7 +122,7 @@
 
             if (userFromDb == null)
             {
-                throw new ArgumentException(InvalidUserIdErrorMessage, userId);
+                throw new ArgumentNullException(InvalidUserIdErrorMessage, userId);
             }
 
             await this.userManager.RemoveFromRoleAsync(userFromDb, GlobalConstants.ModeratorRoleName);
@@ -134,7 +134,7 @@
 
             if (userFromDb == null)
             {
-                throw new ArgumentException(InvalidUserIdErrorMessage, userId);
+                throw new ArgumentNullException(InvalidUserIdErrorMessage, userId);
             }
 
             if (await this.userManager.IsInRoleAsync(userFromDb, GlobalConstants.ModeratorRoleName))
@@ -153,7 +153,7 @@
 
             if (userFromDb == null)
             {
-                throw new ArgumentException(InvalidUserIdErrorMessage, userId);
+                throw new ArgumentNullException(InvalidUserIdErrorMessage, userId);
             }
 
             if (await this.userManager.IsInRoleAsync(userFromDb, GlobalConstants.BannedRoleName))
@@ -172,7 +172,7 @@
 
             if (userFromDb == null)
             {
-                throw new ArgumentException(InvalidUserIdErrorMessage, userId);
+                throw new ArgumentNullException(InvalidUserIdErrorMessage, userId);
             }
 
             if (await this.userManager.IsInRoleAsync(userFromDb, GlobalConstants.AdministratorRoleName))
