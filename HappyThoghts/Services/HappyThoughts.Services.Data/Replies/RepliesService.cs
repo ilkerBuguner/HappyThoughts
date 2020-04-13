@@ -40,7 +40,7 @@
 
             if (reply == null)
             {
-                throw new ArgumentNullException(
+                throw new ArgumentException(
                     string.Format(InvalidReplyIdErrorMessage, replyId));
             }
 
@@ -55,7 +55,7 @@
 
             if (commentFromDb == null)
             {
-                throw new ArgumentNullException(
+                throw new ArgumentException(
                      string.Format(InvalidReplyIdErrorMessage, replyId));
             }
 

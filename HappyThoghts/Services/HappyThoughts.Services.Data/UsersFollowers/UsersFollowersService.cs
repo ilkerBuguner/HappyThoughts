@@ -48,7 +48,7 @@
             await this.userFollowerRepository.SaveChangesAsync();
         }
 
-        public async Task Unfollow(string unfollowingUserId, string unfollowedUserId)
+        public async Task UnfollowAsync(string unfollowingUserId, string unfollowedUserId)
         {
             var userFollowerFromDb = this.userFollowerRepository
                 .All().FirstOrDefault(x => x.FollowingUserId == unfollowingUserId

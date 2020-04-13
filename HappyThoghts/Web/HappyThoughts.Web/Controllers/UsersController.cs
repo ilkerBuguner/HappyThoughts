@@ -72,7 +72,7 @@
         {
             string unfollowingUserId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            await this.usersFollowersService.Unfollow(unfollowingUserId, unfollowedUserId);
+            await this.usersFollowersService.UnfollowAsync(unfollowingUserId, unfollowedUserId);
 
             this.TempData["SuccessInfo"] = "You successfully unfollowed this user!";
 

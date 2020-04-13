@@ -6,7 +6,7 @@
     {
         Task FollowAsync(string followingUserId, string followedUserId);
 
-        Task Unfollow(string unfollowingUserId, string unfollowedUserId);
+        Task UnfollowAsync(string unfollowingUserId, string unfollowedUserId);
 
         bool IsFollowing(string followingUserId, string followedUserId);
     }

@@ -44,6 +44,35 @@
             Assert.Equal(expectedTopicsCount, topicRepository.All().Count());
         }
 
+        //[Fact]
+        //public async Task GetByIdAsViewModelAsync_WithCorrectData_ShouldReturnCorrectResult()
+        //{
+        //    var testTitle = "TestTitle";
+
+        //    // Arrange
+        //    var serviceFactory = new ServiceFactory();
+        //    var topicRepository = new EfDeletableEntityRepository<Topic>(serviceFactory.Context);
+        //    var userRepository = new EfDeletableEntityRepository<ApplicationUser>(serviceFactory.Context);
+        //    var topicsService = new TopicsService(topicRepository, userRepository);
+
+        //    var topic = new Topic()
+        //    {
+        //        Title = testTitle,
+        //    };
+
+        //    await topicRepository.AddAsync(topic);
+        //    await topicRepository.SaveChangesAsync();
+
+        //    // Act
+        //    var topicFromDb = topicRepository.All().FirstOrDefault(t => t.Title == testTitle);
+        //    var expectedTitle = testTitle;
+        //    var actualTopic = await topicsService.GetByIdAsViewModelAsync(topicFromDb.Id);
+
+        //    // Assert
+        //    Assert.Equal(expectedTitle, actualTopic.Title);
+        //    Assert.Equal(actualTopic.GetType().ToString(), typeof(TopicDetailsViewModel).ToString());
+        //}
+
         [Fact]
         public async Task DeleteByIdAsync_WithCorrectData_ShouldSuccessfullyDelete()
         {
@@ -523,34 +552,5 @@
                 topicsService.GetTopicTotalDislikes("InvalidId");
             });
         }
-
-        //private List<Topic> GetDummyData()
-        //{
-        //    return new List<Topic>()
-        //    {
-        //        new Topic()
-        //        {
-        //            Id = Guid.NewGuid().ToString(),
-        //            Title = "TestTitle",
-        //            Content = "TestContent_TestContent_TestContent_TestContent_TestContent_TestContent",
-        //            AuthorId = Guid.NewGuid().ToString(),
-        //            CategoryId = Guid.NewGuid().ToString(),
-        //        },
-        //        new Topic()
-        //        {
-        //            Id = Guid.NewGuid().ToString(),
-        //            Title = "SecondTestTitle",
-        //            Content = "SecondTestContent_TestContent_TestContent_TestContent_TestContent_TestContent",
-        //            AuthorId = Guid.NewGuid().ToString(),
-        //            CategoryId = Guid.NewGuid().ToString(),
-        //        },
-        //    };
-        //}
-
-        //private async Task SeedDataAsync(ApplicationDbContext context)
-        //{
-        //    context.AddRange(this.GetDummyData());
-        //    await context.SaveChangesAsync();
-        //}
     }
 }

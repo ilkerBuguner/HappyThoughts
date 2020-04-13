@@ -1,15 +1,16 @@
-﻿using HappyThoughts.Data.Models;
-using HappyThoughts.Data.Repositories;
-using HappyThoughts.Services.Data.Tests.Common;
-using HappyThoughts.Services.Data.TopicReports;
-using HappyThoughts.Web.ViewModels.InputModels.TopicReports;
-using System;
-using System.Linq;
-using System.Threading.Tasks;
-using Xunit;
-
-namespace HappyThoughts.Services.Data.Tests
+﻿namespace HappyThoughts.Services.Data.Tests
 {
+    using System;
+    using System.Linq;
+    using System.Threading.Tasks;
+
+    using HappyThoughts.Data.Models;
+    using HappyThoughts.Data.Repositories;
+    using HappyThoughts.Services.Data.Tests.Common;
+    using HappyThoughts.Services.Data.TopicReports;
+    using HappyThoughts.Web.ViewModels.InputModels.TopicReports;
+    using Xunit;
+
     public class TopicReportsServiceTests
     {
         [Fact]

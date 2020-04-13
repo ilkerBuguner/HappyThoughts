@@ -42,7 +42,7 @@
 
             if (message == null)
             {
-                throw new ArgumentNullException(
+                throw new ArgumentException(
                     string.Format(InvalidMessageIdErrorMessage, messageId));
             }
 

@@ -10,10 +10,38 @@
         <div class="col-lg-8">
             <div class="col-lg-12 text-center">
                 <div class="btn-group btn-group-toggle col-lg-12">
-                    <a class="btn btn-primary" asp-controller="Home" asp-action="Index">Today</a>
-                    <a class="btn btn-primary" asp-controller="Home" asp-action="Trend">Trend</a>
-                    <a class="btn btn-primary" asp-controller="Home" asp-action="Following">Following</a>
-                    <a class="btn btn-primary" asp-controller="Home" asp-action="Random">Random</a>
+                    @if (ViewData["Controller/Action"] == "/Home/Index")
+                    {
+                        <a class="btn btn-primary active" asp-controller="Home" asp-action="Index">Today</a>
+                    }
+                    else
+                    {
+                        <a class="btn btn-primary" asp-controller="Home" asp-action="Index">Today</a>
+                    }
+                    @if (ViewData["Controller/Action"] == "/Home/Trend")
+                    {
+                        <a class="btn btn-primary active" asp-controller="Home" asp-action="Trend">Trend</a>
+                    }
+                    else
+                    {
+                        <a class="btn btn-primary" asp-controller="Home" asp-action="Trend">Trend</a>
+                    }
+                    @if (ViewData["Controller/Action"] == "/Home/Following")
+                    {
+                        <a class="btn btn-primary active" asp-controller="Home" asp-action="Following">Following</a>
+                    }
+                    else
+                    {
+                        <a class="btn btn-primary" asp-controller="Home" asp-action="Following">Following</a>
+                    }
+                    @if (ViewData["Controller/Action"] == "/Home/Random")
+                    {
+                        <a class="btn btn-primary active" asp-controller="Home" asp-action="Random">Random</a>
+                    }
+                    else
+                    {
+                        <a class="btn btn-primary" asp-controller="Home" asp-action="Random">Random</a>
+                    }
                 </div>
             </div>
             <br />

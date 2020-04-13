@@ -126,7 +126,7 @@
 
             if (category == null)
             {
-                throw new ArgumentNullException(InvalidCategoryIdErrorMessage, id);
+                throw new ArgumentException(InvalidCategoryIdErrorMessage, id);
             }
 
             return category.Name;

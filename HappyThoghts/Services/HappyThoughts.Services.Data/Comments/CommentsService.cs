@@ -44,7 +44,7 @@
 
             if (commentFromDb == null)
             {
-                throw new ArgumentNullException(
+                throw new ArgumentException(
                      string.Format(InvalidCommentIdErrorMessage, commentId));
             }
 
@@ -63,7 +63,7 @@
 
             if (comment == null)
             {
-                throw new ArgumentNullException(
+                throw new ArgumentException(
                     string.Format(InvalidCommentIdErrorMessage, commentId));
             }
 

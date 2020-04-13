@@ -69,7 +69,7 @@
             // Act
 
             // Assert
-            await Assert.ThrowsAsync<ArgumentNullException>(async () =>
+            await Assert.ThrowsAsync<ArgumentException>(async () =>
             {
                 await messagesService.DeleteByIdAsync(incorrectId);
             });

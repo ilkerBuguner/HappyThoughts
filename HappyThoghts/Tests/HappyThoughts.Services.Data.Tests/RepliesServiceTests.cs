@@ -74,7 +74,7 @@ namespace HappyThoughts.Services.Data.Tests
             // Act
 
             // Assert
-            await Assert.ThrowsAsync<ArgumentNullException>(async () =>
+            await Assert.ThrowsAsync<ArgumentException>(async () =>
             {
                 await repliesService.DeleteByIdAsync(incorrectId);
             });
@@ -121,7 +121,7 @@ namespace HappyThoughts.Services.Data.Tests
             // Act
 
             // Assert
-            await Assert.ThrowsAsync<ArgumentNullException>(async () =>
+            await Assert.ThrowsAsync<ArgumentException>(async () =>
             {
                 await repliesService.EditAsync(incorrectId, "RandomContent");
             });

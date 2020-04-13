@@ -86,7 +86,7 @@
             // Act
 
             // Assert
-            await Assert.ThrowsAsync<ArgumentNullException>(async () =>
+            await Assert.ThrowsAsync<ArgumentException>(async () =>
             {
                 await commentsService.EditAsync(incorrectId, "RandomContent");
             });
@@ -132,7 +132,7 @@
             // Act
 
             // Assert
-            await Assert.ThrowsAsync<ArgumentNullException>(async () =>
+            await Assert.ThrowsAsync<ArgumentException>(async () =>
             {
                 await commentsService.DeleteByIdAsync(incorrectId);
             });

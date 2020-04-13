@@ -178,7 +178,7 @@
         [Theory]
         [InlineData("")]
         [InlineData(null)]
-        [InlineData("InvlaidCategoryId")]
+        [InlineData("InvlidCategoryId")]
         public async Task GetCategoryById_WithIncorrectData_ShouldThrowArgumentException(string invalidId)
         {
             // Arrange
@@ -227,7 +227,7 @@
         [Theory]
         [InlineData("")]
         [InlineData(null)]
-        [InlineData("InvlaidCategoryName")]
+        [InlineData("InvlidCategoryName")]
         public async Task GetCategoryByName_WithIncorrectData_ShouldThrowArgumentException(string invalidName)
         {
             // Arrange
@@ -273,7 +273,7 @@
         [Theory]
         [InlineData("")]
         [InlineData(null)]
-        [InlineData("InvlaidCategoryName")]
+        [InlineData("InvlidCategoryName")]
         public async Task GetIdByName_WithIncorrectData_ShouldThrowArgumentException(string categoryName)
         {
             // Arrange
@@ -329,7 +329,7 @@
             // Act
 
             // Assert
-            await Assert.ThrowsAsync<ArgumentNullException>(async () =>
+            await Assert.ThrowsAsync<ArgumentException>(async () =>
             {
                 categoriesService.GetNameById(invalidId);
             });

@@ -3,11 +3,13 @@
     using System;
     using System.Linq;
     using System.Threading.Tasks;
+
     using HappyThoughts.Common;
     using HappyThoughts.Data.Models;
     using HappyThoughts.Data.Repositories;
     using HappyThoughts.Services.Data.Tests.Common;
     using HappyThoughts.Services.Data.Users;
+    using HappyThoughts.Web.ViewModels.Users;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Options;
@@ -16,6 +18,60 @@
 
     public class UsersServiceTests
     {
+        public UsersServiceTests()
+        {
+            MapperInitializer.InitializeMapper();
+        }
+
+        [Fact]
+        public async Task GetUserAsViewModelByIdAsync_WithCorrectData_ShouldReturnUser()
+        {
+            var testUsername = "TestUsername";
+
+            // Arrange
+            var serviceFactory = new ServiceFactory();
+            var userRepository = new EfDeletableEntityRepository<ApplicationUser>(serviceFactory.Context);
+            var usersService = new UsersService(userRepository, serviceFactory.UserManager);
+
+            var user = new ApplicationUser()
+            {
+                UserName = testUsername,
+            };
+
+            await userRepository.AddAsync(user);
+            await userRepository.SaveChangesAsync();
+            var userId = userRepository.All().FirstOrDefault(x => x.UserName == testUsername).Id;
+
+            // Act
+            var expectedUsername = testUsername;
+            var userFromDb = await usersService.GetUserAsViewModelByIdAsync(userId);
+            var actualUsername = userFromDb.UserName;
+
+            // Assert
+            Assert.Equal(expectedUsername, actualUsername);
+            Assert.Equal(userFromDb.GetType().ToString(), typeof(ApplicationUserDetailsViewModel).ToString());
+        }
+
+        [Theory]
+        [InlineData("")]
+        [InlineData(null)]
+        [InlineData("IncorrectId")]
+        public async Task GetUserAsViewModelByIdAsync_WithIncorrectData_ShouldThrowArgumentException(string incorrectId)
+        {
+            // Arrange
+            var serviceFactory = new ServiceFactory();
+            var userRepository = new EfDeletableEntityRepository<ApplicationUser>(serviceFactory.Context);
+            var usersService = new UsersService(userRepository, serviceFactory.UserManager);
+
+            // Act
+
+            // Assert
+            await Assert.ThrowsAsync<ArgumentException>(async () =>
+            {
+                await usersService.GetUserAsViewModelByIdAsync(incorrectId);
+            });
+        }
+
         [Fact]
         public async Task GetUsernameById_WithCorrectData_ShouldReturnCorrectUsername()
         {
@@ -46,7 +102,7 @@
         [Theory]
         [InlineData("")]
         [InlineData(null)]
-        [InlineData("IncorectId")]
+        [InlineData("IncorrectId")]
         public async Task GetUsernameById_WithIncorrectData_ShouldThrowArgumentException(string incorrectId)
         {
             // Arrange
@@ -123,7 +179,7 @@
         [Theory]
         [InlineData("")]
         [InlineData(null)]
-        [InlineData("IncorectId")]
+        [InlineData("IncorrectId")]
         public async Task BanAsync_WithIncorrectData_ShouldThrowArgumentNullException(string incorrectId)
         {
             // Arrange
@@ -134,7 +190,7 @@
             // Act
 
             // Assert
-            await Assert.ThrowsAsync<ArgumentNullException>(async () =>
+            await Assert.ThrowsAsync<ArgumentException>(async () =>
             {
                 await usersService.BanAsync(incorrectId);
             });
@@ -173,7 +229,7 @@
         [Theory]
         [InlineData("")]
         [InlineData(null)]
-        [InlineData("IncorectId")]
+        [InlineData("IncorrectId")]
         public async Task UnbanAsync_WithIncorrectData_ShouldThrowArgumentNullException(string incorrectId)
         {
             // Arrange
@@ -184,7 +240,7 @@
             // Act
 
             // Assert
-            await Assert.ThrowsAsync<ArgumentNullException>(async () =>
+            await Assert.ThrowsAsync<ArgumentException>(async () =>
             {
                 await usersService.UnbanAsync(incorrectId);
             });
@@ -223,7 +279,7 @@
         [Theory]
         [InlineData("")]
         [InlineData(null)]
-        [InlineData("IncorectId")]
+        [InlineData("IncorrectId")]
         public async Task PromoteAsync_WithIncorrectData_ShouldThrowArgumentNullException(string incorrectId)
         {
             // Arrange
@@ -234,7 +290,7 @@
             // Act
 
             // Assert
-            await Assert.ThrowsAsync<ArgumentNullException>(async () =>
+            await Assert.ThrowsAsync<ArgumentException>(async () =>
             {
                 await usersService.PromoteAsync(incorrectId);
             });
@@ -272,7 +328,7 @@
         [Theory]
         [InlineData("")]
         [InlineData(null)]
-        [InlineData("IncorectId")]
+        [InlineData("IncorrectId")]
         public async Task DemoteAsync_WithIncorrectData_ShouldThrowArgumentNullException(string incorrectId)
         {
             // Arrange
@@ -283,7 +339,7 @@
             // Act
 
             // Assert
-            await Assert.ThrowsAsync<ArgumentNullException>(async () =>
+            await Assert.ThrowsAsync<ArgumentException>(async () =>
             {
                 await usersService.Demote(incorrectId);
             });
@@ -351,7 +407,7 @@
         [Theory]
         [InlineData("")]
         [InlineData(null)]
-        [InlineData("IncorectId")]
+        [InlineData("IncorrectId")]
         public async Task IsPromoted_WithIncorrectData_ShouldThrowArgumentNullException(string incorrectId)
         {
             // Arrange
@@ -362,7 +418,7 @@
             // Act
 
             // Assert
-            await Assert.ThrowsAsync<ArgumentNullException>(async () =>
+            await Assert.ThrowsAsync<ArgumentException>(async () =>
             {
                 await usersService.IsPromotedAsync(incorrectId);
             });
@@ -430,7 +486,7 @@
         [Theory]
         [InlineData("")]
         [InlineData(null)]
-        [InlineData("IncorectId")]
+        [InlineData("IncorrectId")]
         public async Task IsBannedAsync_WithIncorrectData_ShouldThrowArgumentNullException(string incorrectId)
         {
             // Arrange
@@ -441,7 +497,7 @@
             // Act
 
             // Assert
-            await Assert.ThrowsAsync<ArgumentNullException>(async () =>
+            await Assert.ThrowsAsync<ArgumentException>(async () =>
             {
                 await usersService.IsBannedAsync(incorrectId);
             });
@@ -509,7 +565,7 @@
         [Theory]
         [InlineData("")]
         [InlineData(null)]
-        [InlineData("IncorectId")]
+        [InlineData("IncorrectId")]
         public async Task IsAdminAsync_WithIncorrectData_ShouldThrowArgumentNullException(string incorrectId)
         {
             // Arrange
@@ -520,7 +576,7 @@
             // Act
 
             // Assert
-            await Assert.ThrowsAsync<ArgumentNullException>(async () =>
+            await Assert.ThrowsAsync<ArgumentException>(async () =>
             {
                 await usersService.IsAdminAsync(incorrectId);
             });

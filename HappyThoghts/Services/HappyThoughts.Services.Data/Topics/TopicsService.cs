@@ -112,7 +112,8 @@
 
             if (topic == null)
             {
-                throw new ArgumentNullException();
+                throw new ArgumentNullException(
+                     string.Format(InvalidTopicIdErrorMessage, id));
             }
 
             return topic;
@@ -125,6 +126,12 @@
                 .Where(t => t.Id == id)
                 .To<TopicInfoViewModel>()
                 .FirstOrDefaultAsync();
+
+            if (topic == null)
+            {
+                throw new ArgumentNullException(
+                     string.Format(InvalidTopicIdErrorMessage, id));
+            }
 
             return topic;
         }
