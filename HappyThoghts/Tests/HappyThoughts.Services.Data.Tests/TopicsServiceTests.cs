@@ -307,14 +307,18 @@
         //    // Arrange
         //    var testCategoryName = "TestCategory";
 
+        //    // Arrange
         //    var context = ApplicationDbContextInMemoryFactory.InitializeContext();
         //    var topicRepository = new EfDeletableEntityRepository<Topic>(context);
-        //    var topicsService = new TopicsService(topicRepository);
+        //    var userRepository = new EfDeletableEntityRepository<ApplicationUser>(context);
+        //    var topicsService = new TopicsService(topicRepository, userRepository);
+
         //    var category = new Category()
         //    {
         //        Name = testCategoryName,
         //    };
-        //    context.Categories.Add(category);
+
+        //    await context.Categories.AddAsync(category);
         //    await context.SaveChangesAsync();
         //    var categoryId = context.Categories.FirstOrDefault(c => c.Name == testCategoryName).Id;
 
@@ -325,14 +329,6 @@
         //            CategoryId = categoryId,
         //        });
         //    }
-
-        //    //var topics = topicRepository.All();
-        //    //foreach (var topic in topics)
-        //    //{
-        //    //    topic.Category = category;
-        //    //    topicRepository.Update(topic);
-        //    //    await topicRepository.SaveChangesAsync();
-        //    //}
 
         //    await topicsService.CreateAsync(new CreateTopicInputModel()
         //    {

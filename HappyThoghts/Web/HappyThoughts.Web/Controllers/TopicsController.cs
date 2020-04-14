@@ -148,7 +148,7 @@
                 return this.Redirect("/");
             }
 
-            var serviceModel = await this.topicsService.GetAllTopicsBySearchAsync(searchTerm, page);
+            var serviceModel = this.topicsService.GetAllTopicsBySearch(searchTerm, page);
 
             var viewModel = new TopicSearchViewModel()
             {

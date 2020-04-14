@@ -85,14 +85,6 @@
             await this.topicRepository.SaveChangesAsync();
         }
 
-        public async Task<T[]> GetAllAsync<T>()
-        {
-            return await this.topicRepository
-                .All()
-                .To<T>()
-                .ToArrayAsync();
-        }
-
         public IQueryable<T> GetAllAsQueryable<T>()
         {
             return this.topicRepository
@@ -143,11 +135,11 @@
             await this.topicRepository.SaveChangesAsync();
         }
 
-        public async Task<TopicServiceModel> GetAllTopicsBySearchAsync(string input, int page = GlobalConstants.DefaultPageNumber)
+        public TopicServiceModel GetAllTopicsBySearch(string input, int page = GlobalConstants.DefaultPageNumber)
         {
             var searchParts = input.Split(" ", StringSplitOptions.RemoveEmptyEntries);
 
-            var topicsFromDb = await this.GetAllAsync<TopicInfoViewModel>();
+            var topicsFromDb = this.GetAllAsQueryable<TopicInfoViewModel>();
 
             var matchingTopics = new List<TopicInfoViewModel>();
 
@@ -347,6 +339,7 @@
         {
             var usersLatestTopicCreationTime = this.topicRepository
                 .All()
+                .Where(x => x.Author.Id == userId)
                 .OrderByDescending(t => t.CreatedOn)
                 .Select(t => t.CreatedOn)
                 .FirstOrDefault();

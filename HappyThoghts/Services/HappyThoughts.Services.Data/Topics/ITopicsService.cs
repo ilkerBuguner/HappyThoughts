@@ -12,8 +12,6 @@
     {
         Task CreateAsync(CreateTopicInputModel input);
 
-        Task<T[]> GetAllAsync<T>();
-
         IQueryable<T> GetAllAsQueryable<T>();
 
         Task<TopicDetailsViewModel> GetByIdAsViewModelAsync(string id);
@@ -26,7 +24,7 @@
 
         Task EditAsync(TopicEditViewModel input);
 
-        Task<TopicServiceModel> GetAllTopicsBySearchAsync(string input, int page);
+        TopicServiceModel GetAllTopicsBySearch(string input, int page);
 
         TopicServiceModel GetTopicsByCategoryName(string categoryName, int page);
 
