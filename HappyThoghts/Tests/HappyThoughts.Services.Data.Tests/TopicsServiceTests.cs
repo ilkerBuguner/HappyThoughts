@@ -62,9 +62,9 @@
         //    await topicRepository.SaveChangesAsync();
 
         //    // Act
-        //    var topicFromDb = topicRepository.All().FirstOrDefault(t => t.Title == testTitle);
+        //    var topicId = topicRepository.All().FirstOrDefault(t => t.Title == testTitle).Id;
         //    var expectedTitle = testTitle;
-        //    var actualTopic = await topicsService.GetByIdAsViewModelAsync(topicFromDb.Id);
+        //    var actualTopic = await topicsService.GetByIdAsViewModelAsync(topicId);
 
         //    // Assert
         //    Assert.Equal(expectedTitle, actualTopic.Title);
@@ -529,6 +529,36 @@
             Assert.Equal(expectedTotalTopicDislikes, actualTotalTopicDislikes);
         }
 
+        //[Fact]
+        //public async Task GetLatestTopics_ShouldReturnCorrectCountOfTopics()
+        //{
+        //    // Arrange
+        //    var serviceFactory = new ServiceFactory();
+        //    var topicRepository = new EfDeletableEntityRepository<Topic>(serviceFactory.Context);
+        //    var userRepository = new EfDeletableEntityRepository<ApplicationUser>(serviceFactory.Context);
+        //    var topicsService = new TopicsService(topicRepository, userRepository);
+
+        //    await topicRepository.AddAsync(new Topic()
+        //    {
+        //        Title = "testTitle",
+        //    });
+
+        //    await topicRepository.AddAsync(new Topic()
+        //    {
+        //        Title = "secondTestTitle",
+        //    });
+
+        //    await topicRepository.SaveChangesAsync();
+
+        //    // Act
+        //    var expectedTopicsCount = 2;
+        //    var topics = topicsService.GetLatestTopics();
+        //    var actualTopicsCount = topics.Count();
+
+        //    // Assert
+        //    Assert.Equal(expectedTopicsCount, actualTopicsCount);
+        //}
+
         [Fact]
         public async Task GetTopicTotalDislikes_WithIncorrectTopicId_ShouldThrowArgumentException()
         {
@@ -545,6 +575,104 @@
             {
                 topicsService.GetTopicTotalDislikes("InvalidId");
             });
+        }
+
+        [Fact]
+        public async Task GetTopicsGetTopicsCountOfUser_ShouldReturnCorrectCount()
+        {
+            // Arrange
+            var context = ApplicationDbContextInMemoryFactory.InitializeContext();
+            var topicRepository = new EfDeletableEntityRepository<Topic>(context);
+            var userRepository = new EfDeletableEntityRepository<ApplicationUser>(context);
+            var topicsService = new TopicsService(topicRepository, userRepository);
+
+            var user = new ApplicationUser()
+            {
+                UserName = "testUsername",
+            };
+
+            user.Topics.Add(new Topic()
+            {
+                Title = "testTitle",
+            });
+
+            user.Topics.Add(new Topic()
+            {
+                Title = "secondTestTitle",
+            });
+
+            await userRepository.AddAsync(user);
+            await userRepository.SaveChangesAsync();
+            var userId = userRepository.All().FirstOrDefault(u => u.UserName == "testUsername").Id;
+
+            // Act
+            var expectedTopicsCount = 2;
+            var actualTopicsCount = topicsService.GetTopicsCountOfUser(userId);
+
+            // Assert
+            Assert.Equal(expectedTopicsCount, actualTopicsCount);
+        }
+
+        [Fact]
+        public async Task GetRemainingMinutesToCreateTopic_WhenThereIsOtherTopicWith30Minutes_ShouldReturnCorrectMinutes()
+        {
+            // Arrange
+            var context = ApplicationDbContextInMemoryFactory.InitializeContext();
+            var topicRepository = new EfDeletableEntityRepository<Topic>(context);
+            var userRepository = new EfDeletableEntityRepository<ApplicationUser>(context);
+            var topicsService = new TopicsService(topicRepository, userRepository);
+
+            var user = new ApplicationUser()
+            {
+                UserName = "testUsername",
+            };
+
+            user.Topics.Add(new Topic()
+            {
+                Title = "testTitle",
+            });
+
+            user.Topics.Add(new Topic()
+            {
+                Title = "secondTestTitle",
+            });
+
+            await userRepository.AddAsync(user);
+            await userRepository.SaveChangesAsync();
+            var userId = userRepository.All().FirstOrDefault(u => u.UserName == "testUsername").Id;
+
+            // Act
+            var expectedRemainingMinutes = 30;
+            var actualRemainingMinutes = topicsService.GetRemainingMinutesToCreateTopic(userId);
+
+            // Assert
+            Assert.Equal(expectedRemainingMinutes, actualRemainingMinutes);
+        }
+
+        [Fact]
+        public async Task GetRemainingMinutesToCreateTopic_WhenThereIsNoOtherTopic_ShouldReturnCorrectMinutes()
+        {
+            // Arrange
+            var context = ApplicationDbContextInMemoryFactory.InitializeContext();
+            var topicRepository = new EfDeletableEntityRepository<Topic>(context);
+            var userRepository = new EfDeletableEntityRepository<ApplicationUser>(context);
+            var topicsService = new TopicsService(topicRepository, userRepository);
+
+            var user = new ApplicationUser()
+            {
+                UserName = "testUsername",
+            };
+
+            await userRepository.AddAsync(user);
+            await userRepository.SaveChangesAsync();
+            var userId = userRepository.All().FirstOrDefault(u => u.UserName == "testUsername").Id;
+
+            // Act
+            var expectedRemainingMinutes = 31;
+            var actualRemainingMinutes = topicsService.GetRemainingMinutesToCreateTopic(userId);
+
+            // Assert
+            Assert.Equal(expectedRemainingMinutes, actualRemainingMinutes);
         }
     }
 }

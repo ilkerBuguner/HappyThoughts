@@ -36,9 +36,9 @@
 
             await userRepository.AddAsync(user);
             await userRepository.SaveChangesAsync();
-            var userId = userRepository.All().FirstOrDefault(x => x.UserName == testUsername).Id;
 
             // Act
+            var userId = userRepository.All().FirstOrDefault(x => x.UserName == testUsername).Id;
             var expectedUsername = testUsername;
             var userFromDb = await usersService.GetUserAsViewModelByIdAsync(userId);
             var actualUsername = userFromDb.UserName;
