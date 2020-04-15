@@ -2,11 +2,11 @@
 {
     using System.Collections.Generic;
     using System.Linq;
+
     using AutoMapper;
     using HappyThoughts.Data.Models;
     using HappyThoughts.Services.Mapping;
     using HappyThoughts.Web.ViewModels.Topics;
-    using HappyThoughts.Web.ViewModels.UsersFollowers;
 
     public class ApplicationUserDetailsViewModel : IMapFrom<ApplicationUser>, IHaveCustomMappings
     {

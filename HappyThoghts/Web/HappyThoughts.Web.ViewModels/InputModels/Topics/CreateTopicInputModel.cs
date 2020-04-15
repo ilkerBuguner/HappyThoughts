@@ -1,9 +1,7 @@
 ﻿namespace HappyThoughts.Web.ViewModels.InputModels
 {
-    using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
-    using System.Text;
 
     using HappyThoughts.Web.ViewModels.Categories;
     using Microsoft.AspNetCore.Http;

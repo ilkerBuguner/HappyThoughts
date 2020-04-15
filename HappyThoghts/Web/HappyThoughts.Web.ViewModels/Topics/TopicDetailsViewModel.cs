@@ -10,7 +10,6 @@
     using HappyThoughts.Services.Mapping;
     using HappyThoughts.Web.ViewModels.Categories;
     using HappyThoughts.Web.ViewModels.Comments;
-    using HappyThoughts.Web.ViewModels.InputModels.Comments;
     using HappyThoughts.Web.ViewModels.Users;
 
     public class TopicDetailsViewModel : IMapFrom<Topic>

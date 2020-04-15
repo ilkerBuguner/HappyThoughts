@@ -1,9 +1,5 @@
 ﻿namespace HappyThoughts.Web.ViewModels.Categories
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Text;
-
     using HappyThoughts.Web.ViewModels.Topics;
 
     public class TopicsByCategoryNameViewModel

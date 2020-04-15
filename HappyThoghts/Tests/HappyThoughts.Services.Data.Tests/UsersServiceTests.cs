@@ -10,10 +10,6 @@
     using HappyThoughts.Services.Data.Tests.Common;
     using HappyThoughts.Services.Data.Users;
     using HappyThoughts.Web.ViewModels.Users;
-    using Microsoft.AspNetCore.Identity;
-    using Microsoft.Extensions.Logging;
-    using Microsoft.Extensions.Options;
-    using Moq;
     using Xunit;
 
     public class UsersServiceTests

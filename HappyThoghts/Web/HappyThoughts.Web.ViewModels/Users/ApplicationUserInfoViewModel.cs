@@ -1,11 +1,9 @@
 ﻿namespace HappyThoughts.Web.ViewModels.Users
 {
     using System;
-    using System.Collections.Generic;
 
     using HappyThoughts.Data.Models;
     using HappyThoughts.Services.Mapping;
-    using HappyThoughts.Web.ViewModels.Topics;
 
     public class ApplicationUserInfoViewModel : IMapFrom<ApplicationUser>
     {

@@ -2,6 +2,7 @@
 {
     using System.Security.Claims;
     using System.Threading.Tasks;
+
     using HappyThoughts.Services.Data.Messages;
     using HappyThoughts.Services.Data.Users;
     using HappyThoughts.Web.ViewModels.Messages;

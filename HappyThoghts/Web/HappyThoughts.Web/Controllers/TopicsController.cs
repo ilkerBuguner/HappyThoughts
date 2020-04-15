@@ -1,8 +1,5 @@
 ﻿namespace HappyThoughts.Web.Controllers
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
     using System.Security.Claims;
     using System.Threading.Tasks;
 
@@ -13,7 +10,6 @@
     using HappyThoughts.Services.Data.Topics;
     using HappyThoughts.Services.Data.Users;
     using HappyThoughts.Web.ViewModels.Categories;
-    using HappyThoughts.Web.ViewModels.Comments;
     using HappyThoughts.Web.ViewModels.InputModels;
     using HappyThoughts.Web.ViewModels.Topics;
     using Microsoft.AspNetCore.Authorization;

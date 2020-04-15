@@ -1,8 +1,6 @@
 ﻿namespace HappyThoughts.Web.ViewModels.ServiceModels.Topics
 {
-    using System;
     using System.Collections.Generic;
-    using System.Text;
 
     using HappyThoughts.Web.ViewModels.Topics;
 

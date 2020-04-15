@@ -1,17 +1,12 @@
 ﻿namespace HappyThoughts.Web.Controllers
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
     using System.Threading.Tasks;
 
     using HappyThoughts.Common;
     using HappyThoughts.Services.Data.Categories;
     using HappyThoughts.Services.Data.Topics;
     using HappyThoughts.Web.ViewModels.Categories;
-    using HappyThoughts.Web.ViewModels.InputModels.Categories;
     using HappyThoughts.Web.ViewModels.Topics;
-    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
 
     public class CategoriesController : BaseController

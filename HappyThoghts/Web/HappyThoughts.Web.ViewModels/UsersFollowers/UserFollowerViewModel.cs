@@ -1,8 +1,5 @@
 ﻿namespace HappyThoughts.Web.ViewModels.UsersFollowers
 {
-    using System;
-
-    using AutoMapper;
     using HappyThoughts.Data.Models;
     using HappyThoughts.Services.Mapping;
     using HappyThoughts.Web.ViewModels.Users;

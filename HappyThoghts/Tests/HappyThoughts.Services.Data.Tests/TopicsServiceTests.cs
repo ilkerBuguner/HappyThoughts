@@ -1,11 +1,9 @@
 ﻿namespace HappyThoughts.Services.Data.Tests
 {
     using System;
-    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
 
-    using HappyThoughts.Data;
     using HappyThoughts.Data.Models;
     using HappyThoughts.Data.Repositories;
     using HappyThoughts.Services.Data.Tests.Common;
