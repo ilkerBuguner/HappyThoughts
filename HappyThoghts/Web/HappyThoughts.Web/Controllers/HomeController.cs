@@ -6,6 +6,7 @@
 
     using HappyThoughts.Common;
     using HappyThoughts.Services.Data.Categories;
+    using HappyThoughts.Services.Data.Forums;
     using HappyThoughts.Services.Data.Topics;
     using HappyThoughts.Web.ViewModels;
     using HappyThoughts.Web.ViewModels.Categories;
@@ -17,11 +18,16 @@
     {
         private readonly ITopicsService topicsService;
         private readonly ICategoriesService categoriesService;
+        private readonly IForumsService forumsService;
 
-        public HomeController(ITopicsService topicsService, ICategoriesService categoriesService)
+        public HomeController(
+            ITopicsService topicsService,
+            ICategoriesService categoriesService,
+            IForumsService forumsService)
         {
             this.topicsService = topicsService;
             this.categoriesService = categoriesService;
+            this.forumsService = forumsService;
         }
 
         public async Task<IActionResult> Index(int page = GlobalConstants.DefaultPageNumber)
@@ -33,6 +39,7 @@
                 TotalTopicsCount = this.topicsService.GetTotalTopicsCount(),
                 CurrentPage = page,
                 Topics = topics,
+                ForumStats = await this.forumsService.GetForumStatsAsync(),
                 Categories = await this.categoriesService.GetAllAsync<CategoryInfoViewModel>(),
             };
 
@@ -52,6 +59,7 @@
                 TotalTopicsCount = serviceModel.TotalTopicsCount,
                 CurrentPage = page,
                 Topics = serviceModel.Topics,
+                ForumStats = await this.forumsService.GetForumStatsAsync(),
                 Categories = await this.categoriesService.GetAllAsync<CategoryInfoViewModel>(),
             };
 
@@ -71,6 +79,7 @@
                 TotalTopicsCount = this.topicsService.GetTotalTopicsCount(),
                 CurrentPage = page,
                 Topics = topics,
+                ForumStats = await this.forumsService.GetForumStatsAsync(),
                 Categories = await this.categoriesService.GetAllAsync<CategoryInfoViewModel>(),
             };
 
@@ -92,6 +101,7 @@
                 TotalTopicsCount = serviceModel.TotalTopicsCount,
                 CurrentPage = page,
                 Topics = serviceModel.Topics,
+                ForumStats = await this.forumsService.GetForumStatsAsync(),
                 Categories = await this.categoriesService.GetAllAsync<CategoryInfoViewModel>(),
             };
 

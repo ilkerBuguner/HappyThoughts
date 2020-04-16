@@ -5,6 +5,7 @@
 
     using HappyThoughts.Common;
     using HappyThoughts.Web.ViewModels.Categories;
+    using HappyThoughts.Web.ViewModels.Forums;
 
     public class TopicsListingViewModel
     {
@@ -29,6 +30,8 @@
         }
 
         public int TotalTopicsCount { get; set; }
+
+        public ForumStatsViewModel ForumStats { get; set; }
 
         public IEnumerable<TopicInfoViewModel> Topics { get; set; }
 
