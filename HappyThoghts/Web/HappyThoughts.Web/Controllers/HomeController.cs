@@ -12,6 +12,7 @@
     using HappyThoughts.Web.ViewModels.Categories;
     using HappyThoughts.Web.ViewModels.Errors;
     using HappyThoughts.Web.ViewModels.Topics;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
 
     public class HomeController : BaseController
@@ -89,6 +90,7 @@
             return this.View("Index", viewModel);
         }
 
+        [Authorize]
         public async Task<IActionResult> Following(int page = GlobalConstants.DefaultPageNumber)
         {
             var currentUserId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
