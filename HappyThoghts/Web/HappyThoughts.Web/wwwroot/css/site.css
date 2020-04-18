@@ -46,6 +46,8 @@ html {
 body {
     /* Margin bottom by footer height */
     margin-bottom: 60px;
+    background: url('https://res.cloudinary.com/doyjshrjs/image/upload/v1587232745/spot-light-background-hd-wallpaper-3840x2160_jk493g.jpg') no-repeat center center fixed;
+    /*background: url('https://source.unsplash.com/twukN12EN7c/1920x1080') no-repeat center center fixed;*/
 }
 
 .footer {
