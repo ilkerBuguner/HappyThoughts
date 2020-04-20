@@ -11,9 +11,9 @@
 <div class="row">
     @foreach (var category in Model)
     {
-        <div class="col-md-4 text-center categoryBottom">
+        <div class="col-md-3 text-center categoryBottom">
             <a asp-controller="Categories" asp-action="ByName" asp-route-name="@category.Name">
-                <div class="card list-group-item-action" style="width: 18rem;">
+                <div class="card list-group-item-action">
                     <img class="card-img-top" src="@category.PictureUrl" alt="@category.Name" height="200">
                     <div class="card-body">
                         <p class="card-text">@category.Name  (@category.TopicsCount)</p>
