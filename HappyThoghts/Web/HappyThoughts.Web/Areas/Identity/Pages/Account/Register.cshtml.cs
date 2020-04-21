@@ -14,11 +14,12 @@
     using Microsoft.AspNetCore.Authentication;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
-    using Microsoft.AspNetCore.Identity.UI.Services;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.RazorPages;
     using Microsoft.AspNetCore.WebUtilities;
     using Microsoft.Extensions.Logging;
+
+    using HappyThoughts.Services.Messaging;
 
     [AllowAnonymous]
     public class RegisterModel : PageModel
@@ -50,6 +51,12 @@
 
         public IList<AuthenticationScheme> ExternalLogins { get; set; }
 
+        [TempData]
+        public string SuccessfulRegistration { get; set; }
+
+        [TempData]
+        public string AlmostDoneMessage { get; set; }
+
         public class InputModel
         {
             [Required]
@@ -71,6 +78,7 @@
             [Display(Name = "Confirm password")]
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
+
         }
 
         public async Task OnGetAsync(string returnUrl = null)
@@ -107,15 +115,11 @@
                         this.userManager.AddToRoleAsync(user, GlobalConstants.AdministratorRoleName).GetAwaiter().GetResult();
                     }
 
-                    if (this.userManager.Options.SignIn.RequireConfirmedAccount)
-                    {
-                        return this.RedirectToPage("RegisterConfirmation", new { email = Input.Email });
-                    }
-                    else
-                    {
-                        await this.signInManager.SignInAsync(user, isPersistent: false);
-                        return this.LocalRedirect(returnUrl);
-                    }
+                    this.AlmostDoneMessage = "Almost done...";
+                    this.SuccessfulRegistration = $"We've sent and email to {this.Input.Email}. Open it to activate your account.";
+
+                    //await _signInManager.SignInAsync(user, isPersistent: false);
+                    return this.LocalRedirect("/Identity/Account/Login");
                 }
 
                 foreach (var error in result.Errors)

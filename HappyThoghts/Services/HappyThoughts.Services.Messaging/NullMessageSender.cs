@@ -6,8 +6,6 @@
     public class NullMessageSender : IEmailSender
     {
         public Task SendEmailAsync(
-            string from,
-            string fromName,
             string to,
             string subject,
             string htmlContent,
