@@ -223,6 +223,7 @@
             var topics = this.GetAllAsQueryable<TopicInfoViewModel>()
                 .Where(t => t.CreatedOn > DateTime.Now.AddDays(-7))
                 .OrderByDescending(t => t.Likes)
+                .ThenBy(x => x.Dislikes)
                 .ToList();
 
             var topicsForPage = topics

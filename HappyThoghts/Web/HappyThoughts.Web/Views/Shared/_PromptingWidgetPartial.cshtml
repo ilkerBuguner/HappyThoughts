@@ -1,7 +1,6 @@
 ﻿@using HappyThoughts.Data.Models
 @using Microsoft.AspNetCore.Identity
 @inject SignInManager<ApplicationUser> SignInManager
-
 <!-- Side Widget -->
 @if (!this.SignInManager.IsSignedIn(this.User))
 {
@@ -9,8 +8,13 @@
         <h5 class="card-header">Why are you still waiting?</h5>
         <div class="card-body">
             Aren't you tired of working in boring plazas? Relieve your stress, share your knowledge.
+            <br />
+            <br />
+            <div class="text-center">
+                <a href="/Identity/Account/Login" class="btn btn-primary" role="button" aria-pressed="true">Login</a>
+                <a href="/Identity/Account/Register" class="btn btn-primary" role="button" aria-pressed="true">Register</a>
+            </div>
         </div>
-        <a href="/Identity/Account/Register" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">Register</a>
     </div>
 }
 else
@@ -19,7 +23,11 @@ else
         <h5 class="card-header">Why are you still waiting?</h5>
         <div class="card-body">
             HappyThoughts is love to the unknown, gather your courage, share your love!
+            <br />
+            <br />
+            <div class="text-center">
+                <a href="/Topics/Create" class="btn btn-primary" role="button" aria-pressed="true">Create Topic</a>
+            </div>
         </div>
-        <a href="/Topics/Create" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">Create Topic</a>
     </div>
 }
