@@ -6,7 +6,11 @@ Final project for SoftUni ASP.NET Core - February 2020 course.
 * EF Core 3.1.1
 * SignalR
 * CloudinaryDotNet
+* jQuery
+* Automapper
+* Bootstrap
 * NUnit
 * TinyMCE
+* HtmlSanitizer
 * Moment.js
 * Font Awesome
