@@ -3,6 +3,8 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Net;
+    using System.Text.RegularExpressions;
     using System.Threading.Tasks;
 
     using HappyThoughts.Common;
@@ -137,23 +139,18 @@
 
         public TopicServiceModel GetAllTopicsBySearch(string input, int page = GlobalConstants.DefaultPageNumber)
         {
-            var searchParts = input.Split(" ", StringSplitOptions.RemoveEmptyEntries);
-
             var topicsFromDb = this.GetAllAsQueryable<TopicInfoViewModel>();
 
             var matchingTopics = new List<TopicInfoViewModel>();
 
-            foreach (var searchPart in searchParts)
+            foreach (var topicFromDb in topicsFromDb)
             {
-                foreach (var topicFromDb in topicsFromDb)
-                {
-                    var normalizedTitle = topicFromDb.Title.ToLower();
-                    var normalizedContent = topicFromDb.Content.ToLower();
+                var normalizedTitle = topicFromDb.Title.ToLower();
+                var normalizedContent = WebUtility.HtmlDecode(Regex.Replace(topicFromDb.Content, "<.*?>", string.Empty).ToLower());
 
-                    if (normalizedTitle.Contains(searchPart.ToLower()) || normalizedContent.Contains(searchPart.ToLower()))
-                    {
-                        matchingTopics.Add(topicFromDb);
-                    }
+                if (normalizedTitle.Contains(input.ToLower()) || normalizedContent.Contains(input.ToLower()))
+                {
+                    matchingTopics.Add(topicFromDb);
                 }
             }
 
