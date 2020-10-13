@@ -3,7 +3,7 @@
 ## :point_right: Project Introduction :point_left:
 **HappyThoughts** is my defense project for **ASP.NET Core** course at [SoftUni](https://softuni.bg/trainings/2796/asp-net-core-february-2020). It is a ready-to-use ASP.NET Core application.
 
-HappyThoughts is a web application like StackOverFlow, but for stories, where users write their stories and other users can like/dislike and comment the post (story).
+HappyThoughts is a web application like Reddit, but for stories, where users write their stories and other users can like/dislike and comment the post (story).
 
 # 🛠 Built with:
 * ASP.NET Core MVC
@@ -11,6 +11,7 @@ HappyThoughts is a web application like StackOverFlow, but for stories, where us
 * SignalR
 * CloudinaryDotNet
 * jQuery
+* AJAX real-time Requests
 * Automapper
 * Bootstrap
 * NUnit
