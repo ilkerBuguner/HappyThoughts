@@ -3,7 +3,11 @@
 ## :point_right: Project Introduction :point_left:
 **HappyThoughts** is my defense project for **ASP.NET Core** course at [SoftUni](https://softuni.bg/trainings/2796/asp-net-core-february-2020). It is a ready-to-use ASP.NET Core application.
 
+<<<<<<< HEAD
 HappyThoughts is a web application like Reddit, but for stories, where users write their stories and other users can like/dislike and comment the post. HappyThoughts have real time chat where users can write private messages to each other. Also there are roles like Admin, Moderator, User and Banned. Users can report other users or topics (posts). Admins have special pages where they check every report and decide what to do - they can ban users or delete posts. Every user can follow other user and in the 'Following' page they can see their lastest posts.
+=======
+HappyThoughts is a web application like Reddit, but for stories, where users write their stories and other users can like/dislike and comment the post (story).
+>>>>>>> 219da19bd25239e9a533e306d6bfa8dd5ce78109
 
 # 🛠 Built with:
 * ASP.NET Core MVC
@@ -11,6 +15,7 @@ HappyThoughts is a web application like Reddit, but for stories, where users wri
 * SignalR
 * CloudinaryDotNet
 * jQuery
+* AJAX real-time Requests
 * Automapper
 * Bootstrap
 * NUnit
